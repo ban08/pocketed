@@ -27,5 +27,22 @@ Many students lack financial planning skills and struggle with budgeting during 
 - No banking API integration
 - Data can be stored locally 
 
-## Tech Candidate
-React Native (Expo) + React Native Paper
+## Tools Used in This Project
+- Development Environment
+- Ubuntu (Linux)
+- Node.js v20 (LTS) managed via nvm
+- npm for package management
+- VS Code as code editor
+## Framework & Platform
+- React Native
+- Expo (with Expo Router)
+- TypeScript (strict mode enabled)
+## Architecture Approach
+- Expo Router handles navigation (app/)
+- All business logic is organized inside src/
+- Local JSON file used as mock database
+- Service layer separates data access from UI
+- Centralized theme management
+## Version Control
+- Git
+- GitHub (private repository)
