@@ -28,5 +28,4 @@ Many students lack financial planning skills and struggle with budgeting during 
 - Data can be stored locally 
 
 ## Tech Candidate
-React Native
-@mui-icon for React
+React Native (Expo) + React Native Paper
