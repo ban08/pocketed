@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { getExpenses } from '@/src/services/expenseService';
 import { Expense } from '@/src/models/Expense';
@@ -15,10 +16,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pocket4Students</Text>
-      <Text>Total this month: €{total}</Text>
+      <Text style={styles.totalText}>Total this month: €{total}</Text>
 
       {expenses.map((item: Expense) => (
-        <Text key={item.id}>
+        <Text key={item.id} style={styles.expenseItem}>
           {item.title} - €{item.amount}
         </Text>
       ))}
@@ -36,5 +37,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: spacing.md,
+  },
+  totalText: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: spacing.md,
+  },
+  expenseItem: {
+    fontSize: 16,
+    marginVertical: spacing.sm,
   },
 });
