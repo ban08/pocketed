@@ -14,7 +14,7 @@ export default function WelcomeScreen() {
 
   return (
     <ImageBackground
-      source={require("@/src/resources/welcome_banner.svg")}
+      source={require("@/src/resources/welcome-banner.jpeg")}
       style={styles.root}
       imageStyle={styles.image}
     >

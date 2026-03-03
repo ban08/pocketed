@@ -45,10 +45,11 @@ export const styles = StyleSheet.create({
 
   // background image style
   image: {
-    flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-    opacity: 1,
+    marginTop: -260, // pull the image up to create a more immersive effect
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+    //marginBottom: 1000, // pull the image down at the bottom to create a seamless transition to the sheet
   },
 
   // overlay placed above the background image to keep content readable
