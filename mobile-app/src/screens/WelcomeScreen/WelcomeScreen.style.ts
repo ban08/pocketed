@@ -1,94 +1,7 @@
 import { spacing } from "@/src/theme/spacing";
-import * as React from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet } from "react-native";
 
-export default function HomeScreen() {
-  const userName = "User";
-
-  return (
-    <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
-
-      <SafeAreaView style={styles.safe}>
-        {/* ===== Header ===== */}
-        <View style={styles.header}>
-          <View style={styles.logoBox}>
-            <Text style={styles.logoText}>P4</Text>
-          </View>
-          <Text style={styles.brandText}>Pocket4Students</Text>
-        </View>
-
-        {/* ===== Hero Section ===== */}
-        <View style={styles.hero}>
-          <Text style={styles.hello}>Hello, {userName}</Text>
-
-          <Text style={styles.title}>Take control{"\n"}of your money.</Text>
-
-          <Text style={styles.subtitle}>
-            Track expenses, set goals and build better financial habits with a
-            simple and modern experience.
-          </Text>
-
-          {/* Feature Pills */}
-          <View style={styles.pillRow}>
-            <View style={styles.pill}>
-              <Text style={styles.pillText}>Budgets</Text>
-            </View>
-            <View style={styles.pill}>
-              <Text style={styles.pillText}>Insights</Text>
-            </View>
-            <View style={styles.pill}>
-              <Text style={styles.pillText}>Goals</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* ===== Bottom Sheet ===== */}
-        <View style={styles.sheet}>
-          <View style={styles.sheetHandle} />
-
-          <Text style={styles.sheetTitle}>Get Started</Text>
-          <Text style={styles.sheetSubtitle}>
-            Login to continue or create your account in seconds.
-          </Text>
-
-          <View style={styles.buttonRow}>
-            <Pressable
-              style={({ pressed }) => [
-                styles.secondaryButton,
-                pressed && styles.pressed,
-              ]}
-            >
-              <Text style={styles.secondaryButtonText}>Register</Text>
-            </Pressable>
-
-            <Pressable
-              style={({ pressed }) => [
-                styles.primaryButton,
-                pressed && styles.pressed,
-              ]}
-            >
-              <Text style={styles.primaryButtonText}>Login</Text>
-            </Pressable>
-          </View>
-
-          <Text style={styles.footerText}>
-            Secure • Private • Student-focused
-          </Text>
-        </View>
-      </SafeAreaView>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#0E0E12", // premium dark background
@@ -128,6 +41,20 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: spacing.lg,
     justifyContent: "center",
+  },
+
+  // background image style
+  image: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    opacity: 1,
+  },
+
+  // overlay placed above the background image to keep content readable
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(6,6,8,0.6)",
   },
   hello: {
     fontSize: 16,
@@ -192,12 +119,13 @@ const styles = StyleSheet.create({
   },
 
   buttonRow: {
-    flexDirection: "row",
-    gap: 12,
+    flexDirection: "column",
+    alignItems: "stretch",
+    // gap may not be supported consistently; use margin on the first button instead
   },
 
   primaryButton: {
-    flex: 1,
+    width: "100%",
     height: 52,
     borderRadius: 14,
     backgroundColor: "#FFD600",
@@ -211,7 +139,7 @@ const styles = StyleSheet.create({
   },
 
   secondaryButton: {
-    flex: 1,
+    width: "100%",
     height: 52,
     borderRadius: 14,
     borderWidth: 1,
@@ -219,6 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1C1C24",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: spacing.sm, // space between stacked buttons
   },
   secondaryButtonText: {
     fontSize: 16,
