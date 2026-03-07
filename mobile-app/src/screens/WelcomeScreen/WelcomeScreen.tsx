@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "expo-router";
 import {
   ImageBackground,
   Pressable,
@@ -11,6 +12,15 @@ import { styles } from "./WelcomeScreen.style";
 
 export default function WelcomeScreen() {
   const userName = "User";
+  const router = useRouter();
+
+  const handleRegisterPress = React.useCallback(() => {
+    router.push("/register");
+  }, [router]);
+
+  const handleLoginPress = React.useCallback(() => {
+    router.push("/login");
+  }, [router]);
 
   return (
     <ImageBackground
@@ -70,6 +80,7 @@ export default function WelcomeScreen() {
                   styles.secondaryButton,
                   pressed && styles.pressed,
                 ]}
+                onPress={handleRegisterPress}
               >
                 <Text style={styles.secondaryButtonText}>Register</Text>
               </Pressable>
@@ -79,6 +90,7 @@ export default function WelcomeScreen() {
                   styles.primaryButton,
                   pressed && styles.pressed,
                 ]}
+                onPress={handleLoginPress}
               >
                 <Text style={styles.primaryButtonText}>Login</Text>
               </Pressable>

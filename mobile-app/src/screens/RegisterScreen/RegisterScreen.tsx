@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "expo-router";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -18,6 +19,11 @@ export default function RegisterScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const router = useRouter();
+
+  const handleLogoPress = React.useCallback(() => {
+    router.replace("/(tabs)/welcome");
+  }, [router]);
 
   return (
     <View style={styles.root}>
@@ -33,9 +39,14 @@ export default function RegisterScreen() {
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.heroTopGroup}>
               <View style={styles.header}>
-                <View style={styles.logoBox}>
+                <Pressable
+                  style={styles.logoBox}
+                  onPress={handleLogoPress}
+                  accessibilityRole="button"
+                  accessibilityLabel="Back to welcome screen"
+                >
                   <Text style={styles.logoText}>P4</Text>
-                </View>
+                </Pressable>
                 <Text style={styles.brandText}>Pocket4Students</Text>
               </View>
 

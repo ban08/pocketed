@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "expo-router";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -16,6 +17,11 @@ import { styles } from "./LoginScreen.style";
 export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const router = useRouter();
+
+  const handleLogoPress = React.useCallback(() => {
+    router.replace("/(tabs)/welcome");
+  }, [router]);
 
   return (
     <View style={styles.root}>
@@ -31,9 +37,14 @@ export default function LoginScreen() {
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.heroTopGroup}>
               <View style={styles.header}>
-                <View style={styles.logoBox}>
+                <Pressable
+                  style={styles.logoBox}
+                  onPress={handleLogoPress}
+                  accessibilityRole="button"
+                  accessibilityLabel="Back to welcome screen"
+                >
                   <Text style={styles.logoText}>P4</Text>
-                </View>
+                </Pressable>
                 <Text style={styles.brandText}>Pocket4Students</Text>
               </View>
 
@@ -98,7 +109,7 @@ export default function LoginScreen() {
                 pressed && styles.pressed,
               ]}
             >
-              <Text style={styles.primaryButtonText}>Let's Go 🚀</Text>
+              <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
             </Pressable>
 
             <View style={styles.dividerRow}>
@@ -121,7 +132,7 @@ export default function LoginScreen() {
 
             <View style={styles.footerRow}>
               <Text style={styles.footerText}>
-                Don't have an account yet?{" "}
+                Don&apos;t have an account yet?{" "}
               </Text>
               <Pressable>
                 <Text style={styles.footerLink}>Sign Up</Text>
