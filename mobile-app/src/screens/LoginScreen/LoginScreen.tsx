@@ -20,7 +20,7 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handleLogoPress = React.useCallback(() => {
-    router.replace("/(tabs)/welcome");
+    router.replace("/auth/welcome");
   }, [router]);
 
   return (

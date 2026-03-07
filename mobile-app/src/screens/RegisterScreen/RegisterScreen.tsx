@@ -22,7 +22,7 @@ export default function RegisterScreen() {
   const router = useRouter();
 
   const handleLogoPress = React.useCallback(() => {
-    router.replace("/(tabs)/welcome");
+    router.replace("/auth/welcome");
   }, [router]);
 
   return (
