@@ -1,8 +1,11 @@
 export const colors = {
-  primary: '#2563EB',
+  primary: '#FDF7EC',
   secondary: '#10B981',
-  background: '#FFFFFF',
-  textPrimary: '#111827',
-  textSecondary: '#6B7280',
-  danger: '#EF4444'
+  background: '#331832',
+  textPrimary: '#000000',
+  textSecondary: '#FF0000',
+  danger: '#EF4444',
+  red: '#FF0000',
+  green: '#00FF00',
+  blue: '#0000FF'
 };
