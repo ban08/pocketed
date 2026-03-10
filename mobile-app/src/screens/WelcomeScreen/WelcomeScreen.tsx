@@ -35,9 +35,9 @@ export default function WelcomeScreen() {
           {/* ===== Header ===== */}
           <View style={styles.header}>
             <View style={styles.logoBox}>
-              <Text style={styles.logoText}>P4</Text>
+              <Text style={styles.logoText}>P.</Text>
             </View>
-            <Text style={styles.brandText}>Pocket4Students</Text>
+            <Text style={styles.brandText}>pocketED.</Text>
           </View>
 
           {/* ===== Hero Section ===== */}
@@ -97,7 +97,7 @@ export default function WelcomeScreen() {
             </View>
 
             <Text style={styles.footerText}>
-              Secure • Private • Student-focused
+              Secure • Private • For Students, From Students
             </Text>
           </View>
         </SafeAreaView>
