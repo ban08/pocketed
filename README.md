@@ -1,6 +1,6 @@
-<!-- Template file for README.md for LEIC-ES-2025-26 -->
+<!-- Template file for README.md for LEIC-ES-2025-26 
 
-> [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app.
+> [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app. -->
 
 # _Pocket4Students_ Development Report
 
@@ -28,16 +28,16 @@ It is organised by the following activities:
   - [Sprint 3](#Sprint-3)
   - [Final Release](#Final-Release)
 
-Contributions are expected to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
+Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
 Please contact us!
 
 Thank you!
 
-- Rafael Hartilek Issa - up202300428@up.pt
-- Mariia Hutsul - up202310202@up.pt
-- Filipe Camacho - up202208040@up.pt
-- João Gusmão - up201406255@up.pt
+- **Filipe Camacho** - up202208040@up.pt
+- **João Gusmão** - up201406255@up.pt
+- **Mariia Hutsul** - up202310202@up.pt
+- **Rafael Hartilek Issa** - up202300428@up.pt
 
 ---
 
