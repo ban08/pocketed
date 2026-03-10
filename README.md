@@ -6,27 +6,27 @@
 
 Welcome to the documentation of _Pocket4Students_!
 
-This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from an high-level vision and going into low-level implementation decisions. 
+This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from an high-level vision and going into low-level implementation decisions.
 
-It is organised by the following activities: 
+It is organised by the following activities:
 
-* [Business modeling](#Business-Modelling) 
-  * [Product Vision](#Product-Vision)
-  * [Features and Assumptions](#Features-and-Assumptions)
-* [Requirements](#Requirements)
-  * [User stories](#User-stories)
-  * [Domain model](#Domain-model)
-  * [User interfaces](#User-interfaces)
-* [Architecture and Design](#Architecture-And-Design)
-  * [Logical architecture](#Logical-Architecture)
-  * [Physical architecture](#Physical-Architecture)
-  * [Functional prototype](#Functional-Prototype)
-* [Project management](#Project-Management)
-  * [Sprint 0](#Sprint-0)
-  * [Sprint 1](#Sprint-1)
-  * [Sprint 2](#Sprint-2)
-  * [Sprint 3](#Sprint-3)
-  * [Final Release](#Final-Release)
+- [Business modeling](#Business-Modelling)
+  - [Product Vision](#Product-Vision)
+  - [Features and Assumptions](#Features-and-Assumptions)
+- [Requirements](#Requirements)
+  - [User stories](#User-stories)
+  - [Domain model](#Domain-model)
+  - [User interfaces](#User-interfaces)
+- [Architecture and Design](#Architecture-And-Design)
+  - [Logical architecture](#Logical-Architecture)
+  - [Physical architecture](#Physical-Architecture)
+  - [Functional prototype](#Functional-Prototype)
+- [Project management](#Project-Management)
+  - [Sprint 0](#Sprint-0)
+  - [Sprint 1](#Sprint-1)
+  - [Sprint 2](#Sprint-2)
+  - [Sprint 3](#Sprint-3)
+  - [Final Release](#Final-Release)
 
 Contributions are expected to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -34,25 +34,24 @@ Please contact us!
 
 Thank you!
 
-* team member name and email
-* team member name and email
-* team member name and email
-* team member name and email
-* team member name and email
+- Rafael Hartilek Issa - up202300428@up.pt
+- Mariia Hutsul - up202310202@up.pt
+- Filipe Camacho - up202208040@up.pt
+- João Gusmão - up201406255@up.pt
 
 ---
+
 ## Business Modelling
 
-Business modeling in software development involves defining the product's vision, understanding market needs, aligning features with user expectations, and setting the groundwork for strategic planning and execution.
-
+Pocket4Students aims to help students who lack financial planning skills and struggle with budgeting during university 
 ### Product Vision
 
-<!-- 
-Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form. 
+<!--
+Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
 
 The vision should provide a "high concept" of the product for marketers, developers, and managers.
 
-A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future. 
+A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future.
 
 **We favor a catchy and concise statement, ideally one sentence.**
 
@@ -65,9 +64,9 @@ To learn more about how to write a good product vision, please read:
 * [20 Inspiring Vision Statement Examples (2019 Updated), by lifehack.org](https://www.lifehack.org/articles/work/20-sample-vision-statement-for-the-new-startup.html)
 -->
 
-
 ### Features and Assumptions
-<!-- 
+
+<!--
 Indicate an  initial/tentative list of high-level features - high-level capabilities or desired services of the system that are necessary to deliver benefits to the users.
  - Feature XPTO - a few words to briefly describe the feature
  - Feature ABCD - ...
@@ -79,21 +78,22 @@ Optionally, indicate an initial/tentative list of assumptions that you are doing
 ## Requirements
 
 ### User Stories
-<!-- 
+
+<!--
 In this section you should describe all kinds of requirements for your module: functional and non-functional requirements.
 
-For LEIC-ES-2025-26, the requirements will be gathered and documented as user stories. 
+For LEIC-ES-2025-26, the requirements will be gathered and documented as user stories.
 
 Please add in this section a concise summary of all the user stories (not each user story!).
 
 **User stories as GitHub Project Items**
-The user stories themselves should be created and described as items in your GitHub Project with the label "user story". 
+The user stories themselves should be created and described as items in your GitHub Project with the label "user story".
 
 A user story is a description of a desired functionality told from the perspective of the user or customer. A starting template for the description of a user story is *As a < user role >, I want < goal > so that < reason >.*
 
 Name the item with either the full user story or a shorter name (recommended). In the “comments” field, add relevant notes, mockup images, and acceptance test scenarios, linking to the acceptance tests when available, and finally estimate value and effort.
 
-**INVEST in good user stories**. 
+**INVEST in good user stories**.
 You may add more details after, but the shorter and complete, the better. In order to decide if the user story is good, please follow the [INVEST guidelines](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/).
 
 **User interface mockups**.
@@ -109,9 +109,9 @@ At the end, it is good to add a rough indication of the value of the user story 
 
 ### Domain model
 
-<!-- 
-To better understand the context of the software system, it is useful to have a simple UML class diagram with all and only the key concepts (names, attributes) and relationships involved of the problem domain addressed by your app. 
-Also provide a short textual description of each concept (domain class). 
+<!--
+To better understand the context of the software system, it is useful to have a simple UML class diagram with all and only the key concepts (names, attributes) and relationships involved of the problem domain addressed by your app.
+Also provide a short textual description of each concept (domain class).
 
 Example:
  <p align="center" justify="center">
@@ -119,14 +119,14 @@ Example:
 </p>
 -->
 
-
 ## Architecture and Design
+
 <!--
-The architecture of a software system encompasses the set of key decisions about its organization. 
+The architecture of a software system encompasses the set of key decisions about its organization.
 
 A well written architecture document is brief and reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.
 
-To document the architecture requires describing the decomposition of the system in their parts (high-level components) and the key behaviors and collaborations between them. 
+To document the architecture requires describing the decomposition of the system in their parts (high-level components) and the key behaviors and collaborations between them.
 
 In this section you should start by briefly describing the components of the project and their interrelations. You should describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
 -->
@@ -143,8 +143,8 @@ The current technology stack is:
 - `React Navigation` theming primitives under the router layer.
 - Local JSON data for prototype persistence.
 
-
 ### Logical architecture
+
 <!--
 The purpose of this subsection is to document the high-level logical structure of the code (Logical View), using a UML diagram with logical packages, without the worry of allocating to components, processes or machines.
 
@@ -235,8 +235,8 @@ flowchart LR
 
 The dependency flow is intentionally one-directional: routes render screens, screens consume context and services, and services rely on models plus local data sources. This reduces coupling and keeps the UI replaceable without changing the lower layers.
 
-
 ### Physical architecture
+
 <!--
 The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams (Deployment View) or component diagrams (Implementation View), separate or integrated, showing the physical structure of the system.
 
@@ -256,8 +256,8 @@ At the current stage, the physical architecture is a single-client prototype:
 
 There is no backend server or external database yet. Authentication is stored in memory via React Context, and expense records are loaded from a static JSON file. This keeps the system easy to run while the product is still validating its core flows.
 
-
 ### Functional prototype
+
 <!--
 To help on validating all the architectural, design and technological decisions made, we usually implement a functional prototype, a thin vertical slice of the system integrating as much technologies as we can.
 
@@ -277,6 +277,7 @@ The current functional prototype validates the selected architecture through a t
 This prototype already demonstrates the viability of the chosen stack for navigation, state sharing, typed models, theming, and local data access.
 
 ## Project management
+
 <!--
 Software project management is the art and science of planning and leading software projects, in which they are planned, implemented, monitored and controlled.
 
@@ -284,11 +285,11 @@ In the context of ESOF, we recommend each team to adopt a set of project managem
 
 Common practices of managing agile software development with Scrum are: backlog management, release management, estimation, Sprint planning, Sprint development, acceptance tests, and Sprint retrospectives.
 
-You can find below information and references related with the project management: 
+You can find below information and references related with the project management:
 
 * Backlog management: Product backlog and Sprint backlog in a [Github Projects board](https://github.com/orgs/FEUP-LEIC-ES-2023-24/projects/64);
 * Release management: [v0](#), v1, v2, v3, ...;
-* Sprint planning and retrospectives: 
+* Sprint planning and retrospectives:
   * plans: screenshots of Github Projects board at begin and end of each Sprint;
   * retrospectives: meeting notes in a document in the repository, addressing the following questions:
     * Did well: things we did well and should continue;
