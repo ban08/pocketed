@@ -1,48 +1,311 @@
-# T1
-# Pocket4Students
+<!-- Template file for README.md for LEIC-ES-2025-26 -->
 
-## SDG Alignment
-Goal 4 – Quality Education  
-Supporting financial literacy as a lifelong learning competence.
+> [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app.
 
-## Product Vision
-Pocket4Students is a mobile application that helps university students develop essential financial literacy skills through simple budgeting tools and spending awareness.
+# _Pocket4Students_ Development Report
 
-## Target Users
-University students 
+Welcome to the documentation of _Pocket4Students_!
 
-## Problem
-Many students lack financial planning skills and struggle with budgeting during university life.
+This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from an high-level vision and going into low-level implementation decisions. 
 
-## High-Level Features (Initial Draft)
-1. Add and track expenses
-2. Monthly budget overview
-3. Expense categories
-4. Simple dashboard with insights
-5. Basic financial tips for students
+It is organised by the following activities: 
 
-## Assumptions
-- Students use smartphones daily
-- No payment integrations required
-- No banking API integration
-- Data can be stored locally 
+* [Business modeling](#Business-Modelling) 
+  * [Product Vision](#Product-Vision)
+  * [Features and Assumptions](#Features-and-Assumptions)
+* [Requirements](#Requirements)
+  * [User stories](#User-stories)
+  * [Domain model](#Domain-model)
+  * [User interfaces](#User-interfaces)
+* [Architecture and Design](#Architecture-And-Design)
+  * [Logical architecture](#Logical-Architecture)
+  * [Physical architecture](#Physical-Architecture)
+  * [Functional prototype](#Functional-Prototype)
+* [Project management](#Project-Management)
+  * [Sprint 0](#Sprint-0)
+  * [Sprint 1](#Sprint-1)
+  * [Sprint 2](#Sprint-2)
+  * [Sprint 3](#Sprint-3)
+  * [Final Release](#Final-Release)
 
-## Tools Used in This Project
-- Development Environment
-- Ubuntu (Linux)
-- Node.js v20 (LTS) managed via nvm
-- npm for package management
-- VS Code as code editor
-## Framework & Platform
-- React Native
-- Expo (with Expo Router)
-- TypeScript (strict mode enabled)
-## Architecture Approach
-- Expo Router handles navigation (app/)
-- All business logic is organized inside src/
-- Local JSON file used as mock database
-- Service layer separates data access from UI
-- Centralized theme management
-## Version Control
-- Git
-- GitHub (private repository)
+Contributions are expected to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
+
+Please contact us!
+
+Thank you!
+
+* team member name and email
+* team member name and email
+* team member name and email
+* team member name and email
+* team member name and email
+
+---
+## Business Modelling
+
+Business modeling in software development involves defining the product's vision, understanding market needs, aligning features with user expectations, and setting the groundwork for strategic planning and execution.
+
+### Product Vision
+
+<!-- 
+Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form. 
+
+The vision should provide a "high concept" of the product for marketers, developers, and managers.
+
+A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future. 
+
+**We favor a catchy and concise statement, ideally one sentence.**
+
+We suggest you use the product vision template described in the following link:
+* [How To Create A Convincing Product Vision To Guide Your Team, by uxstudioteam.com](https://uxstudioteam.com/ux-blog/product-vision/)
+
+To learn more about how to write a good product vision, please read:
+* [Vision, by scrumbook.org](http://scrumbook.org/value-stream/vision.html)
+* [Product Management: Product Vision, by ProductPlan](https://www.productplan.com/glossary/product-vision/)
+* [20 Inspiring Vision Statement Examples (2019 Updated), by lifehack.org](https://www.lifehack.org/articles/work/20-sample-vision-statement-for-the-new-startup.html)
+-->
+
+
+### Features and Assumptions
+<!-- 
+Indicate an  initial/tentative list of high-level features - high-level capabilities or desired services of the system that are necessary to deliver benefits to the users.
+ - Feature XPTO - a few words to briefly describe the feature
+ - Feature ABCD - ...
+...
+
+Optionally, indicate an initial/tentative list of assumptions that you are doing about the app and dependencies of the app to other systems.
+-->
+
+## Requirements
+
+### User Stories
+<!-- 
+In this section you should describe all kinds of requirements for your module: functional and non-functional requirements.
+
+For LEIC-ES-2025-26, the requirements will be gathered and documented as user stories. 
+
+Please add in this section a concise summary of all the user stories (not each user story!).
+
+**User stories as GitHub Project Items**
+The user stories themselves should be created and described as items in your GitHub Project with the label "user story". 
+
+A user story is a description of a desired functionality told from the perspective of the user or customer. A starting template for the description of a user story is *As a < user role >, I want < goal > so that < reason >.*
+
+Name the item with either the full user story or a shorter name (recommended). In the “comments” field, add relevant notes, mockup images, and acceptance test scenarios, linking to the acceptance tests when available, and finally estimate value and effort.
+
+**INVEST in good user stories**. 
+You may add more details after, but the shorter and complete, the better. In order to decide if the user story is good, please follow the [INVEST guidelines](https://xp123.com/articles/invest-in-good-stories-and-smart-tasks/).
+
+**User interface mockups**.
+After the user story text, you should add a draft of the corresponding user interfaces, a simple mockup or draft, if applicable.
+
+**Acceptance tests**.
+For each user story you should write also the acceptance tests (textually in [Gherkin](https://cucumber.io/docs/gherkin/reference/)), i.e., a description of scenarios (situations) that will help to confirm that the system satisfies the requirements addressed by the user story.
+
+**Value and effort**.
+At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it using points in a kind-of-a Fibonnacci scale (1,2,3,5,8,13,20,40, no idea).
+
+-->
+
+### Domain model
+
+<!-- 
+To better understand the context of the software system, it is useful to have a simple UML class diagram with all and only the key concepts (names, attributes) and relationships involved of the problem domain addressed by your app. 
+Also provide a short textual description of each concept (domain class). 
+
+Example:
+ <p align="center" justify="center">
+  <img src="https://github.com/FEUP-LEIC-ES-2022-23/templates/blob/main/images/DomainModel.png"/>
+</p>
+-->
+
+
+## Architecture and Design
+<!--
+The architecture of a software system encompasses the set of key decisions about its organization. 
+
+A well written architecture document is brief and reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.
+
+To document the architecture requires describing the decomposition of the system in their parts (high-level components) and the key behaviors and collaborations between them. 
+
+In this section you should start by briefly describing the components of the project and their interrelations. You should describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
+-->
+
+Pocket4Students is currently implemented as a cross-platform mobile application in [`mobile-app`](/home/hartilek/Desktop/T1/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
+
+The current technology stack is:
+
+- `React Native` for the UI layer.
+- `Expo SDK 54` for the runtime, bundling, and developer tooling.
+- `Expo Router` for file-based navigation.
+- `TypeScript` with strict mode enabled.
+- `React Context` and `useReducer` for shared authentication state.
+- `React Navigation` theming primitives under the router layer.
+- Local JSON data for prototype persistence.
+
+
+### Logical architecture
+<!--
+The purpose of this subsection is to document the high-level logical structure of the code (Logical View), using a UML diagram with logical packages, without the worry of allocating to components, processes or machines.
+
+It can be beneficial to present the system in a horizontal decomposition, defining layers and implementation concepts, such as the user interface, business logic and concepts.
+
+Example of _UML package diagram_ showing a _logical view_ of the Eletronic Ticketing System (to be accompanied by a short description of each package):
+
+![LogicalView](https://user-images.githubusercontent.com/9655877/160585416-b1278ad7-18d7-463c-b8c6-afa4f7ac7639.png)
+-->
+
+The logical structure of the current implementation is organized into the following packages:
+
+```mermaid
+flowchart LR
+    subgraph Routes["app/ - Expo Router layer"]
+        RootLayout["_layout.tsx\nRoot stack + providers"]
+        AuthRoutes["auth/\nwelcome, login, register"]
+        TabRoutes["(tabs)/\nindex, explore"]
+        ModalRoute["modal.tsx"]
+    end
+
+    subgraph Screens["src/screens/ - Presentation layer"]
+        WelcomeScreen["WelcomeScreen"]
+        LoginScreen["LoginScreen"]
+        RegisterScreen["RegisterScreen"]
+        DashboardScreen["DashboardScreen"]
+    end
+
+    subgraph State["src/context/ - State layer"]
+        AuthContext["AuthContext"]
+        AuthReducer["authReducer"]
+    end
+
+    subgraph Services["src/services/ - Service layer"]
+        AuthService["authService"]
+        ExpenseService["expenseService"]
+    end
+
+    subgraph Domain["src/models/ - Domain layer"]
+        UserModel["User"]
+        ExpenseModel["Expense"]
+    end
+
+    subgraph Shared["Shared resources"]
+        Theme["src/theme/\ncolors, spacing, typography"]
+        Data["src/data/\nexpenses.json"]
+        Assets["src/resources/\nimages"]
+    end
+
+    RootLayout --> AuthRoutes
+    RootLayout --> TabRoutes
+    RootLayout --> ModalRoute
+    RootLayout --> AuthContext
+
+    AuthRoutes --> WelcomeScreen
+    AuthRoutes --> LoginScreen
+    AuthRoutes --> RegisterScreen
+    TabRoutes --> DashboardScreen
+
+    WelcomeScreen --> Theme
+    WelcomeScreen --> Assets
+    LoginScreen --> Theme
+    LoginScreen --> Assets
+    RegisterScreen --> Theme
+    RegisterScreen --> Assets
+    DashboardScreen --> Theme
+
+    LoginScreen --> AuthContext
+    RegisterScreen --> AuthContext
+    DashboardScreen --> AuthContext
+    AuthContext --> AuthReducer
+    AuthContext --> UserModel
+
+    LoginScreen -. future integration .-> AuthService
+    RegisterScreen -. future integration .-> AuthService
+    DashboardScreen --> ExpenseService
+    ExpenseService --> ExpenseModel
+    ExpenseService --> Data
+```
+
+- `app/`: route entry points and layouts. The root layout defines the navigation stack and wraps the app with the authentication provider.
+- `src/screens/`: screen-level UI implementations such as welcome, login, register and dashboard.
+- `src/context/`: shared application state, currently centered on `AuthContext` and its reducer.
+- `src/services/`: data access and business-facing operations, such as loading expenses from the local dataset.
+- `src/models/`: typed domain entities like `User` and `Expense`.
+- `src/theme/`: shared visual tokens, including colors, spacing, and typography.
+- `src/data/` and `src/resources/`: bundled mock data and static media assets.
+
+The dependency flow is intentionally one-directional: routes render screens, screens consume context and services, and services rely on models plus local data sources. This reduces coupling and keeps the UI replaceable without changing the lower layers.
+
+
+### Physical architecture
+<!--
+The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams (Deployment View) or component diagrams (Implementation View), separate or integrated, showing the physical structure of the system.
+
+It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for ESOF are, for example, frameworks for mobile applications (such as Flutter).
+
+Example of _UML deployment diagram_ showing a _deployment view_ of the Eletronic Ticketing System (please notice that, instead of software components, one should represent their physical/executable manifestations for deployment, called artifacts in UML; the diagram should be accompanied by a short description of each node and artifact):
+
+![DeploymentView](https://user-images.githubusercontent.com/9655877/160592491-20e85af9-0758-4e1e-a704-0db1be3ee65d.png)
+-->
+
+At the current stage, the physical architecture is a single-client prototype:
+
+- A development machine runs Node.js, npm, and the Expo toolchain.
+- The Expo development server bundles the application and serves it during development.
+- The client application runs on Android, iOS, or web through the Expo runtime.
+- Application assets and `src/data/expenses.json` are bundled locally with the app.
+
+There is no backend server or external database yet. Authentication is stored in memory via React Context, and expense records are loaded from a static JSON file. This keeps the system easy to run while the product is still validating its core flows.
+
+
+### Functional prototype
+<!--
+To help on validating all the architectural, design and technological decisions made, we usually implement a functional prototype, a thin vertical slice of the system integrating as much technologies as we can.
+
+In this subsection please describe which feature, or part of it, you have implemented, and how, together with a snapshot of the user interface, if applicable.
+
+At this phase, instead of a complete user story, you can simply implement a small part of a feature that demonstrates thay you can use the technology, for example, show a screen with the app credits (name and authors).
+-->
+
+The current functional prototype validates the selected architecture through a thin end-to-end flow:
+
+- A welcome screen introduces the product and links to login and registration routes.
+- Dedicated login and registration screens demonstrate reusable screen composition and navigation.
+- The root layout injects `AuthProvider`, proving that shared state can be provided across the routing tree.
+- The home tab checks authentication state and redirects unauthenticated users to the welcome flow.
+- The dashboard reads mock expense entries through a service layer and renders a basic monthly total.
+
+This prototype already demonstrates the viability of the chosen stack for navigation, state sharing, typed models, theming, and local data access.
+
+## Project management
+<!--
+Software project management is the art and science of planning and leading software projects, in which they are planned, implemented, monitored and controlled.
+
+In the context of ESOF, we recommend each team to adopt a set of project management practices and tools capable of registering tasks, assigning tasks to team members, adding estimations to tasks, monitor tasks progress, and therefore being able to track their projects.
+
+Common practices of managing agile software development with Scrum are: backlog management, release management, estimation, Sprint planning, Sprint development, acceptance tests, and Sprint retrospectives.
+
+You can find below information and references related with the project management: 
+
+* Backlog management: Product backlog and Sprint backlog in a [Github Projects board](https://github.com/orgs/FEUP-LEIC-ES-2023-24/projects/64);
+* Release management: [v0](#), v1, v2, v3, ...;
+* Sprint planning and retrospectives: 
+  * plans: screenshots of Github Projects board at begin and end of each Sprint;
+  * retrospectives: meeting notes in a document in the repository, addressing the following questions:
+    * Did well: things we did well and should continue;
+    * Do differently: things we should do differently and how;
+    * Puzzles: things we don’t know yet if they are right or wrong;
+    * list of a few improvements to implement next Sprint;
+
+-->
+
+### Sprint 0
+
+### Sprint 1
+
+### Sprint 2
+
+### Sprint 3
+
+### Sprint 4
+
+### Final Release
