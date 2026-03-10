@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   heroOverlay: {
     flex: 1,
-    backgroundColor: "rgba(16, 185, 129, 0.75)",
+    backgroundColor: colors.background,
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xl + 8,
   },

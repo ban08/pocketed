@@ -1,3 +1,4 @@
+import { colors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { StyleSheet } from "react-native";
 
@@ -21,19 +22,19 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: "#FFD600",
+    backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
     marginRight: spacing.sm,
   },
   logoText: {
     fontWeight: "900",
-    color: "#111",
+    color: colors.textPrimary,
   },
   brandText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#FFFFFF",
+    color: colors.brand,
   },
 
   // ===== Hero =====
@@ -55,23 +56,23 @@ export const styles = StyleSheet.create({
   // overlay placed above the background image to keep content readable
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(6,6,8,0.6)",
+    backgroundColor: colors.background,
   },
   hello: {
     fontSize: 16,
-    color: "#BBBBBB",
+    color: colors.primary,
     marginBottom: spacing.sm,
   },
   title: {
     fontSize: 36,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: colors.primary,
     lineHeight: 40,
     marginBottom: spacing.md,
   },
   subtitle: {
     fontSize: 16,
-    color: "#AAAAAA",
+    color: colors.primary,
     lineHeight: 22,
     marginBottom: spacing.lg,
   },
@@ -81,13 +82,13 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   pill: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: colors.background_dark,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 50,
   },
   pillText: {
-    color: "#FFFFFF",
+    color: colors.textPrimary,
     fontSize: 13,
     fontWeight: "600",
   },
@@ -95,14 +96,14 @@ export const styles = StyleSheet.create({
   // ===== Bottom Sheet =====
   sheet: {
     padding: spacing.lg,
-    backgroundColor: "#15151C",
+    backgroundColor: colors.primary,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
   },
   sheetHandle: {
     width: 40,
     height: 4,
-    backgroundColor: "#333",
+    backgroundColor: colors.primary,
     borderRadius: 50,
     alignSelf: "center",
     marginBottom: spacing.md,
@@ -110,12 +111,12 @@ export const styles = StyleSheet.create({
   sheetTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#FFFFFF",
+    color: colors.textDark,
     marginBottom: spacing.sm,
   },
   sheetSubtitle: {
     fontSize: 14,
-    color: "#AAAAAA",
+    color: colors.background_dark,
     marginBottom: spacing.lg,
   },
 
@@ -129,14 +130,14 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 52,
     borderRadius: 14,
-    backgroundColor: "#FFD600",
+    backgroundColor: colors.background_dark,
     alignItems: "center",
     justifyContent: "center",
   },
   primaryButtonText: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#111",
+    color: colors.textPrimary,
   },
 
   secondaryButton: {
@@ -144,8 +145,8 @@ export const styles = StyleSheet.create({
     height: 52,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#333",
-    backgroundColor: "#1C1C24",
+    borderColor: colors.background_dark,
+    backgroundColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: spacing.sm, // space between stacked buttons
@@ -153,14 +154,14 @@ export const styles = StyleSheet.create({
   secondaryButtonText: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#FFFFFF",
+    color: colors.background_dark,
   },
 
   footerText: {
     marginTop: spacing.md,
     textAlign: "center",
     fontSize: 12,
-    color: "#666",
+    color: colors.textDark,
   },
 
   pressed: {

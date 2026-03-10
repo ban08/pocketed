@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   heroOverlay: {
     flex: 1,
-    backgroundColor: "rgba(16, 185, 129, 0.75)",
+    backgroundColor: colors.background,
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xl + 8,
   },
@@ -49,24 +49,24 @@ export const styles = StyleSheet.create({
   },
   logoText: {
     fontWeight: "900",
-    color: colors.secondary,
+    color: colors.green,
   },
   brandText: {
     fontSize: typography.body.fontSize,
     fontWeight: "600",
-    color: colors.background,
+    color: colors.primary,
   },
 
   /* ===== Hero Text ===== */
   greeting: {
     fontSize: typography.title.fontSize + 4,
     fontWeight: typography.title.fontWeight,
-    color: colors.textPrimary,
+    color: colors.hero,
     lineHeight: 36,
   },
   subtitle: {
     ...typography.body,
-    color: colors.textPrimary,
+    color: colors.blue,
     marginTop: spacing.xs + 2,
     lineHeight: 20,
   },
@@ -78,13 +78,13 @@ export const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   pill: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.red,
     paddingVertical: 5,
     paddingHorizontal: 12,
     borderRadius: 50,
   },
   pillText: {
-    color: colors.secondary,
+    color: colors.textPrimary,
     fontSize: 11,
     fontWeight: "600",
   },
@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.red,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     paddingHorizontal: spacing.lg,
