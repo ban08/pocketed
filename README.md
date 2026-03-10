@@ -43,8 +43,14 @@ Thank you!
 
 ## Business Modelling
 
-Pocket4Students aims to help students who lack financial planning skills and struggle with budgeting during university 
-### Product Vision
+## SDG Alignment
+###Goal 4 – Quality Education
+Supporting financial literacy as a lifelong learning competence.
+
+###Goal 12 - Responsible consumption###
+
+## Product Vision
+*Pocket for Students* aims for a sustainable and efficient use of one's resources, tracking the user's budget and expenses.
 
 <!--
 Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
