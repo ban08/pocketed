@@ -6,7 +6,7 @@
 
 Welcome to the documentation of _Pocket4Students_!
 
-This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from an high-level vision and going into low-level implementation decisions.
+This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from a high-level vision and going into low-level implementation decisions.
 
 It is organised by the following activities:
 
@@ -44,13 +44,13 @@ Thank you!
 ## Business Modelling
 
 ## SDG Alignment
-###Goal 4 – Quality Education
+### Goal 4 – Quality Education
 Supporting financial literacy as a lifelong learning competence.
 
-###Goal 12 - Responsible consumption###
+### Goal 12 – Responsible Consumption
 
 ## Product Vision
-*Pocket for Students* aims for a sustainable and efficient use of one's resources, tracking the user's budget and expenses.
+*Pocket for Students* empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
 
 <!--
 Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
@@ -71,6 +71,18 @@ To learn more about how to write a good product vision, please read:
 -->
 
 ### Features and Assumptions
+
+**Main Features:**
+- **Income & Expense Tracking:** Users can manually record money coming in (scholarships, allowance) and money going out.
+- **Budget Definition:** Set a monthly spending limit to monitor financial health.
+- **Expense Categorization:** Assign transactions to categories (Food, Transport, etc.) for better analysis.
+- **Real-time Balance:** Instant calculation of available funds based on total incomes and expenses.
+- **Financial Statistics:** Visual summary of spending patterns over time.
+
+**Assumptions:**
+- Users will manually input their transactions as there is no direct bank API integration in this version.
+- The application is primarily designed for individual use on a single mobile device.
+- Data persistence is handled locally on the device for the current prototype.
 
 <!--
 Indicate an  initial/tentative list of high-level features - high-level capabilities or desired services of the system that are necessary to deliver benefits to the users.
@@ -112,8 +124,140 @@ For each user story you should write also the acceptance tests (textually in [Gh
 At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it using points in a kind-of-a Fibonnacci scale (1,2,3,5,8,13,20,40, no idea).
 
 -->
+The requirements of Pocket4Students are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
+
+The main user stories identified for the system include:
+
+- **Set Monthly Budget**  
+  As a student, I want to define how much money I have available to spend so that I can control my expenses and avoid overspending.
+
+- **Add Expense Record**  
+  As a student, I want to record my expenses by category and amount so that I can track where my money is being spent.
+
+- **Add Income Record**  
+  As a student, I want to record income that I receive (for example from parents, scholarships, or freelance work) so that I can track all money entering my wallet.
+
+- **Categorize Expenses**  
+  As a student, I want to categorize my expenses so that I can better understand my spending habits.
+
+- **View Remaining Balance**  
+  As a student, I want to see my remaining balance so that I know how much money I can still spend.
+
+- **View Financial Statistics**  
+  As a student, I want to visualize summaries of my income and expenses so that I can better understand my financial behavior.
+
+Each user story includes acceptance scenarios and mockups that are managed in the project backlog using GitHub Projects.
 
 ### Domain model
+
+The following UML class diagram illustrates the key concepts and their relationships within Pocket4Students:
+
+```mermaid
+classDiagram
+    direction BT
+    class User {
+        +String username
+        +String email
+    }
+    class Wallet {
+        +Double totalBalance
+        +Double monthlyLimit
+    }
+    class Transaction {
+        +Double amount
+        +Date date
+        +String description
+    }
+    class Income {
+        +String source
+    }
+    class Expense {
+        +String categoryId
+    }
+    class Category {
+        +String name
+    }
+    class Statistics {
+        +Double totalIn
+        +Double totalOut
+    }
+
+    User "1" -- "1" Wallet : owns
+    Wallet "1" -- "*" Transaction : records
+    Transaction <|-- Income : is a
+    Transaction <|-- Expense : is a
+    Expense "*" -- "1" Category : belongs to
+    Statistics -- Transaction : analyzes
+```
+### User Interfaces
+The Pocket4Students mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
+The main screens of the application are described below.
+
+#### Welcome Screen
+The welcome screen is the entry point of the application. It introduces the purpose of Pocket4Students and provides navigation to authentication options.
+
+**Main interface elements:**
+
+- Application title and description
+- Button to log in
+- Button to register a new account
+
+#### Login Screen
+
+The login screen allows existing users to authenticate and access their personal wallet.
+
+**Main interface elements:**
+
+- Email input field
+- Password input field
+- Login button
+- Navigation link to registration
+
+#### Registration Screen
+The registration screen allows new users to create an account in the system.
+
+**Main interface elements:**
+
+- Username input
+- Email input
+- Password input
+- Register button
+
+#### Dashboard Screen
+The dashboard is the main screen where users can view their financial overview.
+
+**Main interface elements:**
+
+- Current balance
+- List of recent transactions
+- Budget overview
+- Access to add income or expense
+
+#### Transaction Management
+Users can add financial transactions to track their spending and income.
+
+**Main interface elements:**
+
+- Amount input field
+- Category selector (for expenses)
+- Description field
+- Save transaction button
+
+### Domain Concepts
+
+- **User** – Represents a student using the application. Each user has a username and email and owns a personal wallet.
+
+- **Wallet** – Represents the financial container of the user. It stores the total balance and the monthly spending limit defined by the user.
+
+- **Transaction** – Represents a financial operation recorded in the wallet. Each transaction includes an amount, date, and description.
+
+- **Income** – A specialized type of transaction that represents money received by the user (for example scholarships, allowances, or part-time salary).
+
+- **Expense** – A specialized type of transaction representing money spent by the user. Each expense is associated with a category.
+
+- **Category** – Represents a classification used to group expenses (for example Food, Transport, Entertainment).
+
+- **Statistics** – Represents calculated financial summaries such as total income and total expenses based on recorded transactions.
 
 <!--
 To better understand the context of the software system, it is useful to have a simple UML class diagram with all and only the key concepts (names, attributes) and relationships involved of the problem domain addressed by your app.
@@ -137,7 +281,7 @@ To document the architecture requires describing the decomposition of the system
 In this section you should start by briefly describing the components of the project and their interrelations. You should describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
 -->
 
-Pocket4Students is currently implemented as a cross-platform mobile application in [`mobile-app`](/home/hartilek/Desktop/T1/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
+Pocket4Students is currently implemented as a cross-platform mobile application in [`mobile-app`](https://github.com/LEIC-ES-2025-26-2LEIC12/T1/tree/main/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
 
 The current technology stack is:
 
@@ -306,6 +450,39 @@ You can find below information and references related with the project managemen
 -->
 
 ### Sprint 0
+
+Sprint 0 focused on project initialization and planning activities.
+
+**Sprint goals:**
+
+- Define the project vision and main features
+- Create the initial product backlog
+- Set up the GitHub repository
+- Configure the development environment
+- Initialize the Expo React Native project
+
+**Main activities:**
+
+- Creation of the GitHub repository and project board
+- Definition of initial user stories
+- Setup of the Expo development environment
+- Initial architecture discussion and technology selection
+
+**Tools used:**
+
+- GitHub for version control
+- GitHub Projects for backlog management
+- Expo CLI for project initialization
+- Visual Studio Code as the development environment
+
+**Outcome:**
+
+At the end of Sprint 0, the team had:
+
+- A working development environment
+- A defined product vision
+- An initial backlog of user stories
+- A configured GitHub repository and project board
 
 ### Sprint 1
 
