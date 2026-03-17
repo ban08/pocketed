@@ -6,7 +6,7 @@ export const colors = {
   background_dark: '#E2E8F0', // Slate 200 — elevated surfaces, pill backgrounds
   textPrimary: '#0F172A',     // Slate 900 — headings and primary text
   textSecondary: '#64748B',   // Slate 500 — muted / secondary text
-  danger: '#EF4444',          // Red 500
+  danger: '#EF4444',          // Red 500d
   textDark: '#0F172A',        // Slate 900 (alias for textPrimary)
   red: '#EF4444',
   green: '#22C55E',
