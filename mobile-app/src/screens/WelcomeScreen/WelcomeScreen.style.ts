@@ -155,6 +155,20 @@ export const styles = StyleSheet.create({
     color: colors.secondary,
   },
 
+
+  thirdButton: {
+    width: "100%",
+    height: 52,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    marginTop: spacing.sm,
+    borderColor: colors.secondary,
+    backgroundColor: colors.textSecondary,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: spacing.sm,
+  },
+
   footerText: {
     marginTop: spacing.md,
     textAlign: "center",
