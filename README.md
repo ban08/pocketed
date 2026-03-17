@@ -1,8 +1,10 @@
-<!-- Template file for README.md for LEIC-ES-2025-26 
+<!-- Template file for README.md for LEIC-ES-2025-26
 
 > [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app. -->
 
 # _Pocket4Students_ Development Report
+
+> **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
 Welcome to the documentation of _Pocket4Students_!
 
@@ -44,13 +46,16 @@ Thank you!
 ## Business Modelling
 
 ## SDG Alignment
+
 ### Goal 4 – Quality Education
+
 Supporting financial literacy as a lifelong learning competence.
 
 ### Goal 12 – Responsible Consumption
 
 ## Product Vision
-*Pocket for Students* empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
+
+_Pocket for Students_ empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
 
 <!--
 Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
@@ -73,6 +78,7 @@ To learn more about how to write a good product vision, please read:
 ### Features and Assumptions
 
 **Main Features:**
+
 - **Income & Expense Tracking:** Users can manually record money coming in (scholarships, allowance) and money going out.
 - **Budget Definition:** Set a monthly spending limit to monitor financial health.
 - **Expense Categorization:** Assign transactions to categories (Food, Transport, etc.) for better analysis.
@@ -80,6 +86,7 @@ To learn more about how to write a good product vision, please read:
 - **Financial Statistics:** Visual summary of spending patterns over time.
 
 **Assumptions:**
+
 - Users will manually input their transactions as there is no direct bank API integration in this version.
 - The application is primarily designed for individual use on a single mobile device.
 - Data persistence is handled locally on the device for the current prototype.
@@ -124,6 +131,7 @@ For each user story you should write also the acceptance tests (textually in [Gh
 At the end, it is good to add a rough indication of the value of the user story to the customers (e.g. [MoSCoW](https://en.wikipedia.org/wiki/MoSCoW_method) method) and the team should add an estimation of the effort to implement it using points in a kind-of-a Fibonnacci scale (1,2,3,5,8,13,20,40, no idea).
 
 -->
+
 The requirements of Pocket4Students are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
 
 The main user stories identified for the system include:
@@ -189,11 +197,14 @@ classDiagram
     Expense "*" -- "1" Category : belongs to
     Statistics -- Transaction : analyzes
 ```
+
 ### User Interfaces
+
 The Pocket4Students mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
 The main screens of the application are described below.
 
 #### Welcome Screen
+
 The welcome screen is the entry point of the application. It introduces the purpose of Pocket4Students and provides navigation to authentication options.
 
 **Main interface elements:**
@@ -214,6 +225,7 @@ The login screen allows existing users to authenticate and access their personal
 - Navigation link to registration
 
 #### Registration Screen
+
 The registration screen allows new users to create an account in the system.
 
 **Main interface elements:**
@@ -224,6 +236,7 @@ The registration screen allows new users to create an account in the system.
 - Register button
 
 #### Dashboard Screen
+
 The dashboard is the main screen where users can view their financial overview.
 
 **Main interface elements:**
@@ -234,6 +247,7 @@ The dashboard is the main screen where users can view their financial overview.
 - Access to add income or expense
 
 #### Transaction Management
+
 Users can add financial transactions to track their spending and income.
 
 **Main interface elements:**
