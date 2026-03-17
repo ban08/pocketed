@@ -42,31 +42,31 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: colors.background,
+    backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
     marginRight: spacing.xs + 8,
   },
   logoText: {
     fontWeight: "900",
-    color: colors.green,
+    color: colors.secondary,
   },
   brandText: {
     fontSize: typography.body.fontSize,
     fontWeight: "600",
-    color: colors.primary,
+    color: colors.brand,
   },
 
   /* ===== Hero Text ===== */
   greeting: {
     fontSize: typography.title.fontSize + 4,
     fontWeight: typography.title.fontWeight,
-    color: colors.hero,
+    color: colors.textPrimary,
     lineHeight: 36,
   },
   subtitle: {
     ...typography.body,
-    color: colors.blue,
+    color: colors.textSecondary,
     marginTop: spacing.xs + 2,
     lineHeight: 20,
   },
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   pill: {
-    backgroundColor: colors.red,
+    backgroundColor: colors.background_dark,
     paddingVertical: 5,
     paddingHorizontal: 12,
     borderRadius: 50,
@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: colors.red,
+    backgroundColor: colors.primary,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     paddingHorizontal: spacing.lg,
@@ -109,11 +109,11 @@ export const styles = StyleSheet.create({
   cardHandle: {
     width: 40,
     height: 4,
-    backgroundColor: colors.textSecondary,
+    backgroundColor: colors.background_dark,
     borderRadius: 50,
     alignSelf: "center",
     marginBottom: spacing.lg,
-    opacity: 0.3,
+    opacity: 0.6,
   },
 
   /* ===== Form ===== */
@@ -129,11 +129,10 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.background,
     borderRadius: 14,
     borderWidth: 1.5,
-    borderColor: colors.textSecondary,
+    borderColor: colors.background_dark,
     paddingHorizontal: spacing.md,
     height: 52,
     marginBottom: spacing.md,
-    opacity: 0.85,
   },
   inputIcon: {
     fontSize: 18,
@@ -156,14 +155,14 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xs,
     shadowColor: colors.secondary,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.25,
     shadowRadius: 8,
     elevation: 6,
   },
   primaryButtonText: {
     fontSize: typography.body.fontSize,
     fontWeight: "800",
-    color: colors.background,
+    color: colors.primary,
   },
   termsText: {
     fontSize: 12,
@@ -186,8 +185,8 @@ export const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: colors.textSecondary,
-    opacity: 0.25,
+    backgroundColor: colors.background_dark,
+    opacity: 0.8,
   },
   dividerText: {
     color: colors.textSecondary,
@@ -201,7 +200,7 @@ export const styles = StyleSheet.create({
     height: 54,
     borderRadius: 16,
     borderWidth: 1.5,
-    borderColor: colors.primary,
+    borderColor: colors.secondary,
     backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
@@ -211,7 +210,7 @@ export const styles = StyleSheet.create({
   secondaryButtonText: {
     fontSize: typography.body.fontSize,
     fontWeight: "700",
-    color: colors.primary,
+    color: colors.secondary,
   },
 
   /* ===== Footer ===== */

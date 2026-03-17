@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#0E0E12", // premium dark background
+    backgroundColor: colors.background,
   },
   safe: {
     flex: 1,
@@ -22,14 +22,14 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: colors.background,
+    backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
     marginRight: spacing.sm,
   },
   logoText: {
     fontWeight: "900",
-    color: colors.textPrimary,
+    color: colors.secondary,
   },
   brandText: {
     fontSize: 16,
@@ -46,11 +46,10 @@ export const styles = StyleSheet.create({
 
   // background image style
   image: {
-    marginTop: -260, // pull the image up to create a more immersive effect
+    marginTop: -260,
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    //marginBottom: 1000, // pull the image down at the bottom to create a seamless transition to the sheet
   },
 
   // overlay placed above the background image to keep content readable
@@ -60,19 +59,19 @@ export const styles = StyleSheet.create({
   },
   hello: {
     fontSize: 16,
-    color: colors.primary,
+    color: colors.textSecondary,
     marginBottom: spacing.sm,
   },
   title: {
     fontSize: 36,
     fontWeight: "bold",
-    color: colors.primary,
+    color: colors.textPrimary,
     lineHeight: 40,
     marginBottom: spacing.md,
   },
   subtitle: {
     fontSize: 16,
-    color: colors.primary,
+    color: colors.textSecondary,
     lineHeight: 22,
     marginBottom: spacing.lg,
   },
@@ -103,7 +102,7 @@ export const styles = StyleSheet.create({
   sheetHandle: {
     width: 40,
     height: 4,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background_dark,
     borderRadius: 50,
     alignSelf: "center",
     marginBottom: spacing.md,
@@ -111,57 +110,56 @@ export const styles = StyleSheet.create({
   sheetTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: colors.textDark,
+    color: colors.textPrimary,
     marginBottom: spacing.sm,
   },
   sheetSubtitle: {
     fontSize: 14,
-    color: colors.background_dark,
+    color: colors.textSecondary,
     marginBottom: spacing.lg,
   },
 
   buttonRow: {
     flexDirection: "column",
     alignItems: "stretch",
-    // gap may not be supported consistently; use margin on the first button instead
   },
 
   primaryButton: {
     width: "100%",
     height: 52,
     borderRadius: 14,
-    backgroundColor: colors.background_dark,
+    backgroundColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
   },
   primaryButtonText: {
     fontSize: 16,
     fontWeight: "800",
-    color: colors.textPrimary,
+    color: colors.primary,
   },
 
   secondaryButton: {
     width: "100%",
     height: 52,
     borderRadius: 14,
-    borderWidth: 1,
-    borderColor: colors.background_dark,
-    backgroundColor: colors.secondary,
+    borderWidth: 1.5,
+    borderColor: colors.secondary,
+    backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: spacing.sm, // space between stacked buttons
+    marginBottom: spacing.sm,
   },
   secondaryButtonText: {
     fontSize: 16,
     fontWeight: "700",
-    color: colors.background_dark,
+    color: colors.secondary,
   },
 
   footerText: {
     marginTop: spacing.md,
     textAlign: "center",
     fontSize: 12,
-    color: colors.textDark,
+    color: colors.textSecondary,
   },
 
   pressed: {
