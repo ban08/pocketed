@@ -161,42 +161,48 @@ Each user story includes acceptance scenarios and mockups that are managed in th
 The following UML class diagram illustrates the key concepts and their relationships within Pocket4Students:
 
 ```mermaid
-classDiagram
-    direction BT
-    class User {
-        +String username
-        +String email
-    }
-    class Wallet {
-        +Double totalBalance
-        +Double monthlyLimit
-    }
-    class Transaction {
-        +Double amount
-        +Date date
-        +String description
-    }
-    class Income {
-        +String source
-    }
-    class Expense {
-        +String categoryId
-    }
-    class Category {
-        +String name
-    }
-    class Statistics {
-        +Double totalIn
-        +Double totalOut
-    }
-
-    User "1" -- "1" Wallet : owns
-    Wallet "1" -- "*" Transaction : records
-    Transaction <|-- Income : is a
-    Transaction <|-- Expense : is a
-    Expense "*" -- "1" Category : belongs to
-    Statistics -- Transaction : analyzes
+  classDiagram
+  User "1" --> "1" Wallet : owns
+  Wallet "1" --> "*" Transaction : records
+  Transaction <|-- Income
+  Transaction <|-- Expense
+  Expense "*" --> "1" Category : belongs to
+  Statistics --> Transaction : analyzes
+  
+  class User {
+      username : String
+      email : String
+  }
+  
+  class Wallet {
+      totalBalance : Double
+      monthlyLimit : Double
+  }
+  
+  class Transaction {
+      amount : Double
+      date : Date
+      description : String
+  }
+  
+  class Income {
+      source : String
+  }
+  
+  class Expense {
+      categoryId : String
+  }
+  
+  class Category {
+      name : String
+  }
+  
+  class Statistics {
+      totalIn : Double
+      totalOut : Double
+  }
 ```
+
 
 ### User Interfaces
 
