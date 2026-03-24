@@ -494,15 +494,21 @@ Sprint 0 focused on project initialization and planning activities.
 - GitHub Projects for backlog management
 - Expo CLI for project initialization
 - Visual Studio Code as the development environment
+- Maestro for verification and validation
 
 **Outcome:**
 
-At the end of Sprint 0, the team had:
+So far on Sprint 0, we have:
 
 - A working development environment
 - A defined product vision
 - An initial backlog of user stories
 - A configured GitHub repository and project board
+
+And we're still working on:
+
+- Software verification and validation
+- Misc
 
 ### Sprint 1
 
