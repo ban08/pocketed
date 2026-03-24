@@ -1,0 +1,10 @@
+appId: mobile-app
+---
+- launchApp
+- tapOn: "Add Expense"
+- inputText: "Coffee"
+- tapOn: "Amount"
+- inputText: "5"
+- tapOn: "Save"
+- assertVisible: "Coffee"
+- assertVisible: "$995"
