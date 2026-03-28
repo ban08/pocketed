@@ -1,0 +1,42 @@
+appId: host.exp.exponent  # Expo Go app ID; replace with bundle ID if using a standalone build
+---
+# Acceptance Test: Guest user views financial dashboard
+#
+# Scenario: A student who does not want to create an account taps "Continue as guest"
+# on the Welcome screen and lands on the Dashboard, where the monthly budget summary,
+# recent transactions, and budget categories are all visible.
+#
+# Acceptance Criteria:
+#   1. Welcome screen is shown with a "Continue as guest" button
+#   2. Tapping it navigates to the Dashboard
+#   3. "Spent this month" budget summary card is visible
+#   4. "Grocery Run" appears in Recent Transactions
+#   5. "Food & Dining" appears in Budget Overview
+
+- launchApp:
+    clearState: true
+
+# ── Step 1: Welcome screen ────────────────────────────────────────────────────
+- assertVisible: "Get Started"
+- assertVisible: "Continue as guest"
+
+# ── Step 2: Navigate to Dashboard ────────────────────────────────────────────
+- tapOn: "Continue as guest"
+
+# ── Step 3: Monthly summary card ─────────────────────────────────────────────
+- assertVisible: "Spent this month"
+- assertVisible: "$748.50"
+- assertVisible: "of $1,200.00 budget"
+
+# ── Step 4: Recent Transactions ──────────────────────────────────────────────
+- assertVisible: "Recent Transactions"
+- assertVisible: "Grocery Run"
+- assertVisible: "Bus Pass"
+
+# ── Step 5: Budget Overview (requires scroll on small screens) ───────────────
+- scrollUntilVisible:
+    element: "Budget Overview"
+    direction: DOWN
+    timeout: 5000
+- assertVisible: "Food & Dining"
+- assertVisible: "Transport"
