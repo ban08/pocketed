@@ -12,16 +12,43 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { AuthContext } from "@/src/context/AuthContext";
+import { useContext } from "react";
+import { loginUser } from "@/src/services/authService";
 import { styles } from "./LoginScreen.style";
 
 export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
+  const { login } = useContext(AuthContext);
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
   }, [router]);
+
+  const handleSignUpPress = React.useCallback(() => {
+    router.push("/auth/register");
+  }, [router]);
+
+  const handleLogin = React.useCallback(async () => {
+    try {
+      const user = await loginUser(email, password);
+      console.log("Logged in user:", user);
+      login(user);
+
+      setTimeout(() => {
+      router.replace("/(tabs)/dashboard");
+    }, 300);
+    
+      // Navigate to dashboard
+      router.replace("/(tabs)/dashboard");
+
+    } catch (error: any) {
+      console.log("Login error:", error.message);
+      alert(error.message);
+    }
+  }, [email, password, router, login]);
 
   return (
     <View style={styles.root}>
@@ -75,6 +102,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>📧</Text>
               <TextInput
+                testID="email-input"
                 style={styles.input}
                 placeholder="you@university.edu"
                 placeholderTextColor="#9CA3AF"
@@ -89,6 +117,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>🔒</Text>
               <TextInput
+                testID="password-input"
                 style={styles.input}
                 placeholder="Your secret password"
                 placeholderTextColor="#9CA3AF"
@@ -104,6 +133,8 @@ export default function LoginScreen() {
 
             {/* ===== Actions ===== */}
             <Pressable
+              testID="login-submit"
+              onPress={handleLogin}
               style={({ pressed }) => [
                 styles.primaryButton,
                 pressed && styles.pressed,
@@ -134,7 +165,7 @@ export default function LoginScreen() {
               <Text style={styles.footerText}>
                 Don&apos;t have an account yet?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={handleSignUpPress}>
                 <Text style={styles.footerLink}>Sign Up</Text>
               </Pressable>
             </View>

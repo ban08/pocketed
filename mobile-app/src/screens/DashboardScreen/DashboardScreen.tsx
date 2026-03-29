@@ -96,6 +96,7 @@ export default function DashboardScreen() {
         >
           {/* ===== Greeting ===== */}
           <View style={styles.greetingSection}>
+            <Text testID="greeting">Good</Text>
             <Text style={styles.greeting}>{getGreeting()}, {MOCK_USER.name} 👋</Text>
             <Text style={styles.greetingSubtitle}>Here's your financial summary</Text>
           </View>
