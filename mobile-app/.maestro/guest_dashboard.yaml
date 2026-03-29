@@ -1,0 +1,37 @@
+appId: host.exp.exponent
+name: Guest Dashboard Flow
+tags:
+  - acceptance
+  - guest
+  - dashboard
+  - tpc3
+---
+# TPC#3 authoritative flow:
+# A student skips registration, opens the dashboard as a guest, and sees
+# their monthly summary, recent transactions, and budget overview.
+- launchApp:
+    clearState: true
+
+- assertVisible: "Get Started"
+- assertVisible: "Continue as guest"
+
+- tapOn: "Continue as guest"
+
+- assertVisible: "Spent this month"
+- assertVisible:
+    text: "\\$748\\.50"
+- assertVisible:
+    text: "of \\$1,200\\.00 budget"
+- assertVisible: "Quick Actions"
+- assertVisible: "Recent Transactions"
+- assertVisible: "Grocery Run"
+- assertVisible: "Bus Pass"
+
+- scrollUntilVisible:
+    element: "Budget Overview"
+    direction: DOWN
+    timeout: 5000
+
+- assertVisible: "Budget Overview"
+- assertVisible: "Food & Dining"
+- assertVisible: "Transport"
