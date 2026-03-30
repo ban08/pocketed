@@ -13,9 +13,6 @@ appId: host.exp.exponent  # Expo Go app ID; replace with bundle ID if using a st
 #   4. "Grocery Run" appears in Recent Transactions
 #   5. "Food & Dining" appears in Budget Overview
 
-- launchApp:
-    clearState: true
-
 # ── Step 1: Welcome screen ────────────────────────────────────────────────────
 - assertVisible: "Get Started"
 - assertVisible: "Continue as guest"
