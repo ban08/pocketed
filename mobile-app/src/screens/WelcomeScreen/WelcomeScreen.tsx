@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>P.</Text>
             </View>
-            <Text style={styles.brandText}>pocketED.</Text>
+            <Text style={styles.brandText}>Pocket4Students</Text>
           </View>
 
           {/* ===== Hero Section ===== */}
