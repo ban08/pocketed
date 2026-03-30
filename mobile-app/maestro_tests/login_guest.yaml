@@ -1,0 +1,18 @@
+appId: host.exp.exponent
+---
+# ─────────────────────────────────────────────────
+# Scenario: User enters app as guest (no login)
+# Expected: User reaches the Dashboard screen
+# ─────────────────────────────────────────────────
+
+- launchApp
+
+# Step 1 - Welcome screen should be visible
+- assertVisible: "Get Started"
+
+# Step 2 - Tap "Continue as guest"
+- tapOn:
+    text: "Continue as guest"
+
+# Step 3 - Assert Dashboard is shown
+- assertVisible: "Here's your financial summary"

@@ -1,0 +1,25 @@
+appId: host.exp.exponent
+---
+# ────────────────────────────────────────────────────────
+# Scenario: User navigates back to Welcome from Login
+# Expected: Tapping logo returns to Welcome screen
+# ────────────────────────────────────────────────────────
+
+- launchApp
+
+# Step 1 - Welcome screen should be visible
+- assertVisible: "Get Started"
+
+# Step 2 - Navigate to Login
+- tapOn:
+    text: "Login"
+
+# Step 3 - Confirm we are on Login screen
+- assertVisible: "Welcome back! 👋"
+
+# Step 4 - Tap the logo/back button (P4)
+- tapOn:
+    accessibilityLabel: "Back to welcome screen"
+
+# Step 5 - Welcome screen should be visible again
+- assertVisible: "Get Started"

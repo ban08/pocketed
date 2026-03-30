@@ -1,0 +1,38 @@
+appId: host.exp.exponent
+---
+# ──────────────────────────────────────────────────
+# Scenario: User attempts login with wrong password
+# Expected: Error message is shown, no navigation
+# ──────────────────────────────────────────────────
+
+- launchApp
+
+# Step 1 - Welcome screen should be visible
+- assertVisible: "Get Started"
+
+# Step 2 - Navigate to Login
+- tapOn:
+    text: "Login"
+
+# Step 3 - Login screen should be visible
+- assertVisible: "Welcome back! 👋"
+
+# Step 4 - Enter wrong email
+- tapOn:
+    text: "you@university.edu"
+- inputText: "wrong@email.com"
+
+# Step 5 - Enter wrong password
+- tapOn:
+    text: "Your secret password"
+- inputText: "wrongpassword"
+
+# Step 6 - Tap the login button
+- tapOn:
+    text: "Let's Go 🚀"
+
+# Step 7 - Should still be on login screen (no navigation)
+- assertVisible: "Welcome back! 👋"
+
+# Step 8 - Dashboard should NOT be visible
+- assertNotVisible: "Here's your financial summary"

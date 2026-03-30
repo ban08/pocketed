@@ -1,0 +1,35 @@
+appId: host.exp.exponent
+---
+# ─────────────────────────────────────────────
+# Scenario: User logs in with valid credentials
+# Expected: User reaches the Dashboard screen
+# ─────────────────────────────────────────────
+
+- launchApp
+
+# Step 1 - Welcome screen should be visible
+- assertVisible: "Get Started"
+
+# Step 2 - Navigate to Login
+- tapOn:
+    text: "Login"
+
+# Step 3 - Login screen should be visible
+- assertVisible: "Welcome back! 👋"
+
+# Step 4 - Enter email
+- tapOn:
+    text: "you@university.edu"
+- inputText: "user@university.edu"
+
+# Step 5 - Enter password
+- tapOn:
+    text: "Your secret password"
+- inputText: "password123"
+
+# Step 6 - Tap the login button
+- tapOn:
+    text: "Let's Go 🚀"
+
+# Step 7 - Assert Dashboard is shown
+- assertVisible: "Here's your financial summary"
