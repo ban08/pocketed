@@ -1,4 +1,5 @@
 appId: host.exp.exponent
+
 ---
 # ──────────────────────────────────────────────────
 # Scenario: User attempts login with wrong password

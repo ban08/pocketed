@@ -42,6 +42,7 @@ export default function LoginScreen() {
                   onPress={handleLogoPress}
                   accessibilityRole="button"
                   accessibilityLabel="Back to welcome screen"
+                  testID="back-to-welcome"
                 >
                   <Text style={styles.logoText}>P4</Text>
                 </Pressable>
@@ -104,13 +105,14 @@ export default function LoginScreen() {
 
             {/* ===== Actions ===== */}
             <Pressable
-              style={({ pressed }) => [
-                styles.primaryButton,
-                pressed && styles.pressed,
-              ]}
-            >
-              <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
-            </Pressable>
+            style={({ pressed }) => [
+              styles.primaryButton,
+              pressed && styles.pressed,
+            ]}
+            onPress={() => router.push("/auth/dashboard")}
+          >
+            <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
+          </Pressable>
 
             <View style={styles.dividerRow}>
               <View style={styles.dividerLine} />

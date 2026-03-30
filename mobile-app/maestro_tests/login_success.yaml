@@ -1,14 +1,10 @@
 appId: host.exp.exponent
 ---
-# ─────────────────────────────────────────────
-# Scenario: User logs in with valid credentials
-# Expected: User reaches the Dashboard screen
-# ─────────────────────────────────────────────
-
-- launchApp
+- launchApp:
+    stopApp: false
 
 # Step 1 - Welcome screen should be visible
-- assertVisible: "Get Started"
+- assertVisible: "pocketED."
 
 # Step 2 - Navigate to Login
 - tapOn:

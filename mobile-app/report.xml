@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites>
+  <testsuite name="Test Suite" device="e084a43a" tests="1" failures="1" time="28.0">
+    <testcase id="login_failure" name="login_failure" classname="login_failure" time="28.0" status="ERROR">
+      <failure>Assertion is false: "Get Started" is visible</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
