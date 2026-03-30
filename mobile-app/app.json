@@ -11,7 +11,6 @@
     "ios": {
       "bundleIdentifier": "com.pocket4students.app",
       "supportsTablet": true
-      
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +21,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.pocket4students.app"
     },
     "web": {
       "output": "static",
