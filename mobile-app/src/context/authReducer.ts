@@ -21,6 +21,7 @@ export function authReducer(
     switch (action.type) {
         case "LOGIN":
             return {
+                ...state,
                 isAuthenticated: true,
                 user: action.payload,
             };

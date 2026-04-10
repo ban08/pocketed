@@ -20,7 +20,7 @@ export default function WelcomeScreen() {
 
   const handleGuestLoginPress = React.useCallback(() => {
     //todo: rout to dashboard screen
-    router.push("/auth/dashboard");
+    router.push("/(tabs)/dashboard");
   }, [router]);
 
   const handleLoginPress = React.useCallback(() => {
@@ -91,6 +91,7 @@ export default function WelcomeScreen() {
               </Pressable>
 
               <Pressable
+                testID="go-to-login"
                 style={({ pressed }) => [
                   styles.primaryButton,
                   pressed && styles.pressed,

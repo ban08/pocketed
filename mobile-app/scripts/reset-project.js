@@ -27,7 +27,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>Edit app/(tabs)/dashboard.tsx to edit this screen.</Text>
     </View>
   );
 }
@@ -75,10 +75,10 @@ const moveDirectories = async (userInput) => {
     await fs.promises.mkdir(newAppDirPath, { recursive: true });
     console.log("\n📁 New /app directory created.");
 
-    // Create index.tsx
-    const indexPath = path.join(newAppDirPath, "index.tsx");
+    // Create dashboard.tsx
+    const indexPath = path.join(newAppDirPath, "dashboard.tsx");
     await fs.promises.writeFile(indexPath, indexContent);
-    console.log("📄 app/index.tsx created.");
+    console.log("📄 app/dashboard.tsx created.");
 
     // Create _layout.tsx
     const layoutPath = path.join(newAppDirPath, "_layout.tsx");

@@ -1,4 +1,6 @@
 import * as React from "react";
+import { registerUser } from "@/src/services/authService";
+import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import {
   ImageBackground,
@@ -24,6 +26,26 @@ export default function RegisterScreen() {
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
   }, [router]);
+
+  const handleRegister = async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+
+    try {
+      await registerUser({ name, email, password });
+      Alert.alert("Success", "Registration successful. Please log in.");
+      router.replace("/auth/login");
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Failed to register.");
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -144,8 +166,9 @@ export default function RegisterScreen() {
                 styles.primaryButton,
                 pressed && styles.pressed,
               ]}
+              onPress={handleRegister}
             >
-              <Text style={styles.primaryButtonText}>
+              <Text style={styles.primaryButtonText}>Let&apos;s
                 Create Account 🚀
               </Text>
             </Pressable>
