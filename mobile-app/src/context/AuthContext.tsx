@@ -1,12 +1,13 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 import { authReducer, initialState } from "./authReducer";
-import { User } from "../models/User";
+import { User, UserProfileUpdate } from "../models/User";
 
 interface AuthContextType {
     isAuthenticated: boolean;
     user: User | null;
     login: (user:User) => void;
     logout: () => void;
+    updateProfile: (updates: UserProfileUpdate) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -30,6 +31,14 @@ export const AuthProvider = ({children}: Props) => {
             type: "LOGOUT",
         });
     };
+
+    const updateProfile = (updates: UserProfileUpdate) => {
+        dispatch({
+            type: "UPDATE_PROFILE",
+            payload: updates,
+        });
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -37,6 +46,7 @@ export const AuthProvider = ({children}: Props) => {
                 user: state.user,
                 login,
                 logout,
+                updateProfile,
             }}
         >
             {children}

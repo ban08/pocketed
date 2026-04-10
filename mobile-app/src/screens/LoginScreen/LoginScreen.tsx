@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
+import { AuthContext } from "@/src/context/AuthContext";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -18,9 +19,42 @@ export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
+  const { login } = React.useContext(AuthContext);
+
+  const buildDisplayNameFromEmail = React.useCallback((rawEmail: string) => {
+    const localPart = rawEmail.split("@")[0] || "student user";
+    return localPart
+      .replace(/[._-]+/g, " ")
+      .split(" ")
+      .filter(Boolean)
+      .map((word) => word[0].toUpperCase() + word.slice(1))
+      .join(" ");
+  }, []);
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
+  }, [router]);
+
+  const handleLoginPress = React.useCallback(() => {
+    const trimmedEmail = email.trim().toLowerCase();
+    const normalizedEmail = trimmedEmail || "student@university.edu";
+    const generatedName = trimmedEmail
+      ? buildDisplayNameFromEmail(normalizedEmail) || "Student User"
+      : "Student User";
+
+    login({
+      id: `local-${Date.now()}`,
+      fullName: generatedName,
+      email: normalizedEmail,
+      address: "Address not provided yet",
+      profilePicture: undefined,
+    });
+
+    router.replace("/auth/dashboard");
+  }, [buildDisplayNameFromEmail, email, login, router]);
+
+  const handleOpenRegister = React.useCallback(() => {
+    router.push("/auth/register");
   }, [router]);
 
   return (
@@ -108,6 +142,9 @@ export default function LoginScreen() {
                 styles.primaryButton,
                 pressed && styles.pressed,
               ]}
+              onPress={handleLoginPress}
+              accessibilityRole="button"
+              accessibilityLabel="Submit login"
             >
               <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
             </Pressable>
@@ -134,7 +171,7 @@ export default function LoginScreen() {
               <Text style={styles.footerText}>
                 Don&apos;t have an account yet?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={handleOpenRegister}>
                 <Text style={styles.footerLink}>Sign Up</Text>
               </Pressable>
             </View>

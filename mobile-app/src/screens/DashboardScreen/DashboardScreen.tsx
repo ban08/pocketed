@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
   Pressable,
   SafeAreaView,
@@ -9,10 +11,11 @@ import {
 } from "react-native";
 import { styles } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense";
+import { AuthContext } from "@/src/context/AuthContext";
 
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 
-const MOCK_USER = { name: "Alex", initials: "AJ" };
+const FALLBACK_USER_NAME = "Alex Johnson";
 
 const MONTHLY_BUDGET = 1200;
 const MONTHLY_SPENT = 748.5;
@@ -47,6 +50,13 @@ function formatCurrency(amount: number): string {
   return `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
+function getInitials(name: string): string {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return "SU";
+  if (words.length === 1) return words[0][0].toUpperCase();
+  return `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase();
+}
+
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function BudgetBar({ spent, total, color }: { spent: number; total: number; color: string }) {
@@ -61,8 +71,16 @@ function BudgetBar({ spent, total, color }: { spent: number; total: number; colo
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export default function DashboardScreen() {
+  const router = useRouter();
+  const { user } = React.useContext(AuthContext);
   const spentPct = Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100);
   const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
+  const displayName = user?.fullName?.trim() || FALLBACK_USER_NAME;
+  const displayInitials = getInitials(displayName);
+
+  const handleOpenProfile = React.useCallback(() => {
+    router.push("/auth/profile");
+  }, [router]);
 
   return (
     <View style={styles.root}>
@@ -83,9 +101,22 @@ export default function DashboardScreen() {
             >
               <Text style={{ fontSize: 18 }}>🔔</Text>
             </Pressable>
-            <View style={styles.avatar}>
-              <Text style={styles.avatarText}>{MOCK_USER.initials}</Text>
-            </View>
+            <Pressable
+              style={({ pressed }) => [styles.avatar, pressed && styles.pressed]}
+              accessibilityRole="button"
+              accessibilityLabel="Open profile information"
+              onPress={handleOpenProfile}
+            >
+              {user?.profilePicture ? (
+                <Image
+                  source={user.profilePicture}
+                  style={styles.avatarImage}
+                  contentFit="cover"
+                />
+              ) : (
+                <Text style={styles.avatarText}>{displayInitials}</Text>
+              )}
+            </Pressable>
           </View>
         </View>
 
@@ -96,8 +127,8 @@ export default function DashboardScreen() {
         >
           {/* ===== Greeting ===== */}
           <View style={styles.greetingSection}>
-            <Text style={styles.greeting}>{getGreeting()}, {MOCK_USER.name} 👋</Text>
-            <Text style={styles.greetingSubtitle}>Here's your financial summary</Text>
+            <Text style={styles.greeting}>{getGreeting()}, {displayName} 👋</Text>
+            <Text style={styles.greetingSubtitle}>Here&apos;s your financial summary</Text>
           </View>
 
           {/* ===== Monthly Summary Card ===== */}

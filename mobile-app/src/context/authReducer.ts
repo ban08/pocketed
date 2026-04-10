@@ -1,4 +1,4 @@
-import { User } from "../models/User"
+import { User, UserProfileUpdate } from "../models/User";
 
 export interface AuthState {
     isAuthenticated : boolean;
@@ -7,12 +7,13 @@ export interface AuthState {
 
 export type AuthAction =
     | { type: "LOGIN"; payload: User }
-    | { type: "LOGOUT" };
+    | { type: "LOGOUT" }
+    | { type: "UPDATE_PROFILE"; payload: UserProfileUpdate };
 
 export const initialState: AuthState = {
     isAuthenticated: false,
     user: null,
-}
+};
 
 export function authReducer(
     state: AuthState,
@@ -28,7 +29,19 @@ export function authReducer(
             return {
                 isAuthenticated: false,
                 user: null,
+            };
+        case "UPDATE_PROFILE":
+            if (!state.user) {
+                return state;
             }
+
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    ...action.payload,
+                },
+            };
         default:
             return state;
     }

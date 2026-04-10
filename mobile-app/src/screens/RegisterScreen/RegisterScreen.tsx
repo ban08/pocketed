@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
+import { AuthContext } from "@/src/context/AuthContext";
 import {
+  Alert,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -20,9 +22,34 @@ export default function RegisterScreen() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const router = useRouter();
+  const { login } = React.useContext(AuthContext);
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
+  }, [router]);
+
+  const handleCreateAccount = React.useCallback(() => {
+    if (password !== confirmPassword) {
+      Alert.alert("Passwords do not match", "Please confirm your password again.");
+      return;
+    }
+
+    const normalizedEmail = email.trim().toLowerCase() || "student@university.edu";
+    const normalizedName = name.trim() || "Student User";
+
+    login({
+      id: `local-${Date.now()}`,
+      fullName: normalizedName,
+      email: normalizedEmail,
+      address: "Address not provided yet",
+      profilePicture: undefined,
+    });
+
+    router.replace("/auth/dashboard");
+  }, [confirmPassword, email, login, name, password, router]);
+
+  const handleOpenLogin = React.useCallback(() => {
+    router.push("/auth/login");
   }, [router]);
 
   return (
@@ -144,6 +171,9 @@ export default function RegisterScreen() {
                 styles.primaryButton,
                 pressed && styles.pressed,
               ]}
+              onPress={handleCreateAccount}
+              accessibilityRole="button"
+              accessibilityLabel="Create account"
             >
               <Text style={styles.primaryButtonText}>
                 Create Account 🚀
@@ -178,7 +208,7 @@ export default function RegisterScreen() {
               <Text style={styles.footerText}>
                 Already have an account?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={handleOpenLogin}>
                 <Text style={styles.footerLink}>Log In</Text>
               </Pressable>
             </View>

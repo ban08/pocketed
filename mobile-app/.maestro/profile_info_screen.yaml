@@ -1,0 +1,17 @@
+appId: mobile-app
+name: User Profile Info Screen
+tags:
+  - acceptance
+  - profile
+  - implemented
+---
+# Checks profile screen fields and navigation from dashboard avatar.
+- launchApp:
+    clearState: true
+- tapOn: "Continue as guest"
+- tapOn: "Open profile information"
+- assertVisible: "Profile"
+- assertVisible: "Profile Picture"
+- assertVisible: "Full Name"
+- assertVisible: "Email"
+- assertVisible: "Address"
