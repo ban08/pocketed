@@ -1,5 +1,10 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
+import { Alert } from "react-native";
+import { AuthContext } from "../../context/AuthContext";
+import { User } from "../../models/User";
+import { loginUser, saveCurrentUser } from "../../services/authService";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -18,10 +23,26 @@ export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
+  const { login } = useContext(AuthContext);
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
   }, [router]);
+
+  const handleLogin = React.useCallback(async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Email and password are required.");
+      return;
+    }
+    try {
+      const user: User = await loginUser(email, password);
+      await saveCurrentUser(user); // Save session
+      login(user);
+      router.push("/(tabs)");
+    } catch (error) {
+      Alert.alert("Error", "Login failed. Please check your credentials.");
+    }
+  }, [email, password, login, router]);
 
   return (
     <View style={styles.root}>
@@ -108,6 +129,7 @@ export default function LoginScreen() {
                 styles.primaryButton,
                 pressed && styles.pressed,
               ]}
+              onPress={handleLogin}
             >
               <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
             </Pressable>
@@ -134,7 +156,7 @@ export default function LoginScreen() {
               <Text style={styles.footerText}>
                 Don&apos;t have an account yet?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={() => router.push("/auth/register")}>
                 <Text style={styles.footerLink}>Sign Up</Text>
               </Pressable>
             </View>
