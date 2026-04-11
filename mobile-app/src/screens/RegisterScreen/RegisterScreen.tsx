@@ -1,5 +1,10 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
+import { useContext } from "react";
+import { Alert } from "react-native";
+import { AuthContext } from "../../context/AuthContext";
+import { User } from "../../models/User";
+import { registerUser, saveCurrentUser } from "../../services/authService";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -20,10 +25,30 @@ export default function RegisterScreen() {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const router = useRouter();
+  const { login } = useContext(AuthContext);
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
   }, [router]);
+
+  const handleRegister = React.useCallback(async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+    try {
+      const user: User = await registerUser(name, email, password);
+      await saveCurrentUser(user); // Save session
+      login(user);
+      router.push("/(tabs)");
+    } catch (error) {
+      Alert.alert("Error", "Registration failed. Please try again.");
+    }
+  }, [name, email, password, confirmPassword, login, router]);
 
   return (
     <View style={styles.root}>
@@ -144,6 +169,7 @@ export default function RegisterScreen() {
                 styles.primaryButton,
                 pressed && styles.pressed,
               ]}
+              onPress={handleRegister}
             >
               <Text style={styles.primaryButtonText}>
                 Create Account 🚀
@@ -178,7 +204,7 @@ export default function RegisterScreen() {
               <Text style={styles.footerText}>
                 Already have an account?{" "}
               </Text>
-              <Pressable>
+              <Pressable onPress={() => router.push("/auth/login")}>
                 <Text style={styles.footerLink}>Log In</Text>
               </Pressable>
             </View>

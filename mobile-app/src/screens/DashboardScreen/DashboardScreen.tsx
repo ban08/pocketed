@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -7,12 +8,12 @@ import {
   Text,
   View,
 } from "react-native";
+import { AuthContext } from "../../context/AuthContext";
+import { clearCurrentUser } from "../../services/authService";
+import { useRouter } from "expo-router";
 import { styles } from "./DashboardScreen.style";
-import { Expense } from "@/src/models/Expense";
-
+import { Expense } from "@/src/models/Expense"
 // ─── Mock Data ────────────────────────────────────────────────────────────────
-
-const MOCK_USER = { name: "Alex", initials: "AJ" };
 
 const MONTHLY_BUDGET = 1200;
 const MONTHLY_SPENT = 748.5;
@@ -61,6 +62,23 @@ function BudgetBar({ spent, total, color }: { spent: number; total: number; colo
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export default function DashboardScreen() {
+  // --- Real user data ---
+  const { user, logout } = useContext(AuthContext);
+  const router = useRouter();
+  const userName = user?.name || "User";
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase() || "U";
+
+  // --- Logout handler ---
+  const handleLogout = React.useCallback(async () => {
+    await clearCurrentUser(); // Clear saved session
+    logout(); // Update auth state
+    router.replace("/auth/login"); // Go to login
+  }, [logout, router]);
+
   const spentPct = Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100);
   const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
 
@@ -84,8 +102,15 @@ export default function DashboardScreen() {
               <Text style={{ fontSize: 18 }}>🔔</Text>
             </Pressable>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>{MOCK_USER.initials}</Text>
+              <Text style={styles.avatarText}>{userInitials}</Text>
             </View>
+            <Pressable
+              style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
+              onPress={handleLogout}
+              accessibilityLabel="Logout"
+            >
+              <Text style={{ fontSize: 18 }}>🚪</Text>
+            </Pressable>
           </View>
         </View>
 
@@ -96,7 +121,7 @@ export default function DashboardScreen() {
         >
           {/* ===== Greeting ===== */}
           <View style={styles.greetingSection}>
-            <Text style={styles.greeting}>{getGreeting()}, {MOCK_USER.name} 👋</Text>
+            <Text style={styles.greeting}>{getGreeting()}, {userName} 👋</Text>
             <Text style={styles.greetingSubtitle}>Here's your financial summary</Text>
           </View>
 
