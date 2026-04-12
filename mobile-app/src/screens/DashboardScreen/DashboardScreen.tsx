@@ -9,9 +9,10 @@ import {
   Text,
   View,
 } from "react-native";
+import { AuthContext } from "@/src/context/AuthContext";
+import { clearCurrentUser } from "../../services/authService";
 import { styles } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense";
-import { AuthContext } from "@/src/context/AuthContext";
 
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 
@@ -72,10 +73,18 @@ function BudgetBar({ spent, total, color }: { spent: number; total: number; colo
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const { user } = React.useContext(AuthContext);
+  const { user, logout } = React.useContext(AuthContext);
+
+  const handleLogout = React.useCallback(async () => {
+    await clearCurrentUser();
+    logout();
+    router.replace("/auth/login");
+  }, [logout, router]);
+
   const spentPct = Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100);
   const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
-  const displayName = user?.fullName?.trim() || FALLBACK_USER_NAME;
+  const displayName =
+    user?.fullName?.trim() || user?.name?.trim() || FALLBACK_USER_NAME;
   const displayInitials = getInitials(displayName);
 
   const handleOpenProfile = React.useCallback(() => {
@@ -116,6 +125,13 @@ export default function DashboardScreen() {
               ) : (
                 <Text style={styles.avatarText}>{displayInitials}</Text>
               )}
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
+              onPress={handleLogout}
+              accessibilityLabel="Logout"
+            >
+              <Text style={{ fontSize: 18 }}>🚪</Text>
             </Pressable>
           </View>
         </View>

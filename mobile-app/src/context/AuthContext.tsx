@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, ReactNode } from "react";
+import React, { createContext, useEffect, useReducer, ReactNode } from "react";
 import { authReducer, initialState } from "./authReducer";
 import { User, UserProfileUpdate } from "../models/User";
+import { getCurrentUser } from "../services/authService";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -18,6 +19,19 @@ interface Props {
 
 export const AuthProvider = ({children}: Props) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+
+    useEffect(() => {
+        const loadUser = async () => {
+            const user = await getCurrentUser();
+            if (user) {
+                dispatch({
+                    type: "LOGIN",
+                    payload: user,
+                });
+            }
+        };
+        loadUser();
+    }, []);
 
     const login = (user: User) => {
         dispatch({

@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
 import { AuthContext } from "@/src/context/AuthContext";
+import { User } from "@/src/models/User";
+import { loginUser, saveCurrentUser } from "@/src/services/authService";
 import {
+  Alert,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -21,37 +24,25 @@ export default function LoginScreen() {
   const router = useRouter();
   const { login } = React.useContext(AuthContext);
 
-  const buildDisplayNameFromEmail = React.useCallback((rawEmail: string) => {
-    const localPart = rawEmail.split("@")[0] || "student user";
-    return localPart
-      .replace(/[._-]+/g, " ")
-      .split(" ")
-      .filter(Boolean)
-      .map((word) => word[0].toUpperCase() + word.slice(1))
-      .join(" ");
-  }, []);
-
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
   }, [router]);
 
-  const handleLoginPress = React.useCallback(() => {
-    const trimmedEmail = email.trim().toLowerCase();
-    const normalizedEmail = trimmedEmail || "student@university.edu";
-    const generatedName = trimmedEmail
-      ? buildDisplayNameFromEmail(normalizedEmail) || "Student User"
-      : "Student User";
-
-    login({
-      id: `local-${Date.now()}`,
-      fullName: generatedName,
-      email: normalizedEmail,
-      address: "Address not provided yet",
-      profilePicture: undefined,
-    });
-
-    router.replace("/auth/dashboard");
-  }, [buildDisplayNameFromEmail, email, login, router]);
+  const handleLoginPress = React.useCallback(async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Email and password are required.");
+      return;
+    }
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      const user: User = await loginUser(normalizedEmail, password);
+      await saveCurrentUser(user);
+      login(user);
+      router.replace("/(tabs)/dashboard");
+    } catch {
+      Alert.alert("Error", "Login failed. Please check your credentials.");
+    }
+  }, [email, password, login, router]);
 
   const handleOpenRegister = React.useCallback(() => {
     router.push("/auth/register");

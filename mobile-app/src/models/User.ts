@@ -1,9 +1,10 @@
 export interface User {
     id: string;
-        fullName: string;
+    fullName: string;
     email: string;
-        address: string;
-        profilePicture?: string;
+    address: string;
+    profilePicture?: string;
+    name?: string;
 }
 
 export type UserProfileUpdate = Partial<

@@ -38,7 +38,7 @@ export default function ProfileScreen() {
   );
 
   const handleBack = React.useCallback(() => {
-    router.replace("/auth/dashboard");
+    router.replace("/(tabs)/dashboard");
   }, [router]);
 
   const pickProfilePicture = React.useCallback(

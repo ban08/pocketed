@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useContext } from "react";
 import { Redirect } from "expo-router";
 import { AuthContext } from "@/src/context/AuthContext";
@@ -10,32 +9,27 @@ import { spacing } from '@/src/theme/spacing';
 
 export default function HomeScreen() {
 
-   const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
-   if (!isAuthenticated) {
-  return <Redirect href="/auth/welcome" />;
-}
-   if (!isAuthenticated) {
-     return null;
-   }
-   const expenses: Expense[] = getExpenses();
-    const total = expenses.reduce(
-      (sum: number, item: Expense) => sum + item.amount,
-      0
+  if (!isAuthenticated) {
+    return null;
+  }
+  const expenses: Expense[] = getExpenses();
+  const total = expenses.reduce(
+    (sum: number, item: Expense) => sum + item.amount, 0);
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Pocket4Students</Text>
+        <Text style={styles.totalText}>Total this month: €{total}</Text>
+
+        {expenses.map((item: Expense) => (
+          <Text key={item.id} style={styles.expenseItem}>
+            {item.title} - €{item.amount}
+          </Text>
+        ))}
+      </View>
     );
-
-     return (
-         <View style={styles.container}>
-          <Text style={styles.title}>Pocket4Students</Text>
-          <Text style={styles.totalText}>Total this month: €{total}</Text>
-
-          {expenses.map((item: Expense) => (
-            <Text key={item.id} style={styles.expenseItem}>
-              {item.title} - €{item.amount}
-            </Text>
-          ))}
-        </View>
-     );
 }
 
 const styles = StyleSheet.create({

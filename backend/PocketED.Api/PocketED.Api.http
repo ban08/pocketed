@@ -1,0 +1,6 @@
+@PocketED.Api_HostAddress = http://localhost:5022
+
+GET {{PocketED.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

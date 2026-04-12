@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
 import { AuthContext } from "@/src/context/AuthContext";
+import { User } from "@/src/models/User";
+import { registerUser, saveCurrentUser } from "@/src/services/authService";
 import {
   Alert,
   ImageBackground,
@@ -28,25 +30,26 @@ export default function RegisterScreen() {
     router.replace("/auth/welcome");
   }, [router]);
 
-  const handleCreateAccount = React.useCallback(() => {
-    if (password !== confirmPassword) {
-      Alert.alert("Passwords do not match", "Please confirm your password again.");
+  const handleCreateAccount = React.useCallback(async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      Alert.alert("Error", "All fields are required.");
       return;
     }
-
-    const normalizedEmail = email.trim().toLowerCase() || "student@university.edu";
-    const normalizedName = name.trim() || "Student User";
-
-    login({
-      id: `local-${Date.now()}`,
-      fullName: normalizedName,
-      email: normalizedEmail,
-      address: "Address not provided yet",
-      profilePicture: undefined,
-    });
-
-    router.replace("/auth/dashboard");
-  }, [confirmPassword, email, login, name, password, router]);
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+    try {
+      const normalizedName = name.trim();
+      const normalizedEmail = email.trim().toLowerCase();
+      const user: User = await registerUser(normalizedName, normalizedEmail, password);
+      await saveCurrentUser(user);
+      login(user);
+      router.replace("/(tabs)/dashboard");
+    } catch {
+      Alert.alert("Error", "Registration failed. Please try again.");
+    }
+  }, [name, email, password, confirmPassword, login, router]);
 
   const handleOpenLogin = React.useCallback(() => {
     router.push("/auth/login");

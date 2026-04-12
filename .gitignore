@@ -29,4 +29,5 @@ coverage/
 *.class
 *.jar
 *.war
-*.ear       
+*.ear
+*.sln       
