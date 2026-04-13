@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BASE_URL } from "./api";
 
 const USERS_KEY = "pocket_users"; // Storage key
 
@@ -8,36 +9,59 @@ export const registerUser = async (
   email: string,
   password: string
 ): Promise<User> => {
-  // Get existing users from storage
-  const usersJson = await AsyncStorage.getItem(USERS_KEY);
-  const users: User[] = usersJson ? JSON.parse(usersJson) : [];
+  const res = await fetch(`${BASE_URL}/users/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, password }),
+  });
 
-  // Check if user exists
-  const existingUser = users.find((u) => u.email === email);
-  if (existingUser) throw new Error("User already exists");
+  if (!res.ok) throw new Error("Registration failed");
 
-  // Create new user
-  const user: User = { id: Date.now().toString(), email , name};
-  users.push(user);
+  const data = await res.json();
 
-  // Save 
-  await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
+  const user: User = {
+    id: data.id,
+    email: data.email,
+    name,
+  };
+
+  await saveCurrentUser(user);
+
   return user;
 };
+
 
 export const loginUser = async (
   email: string,
   password: string
 ): Promise<User> => {
-  // Get users from storage
-  const usersJson = await AsyncStorage.getItem(USERS_KEY);
-  const users: User[] = usersJson ? JSON.parse(usersJson) : [];
+  const res = await fetch(`${BASE_URL}/users/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
-  // Find user
-  const user = users.find((u) => u.email === email);
-  if (!user) throw new Error("User not found");
+  if (!res.ok) {
+    throw new Error("Invalid email or password");
+  }
+
+  const data = await res.json();
+
+  const user: User = {
+    id: data.id,        
+    email: data.email,
+    name: "User",     
+  };
+
+  await saveCurrentUser(user);
+
   return user;
 };
+
 // Save current logged-in user
 export const saveCurrentUser = async (user: User): Promise<void> => {
   await AsyncStorage.setItem("current_user", JSON.stringify(user));

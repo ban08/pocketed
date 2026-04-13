@@ -10,30 +10,22 @@ import {
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { clearCurrentUser } from "../../services/authService";
+import { useFocusEffect } from "expo-router";
 import { useRouter } from "expo-router";
 import { styles } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense"
-// ─── Mock Data ────────────────────────────────────────────────────────────────
+import { BASE_URL } from "@/src/services/api";
+import { Budget } from "@/src/models/Budget";
 
-const MONTHLY_BUDGET = 1200;
-const MONTHLY_SPENT = 748.5;
-const MONTHLY_SAVINGS = 180;
-const MONTHLY_GOALS = 3;
+const categoryEmoji: Record<string, string> = {
+  Food: "🍔",
+  Transport: "🚌",
+  Entertainment: "🎬",
+  Education: "📚",
+  Other: "💸",
+};
 
-const MOCK_TRANSACTIONS: (Expense & { emoji: string })[] = [
-  { id: "1", title: "Grocery Run", amount: 42.3, category: "Food", date: "Today", emoji: "🛒" },
-  { id: "2", title: "Bus Pass", amount: 15.0, category: "Transport", date: "Today", emoji: "🚌" },
-  { id: "3", title: "Pizza Night", amount: 28.5, category: "Dining", date: "Yesterday", emoji: "🍕" },
-  { id: "4", title: "Netflix", amount: 12.99, category: "Entertainment", date: "Mar 14", emoji: "🎬" },
-  { id: "5", title: "Textbooks", amount: 89.0, category: "Education", date: "Mar 13", emoji: "📚" },
-];
-
-const MOCK_BUDGETS = [
-  { name: "Food & Dining", emoji: "🍔", spent: 320, total: 400, color: "#6366F1" },
-  { name: "Transport", emoji: "🚌", spent: 65, total: 150, color: "#10B981" },
-  { name: "Entertainment", emoji: "🎬", spent: 55, total: 100, color: "#F59E0B" },
-  { name: "Education", emoji: "📚", spent: 189, total: 300, color: "#3B82F6" },
-];
+const MONTHLY_SAVINGS = 0;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -79,10 +71,49 @@ export default function DashboardScreen() {
     router.replace("/auth/login"); // Go to login
   }, [logout, router]);
 
-  const spentPct = Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100);
-  const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
+  // --- Get real data ----
+  const [budgets, setBudgets] = React.useState<Budget[]>([]);
+  const [expenses, setExpenses] = React.useState<Expense[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const load = async () => {
+        if (!user?.id) return;
+
+        setLoading(true);
+
+        try {
+          const res = await fetch(`${BASE_URL}/users/${user.id}`);
+          const data = await res.json();
+
+          setExpenses(data.expenses);
+          setBudgets(data.budgets);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      load();
+    }, [user])
+  );
+  const MONTHLY_GOALS = budgets.length;
+  const MONTHLY_BUDGET = budgets.reduce((sum, b) => sum + b.limit, 0);
+  const MONTHLY_SPENT = expenses.reduce((sum, e) => sum + e.amount,0);
+  const getSpentByCategory = (category: string) => {
+    return expenses
+      .filter((e) => e.category === category)
+      .reduce((sum, e) => sum + e.amount, 0);
+  };
+  const spentPct = MONTHLY_BUDGET
+    ? Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100)
+    : 0;
+    const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
 
   return (
+    
     <View style={styles.root}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
@@ -163,11 +194,19 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.actionsRow}>
             <Pressable
+              onPress={() => router.push("/add-expense")}
               style={({ pressed }) => [styles.actionPrimary, pressed && styles.pressed]}
               accessibilityRole="button"
             >
               <Text style={{ fontSize: 16 }}>➕</Text>
               <Text style={styles.actionPrimaryText}>Add Expense</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/add-budget")}
+              style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
+            >
+              <Text style={{ fontSize: 16 }}>💰</Text>
+              <Text style={styles.actionSecondaryText}>Add Budget</Text>
             </Pressable>
             <Pressable
               style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
@@ -186,14 +225,14 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.transactionsCard}>
-            {MOCK_TRANSACTIONS.map((tx, index) => (
+            {expenses.map((tx, index) => (
               <React.Fragment key={tx.id}>
                 {index > 0 && <View style={styles.transactionDivider} />}
                 <Pressable
                   style={({ pressed }) => [styles.transactionRow, pressed && styles.pressed]}
                 >
                   <View style={styles.transactionIcon}>
-                    <Text style={styles.transactionEmoji}>{tx.emoji}</Text>
+                    <Text style={styles.transactionEmoji}>💸</Text>
                   </View>
                   <View style={styles.transactionInfo}>
                     <Text style={styles.transactionTitle}>{tx.title}</Text>
@@ -213,20 +252,26 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.budgetsCard}>
-            {MOCK_BUDGETS.map((b) => (
-              <View key={b.name} style={styles.budgetItem}>
-                <View style={styles.budgetRow}>
-                  <View style={styles.budgetLeft}>
-                    <Text style={styles.budgetEmoji}>{b.emoji}</Text>
-                    <Text style={styles.budgetName}>{b.name}</Text>
+            {budgets.map((b) => {
+              const spent = getSpentByCategory(b.category);
+
+              return (
+                <View key={b.id} style={styles.budgetItem}>
+                  <View style={styles.budgetRow}>
+                    <View style={styles.budgetLeft}>
+                      <Text style={styles.budgetEmoji}>
+                        {categoryEmoji[b.category] || "💸"}
+                      </Text>
+                      <Text style={styles.budgetName}>{b.category}</Text>
+                    </View>
+                    <Text style={styles.budgetMeta}>
+                      {formatCurrency(spent)} / {formatCurrency(b.limit)}
+                    </Text>
                   </View>
-                  <Text style={styles.budgetMeta}>
-                    {formatCurrency(b.spent)} / {formatCurrency(b.total)}
-                  </Text>
+                  <BudgetBar spent={spent} total={b.limit} color="#6366F1" />
                 </View>
-                <BudgetBar spent={b.spent} total={b.total} color={b.color} />
-              </View>
-            ))}
+              );
+            })}
           </View>
 
         </ScrollView>
