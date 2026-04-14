@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Pocket4Students</Text>
+        <Text style={styles.title}>pocketED</Text>
         <Text style={styles.totalText}>Total this month: €{total}</Text>
 
         {expenses.map((item: Expense) => (
