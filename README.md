@@ -62,7 +62,7 @@ Supporting financial literacy as a lifelong learning competence.
 
 ## Product Vision
 
-_Pocket for Students_ empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
+_pocketED_ empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
 
 <!--
 Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
