@@ -4,6 +4,7 @@
 
 # _Pocket4Students_ Development Report
 
+> **Note 2: this document is currently being overhauled offline**
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
 Welcome to the documentation of _Pocket4Students_!
