@@ -31,3 +31,14 @@ coverage/
 *.war
 *.ear
 *.sln       
+
+backend/PocketED.Api/bin/Debug/net10.0/PocketED.Api.pdb
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfo.cs
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfoInputs.cache
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.pdb
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.sourcelink.json
+backend/PocketED.Api/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
+backend/PocketED.Api/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
+backend/PocketED.Api/obj/Debug/net10.0/rpswa.dswa.cache.json
+backend/PocketED.Api/pocketed.db-shm
+backend/PocketED.Api/pocketed.db-wal
