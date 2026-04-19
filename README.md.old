@@ -2,45 +2,33 @@
 
 > [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app. -->
 
-# pocketED Development Report
+# _Pocket4Students_ Development Report
 
-> **Note 2: this document is currently being overhauled offline**
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
-Welcome to the documentation of _pocketED_!
+Welcome to the documentation of _Pocket4Students_!
 
-This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _pocketED_, starting from a high-level vision and going into low-level implementation decisions.
+This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from a high-level vision and going into low-level implementation decisions.
 
 It is organised by the following activities:
 
-- [pocketED Development Report](#pocketed-development-report)
-  - [Business Modelling](#business-modelling)
-  - [SDG Alignment](#sdg-alignment)
-    - [Goal 4 – Quality Education](#goal-4--quality-education)
-    - [Goal 12 – Responsible Consumption](#goal-12--responsible-consumption)
-  - [Product Vision](#product-vision)
-    - [Features and Assumptions](#features-and-assumptions)
-  - [Requirements](#requirements)
-    - [User Stories](#user-stories)
-    - [Domain model](#domain-model)
-    - [User Interfaces](#user-interfaces)
-      - [Welcome Screen](#welcome-screen)
-      - [Login Screen](#login-screen)
-      - [Registration Screen](#registration-screen)
-      - [Dashboard Screen](#dashboard-screen)
-      - [Transaction Management](#transaction-management)
-    - [Domain Concepts](#domain-concepts)
-  - [Architecture and Design](#architecture-and-design)
-    - [Logical architecture](#logical-architecture)
-    - [Physical architecture](#physical-architecture)
-    - [Functional prototype](#functional-prototype)
-  - [Project management](#project-management)
-    - [Sprint 0](#sprint-0)
-    - [Sprint 1](#sprint-1)
-    - [Sprint 2](#sprint-2)
-    - [Sprint 3](#sprint-3)
-    - [Sprint 4](#sprint-4)
-    - [Final Release](#final-release)
+- [Business modeling](#Business-Modelling)
+  - [Product Vision](#Product-Vision)
+  - [Features and Assumptions](#Features-and-Assumptions)
+- [Requirements](#Requirements)
+  - [User stories](#User-stories)
+  - [Domain model](#Domain-model)
+  - [User interfaces](#User-interfaces)
+- [Architecture and Design](#Architecture-And-Design)
+  - [Logical architecture](#Logical-Architecture)
+  - [Physical architecture](#Physical-Architecture)
+  - [Functional prototype](#Functional-Prototype)
+- [Project management](#Project-Management)
+  - [Sprint 0](#Sprint-0)
+  - [Sprint 1](#Sprint-1)
+  - [Sprint 2](#Sprint-2)
+  - [Sprint 3](#Sprint-3)
+  - [Final Release](#Final-Release)
 
 Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -144,7 +132,7 @@ At the end, it is good to add a rough indication of the value of the user story 
 
 -->
 
-The requirements of pocketED are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
+The requirements of Pocket4Students are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
 
 The main user stories identified for the system include:
 
@@ -170,7 +158,7 @@ Each user story includes acceptance scenarios and mockups that are managed in th
 
 ### Domain model
 
-The following UML class diagram illustrates the key concepts and their relationships within pocketED:
+The following UML class diagram illustrates the key concepts and their relationships within Pocket4Students:
 
 ```mermaid
   classDiagram
@@ -218,12 +206,12 @@ The following UML class diagram illustrates the key concepts and their relations
 
 ### User Interfaces
 
-The pocketED mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
+The Pocket4Students mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
 The main screens of the application are described below.
 
 #### Welcome Screen
 
-The welcome screen is the entry point of the application. It introduces the purpose of pocketED and provides navigation to authentication options.
+The welcome screen is the entry point of the application. It introduces the purpose of Pocket4Students and provides navigation to authentication options.
 
 **Main interface elements:**
 
@@ -313,7 +301,7 @@ To document the architecture requires describing the decomposition of the system
 In this section you should start by briefly describing the components of the project and their interrelations. You should describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
 -->
 
-pocketED is currently implemented as a cross-platform mobile application in [`mobile-app`](https://github.com/LEIC-ES-2025-26-2LEIC12/T1/tree/main/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
+Pocket4Students is currently implemented as a cross-platform mobile application in [`mobile-app`](https://github.com/LEIC-ES-2025-26-2LEIC12/T1/tree/main/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
 
 The current technology stack is:
 

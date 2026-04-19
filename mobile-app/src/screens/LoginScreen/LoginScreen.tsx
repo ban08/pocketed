@@ -70,7 +70,7 @@ export default function LoginScreen() {
                 >
                   <Text style={styles.logoText}>P4</Text>
                 </Pressable>
-                <Text style={styles.brandText}>Pocket4Students</Text>
+                <Text style={styles.brandText}>pocketED</Text>
               </View>
 
               <Text style={styles.greeting}>Welcome back! 👋</Text>
