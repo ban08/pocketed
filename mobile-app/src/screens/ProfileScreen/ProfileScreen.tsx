@@ -3,15 +3,18 @@ import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { AuthContext } from "@/src/context/AuthContext";
+import { colors } from "@/src/theme/colors";
 import { styles } from "./ProfileScreen.style";
 
 type PickerSource = "camera" | "gallery";
@@ -26,20 +29,43 @@ function getInitials(fullName: string): string {
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, updateProfile } = React.useContext(AuthContext);
+  const [fullName, setFullName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [statusMessage, setStatusMessage] = React.useState("");
 
   const profile = React.useMemo(
     () => ({
       fullName: user?.fullName?.trim() || "Student User",
       email: user?.email?.trim() || "student@university.edu",
-      address: user?.address?.trim() || "Address not provided yet",
       profilePicture: user?.profilePicture,
     }),
     [user]
   );
 
+  React.useEffect(() => {
+    setFullName(profile.fullName);
+    setEmail(profile.email);
+  }, [profile.email, profile.fullName]);
+
   const handleBack = React.useCallback(() => {
     router.replace("/(tabs)/dashboard");
   }, [router]);
+
+  const saveProfilePicture = React.useCallback(
+    async (profilePicture?: string) => {
+      try {
+        await updateProfile({ profilePicture });
+        setStatusMessage(profilePicture ? "Profile picture saved." : "Profile picture removed.");
+      } catch {
+        Alert.alert(
+          "Could not update profile picture",
+          "Please try again in a moment."
+        );
+      }
+    },
+    [updateProfile]
+  );
 
   const pickProfilePicture = React.useCallback(
     async (source: PickerSource) => {
@@ -62,7 +88,7 @@ export default function ProfileScreen() {
           });
 
           if (result.canceled || !result.assets?.length) return;
-          updateProfile({ profilePicture: result.assets[0].uri });
+          await saveProfilePicture(result.assets[0].uri);
           return;
         }
 
@@ -83,7 +109,7 @@ export default function ProfileScreen() {
         });
 
         if (result.canceled || !result.assets?.length) return;
-        updateProfile({ profilePicture: result.assets[0].uri });
+        await saveProfilePicture(result.assets[0].uri);
       } catch {
         Alert.alert(
           "Could not update profile picture",
@@ -91,7 +117,7 @@ export default function ProfileScreen() {
         );
       }
     },
-    [updateProfile]
+    [saveProfilePicture]
   );
 
   const handleChangePhoto = React.useCallback(() => {
@@ -116,10 +142,33 @@ export default function ProfileScreen() {
   }, [pickProfilePicture]);
 
   const handleRemovePhoto = React.useCallback(() => {
-    updateProfile({ profilePicture: undefined });
-  }, [updateProfile]);
+    void saveProfilePicture(undefined);
+  }, [saveProfilePicture]);
 
-  const hasAddress = Boolean(user?.address?.trim());
+  const handleSaveProfile = React.useCallback(async () => {
+    const trimmedName = fullName.trim();
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedName || !trimmedEmail) {
+      Alert.alert("Missing information", "Name and email are required.");
+      return;
+    }
+
+    setIsSaving(true);
+    setStatusMessage("");
+    try {
+      await updateProfile({
+        fullName: trimmedName,
+        email: trimmedEmail,
+      });
+      setStatusMessage("Profile saved.");
+    } catch {
+      Alert.alert("Could not save profile", "Please try again in a moment.");
+    } finally {
+      setIsSaving(false);
+    }
+  }, [email, fullName, updateProfile]);
+
   const hasPhoto = Boolean(profile.profilePicture);
 
   return (
@@ -145,10 +194,9 @@ export default function ProfileScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.introCard}>
-            <Text style={styles.introTitle}>Your Profile Information</Text>
+            <Text style={styles.introTitle}>Account Details</Text>
             <Text style={styles.introSubtitle}>
-              This screen uses placeholders now and is already ready for backend
-              profile sync later.
+              Keep your name, email and profile picture up to date.
             </Text>
           </View>
 
@@ -171,7 +219,7 @@ export default function ProfileScreen() {
 
               <View style={styles.avatarMeta}>
                 <Text style={styles.avatarHint}>
-                  Choose from gallery or take a photo.
+                  Choose a photo that makes this account feel yours.
                 </Text>
                 <View style={styles.avatarButtonRow}>
                   <Pressable
@@ -180,7 +228,9 @@ export default function ProfileScreen() {
                     accessibilityRole="button"
                     accessibilityLabel="Change profile picture"
                   >
-                    <Text style={styles.photoButtonText}>Change Photo</Text>
+                    <Text style={styles.photoButtonText}>
+                      {hasPhoto ? "Change" : "Add Photo"}
+                    </Text>
                   </Pressable>
                   {hasPhoto && (
                     <Pressable
@@ -203,31 +253,49 @@ export default function ProfileScreen() {
           <View style={styles.fieldsGroup}>
             <View style={styles.fieldCard}>
               <Text style={styles.fieldLabel}>Full Name</Text>
-              <Text style={styles.fieldValue}>{profile.fullName}</Text>
+              <TextInput
+                style={styles.fieldInput}
+                value={fullName}
+                onChangeText={setFullName}
+                placeholder="Your full name"
+                placeholderTextColor="#94A3B8"
+                autoCapitalize="words"
+              />
             </View>
 
             <View style={styles.fieldCard}>
               <Text style={styles.fieldLabel}>Email</Text>
-              <Text style={styles.fieldValue}>{profile.email}</Text>
-            </View>
-
-            <View style={styles.fieldCard}>
-              <Text style={styles.fieldLabel}>Address</Text>
-              <Text
-                style={[
-                  styles.fieldValue,
-                  !hasAddress && styles.fieldValueMuted,
-                ]}
-              >
-                {profile.address}
-              </Text>
+              <TextInput
+                style={styles.fieldInput}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="you@university.edu"
+                placeholderTextColor="#94A3B8"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
             </View>
           </View>
 
-          <Text style={styles.note}>
-            Placeholder-first mode enabled: profile data currently lives in local
-            AuthContext and can be replaced by backend services later.
-          </Text>
+          <Pressable
+            style={({ pressed }) => [
+              styles.saveButton,
+              isSaving && styles.disabledButton,
+              pressed && styles.pressed,
+            ]}
+            onPress={handleSaveProfile}
+            disabled={isSaving}
+            accessibilityRole="button"
+            accessibilityLabel="Save profile information"
+          >
+            {isSaving ? (
+              <ActivityIndicator color={colors.primary} />
+            ) : (
+              <Text style={styles.saveButtonText}>Save Profile</Text>
+            )}
+          </Pressable>
+
+          {statusMessage ? <Text style={styles.note}>{statusMessage}</Text> : null}
         </ScrollView>
       </SafeAreaView>
     </View>

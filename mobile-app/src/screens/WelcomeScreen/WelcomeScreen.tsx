@@ -18,14 +18,9 @@ export default function WelcomeScreen() {
     router.push("/auth/register");
   }, [router]);
 
-  /*const handleGuestLoginPress = React.useCallback(() => {
-    //todo: rout to dashboard screen
-    router.push("/auth/dashboard");
-  }, [router]);*/
-
-  /*const handleLoginPress = React.useCallback(() => {
+  const handleLoginPress = React.useCallback(() => {
     router.push("/auth/login");
-  }, [router]);*/
+  }, [router]);
 
   return (
     <ImageBackground
@@ -90,7 +85,7 @@ export default function WelcomeScreen() {
                 <Text style={styles.secondaryButtonText}>Register</Text>
               </Pressable>
 
-              {/*<Pressable
+              <Pressable
                 style={({ pressed }) => [
                   styles.primaryButton,
                   pressed && styles.pressed,
@@ -99,16 +94,6 @@ export default function WelcomeScreen() {
               >
                 <Text style={styles.primaryButtonText}>Login</Text>
               </Pressable>
-
-              <Pressable
-                style={({ pressed }) => [
-                  styles.thirdButton,
-                  pressed && styles.pressed,
-                ]}
-                onPress={handleGuestLoginPress}
-              >
-                <Text style={styles.primaryButtonText}>Continue as guest</Text>
-              </Pressable>*/}
             </View>
 
             <Text style={styles.footerText}>

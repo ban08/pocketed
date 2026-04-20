@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Redirect } from "expo-router";
 import { AuthContext } from "@/src/context/AuthContext";
 import { View, Text, StyleSheet } from 'react-native';
 import { getExpenses } from '@/src/services/expenseService';

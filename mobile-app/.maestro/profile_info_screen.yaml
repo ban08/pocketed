@@ -14,4 +14,3 @@ tags:
 - assertVisible: "Profile Picture"
 - assertVisible: "Full Name"
 - assertVisible: "Email"
-- assertVisible: "Address"
