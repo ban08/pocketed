@@ -1,4 +1,10 @@
+# OS 
 *.DS_Store
+
+# docs
+notes.md
+
+# dev
 CLAUDE.md
 .idea/
 .claude/
@@ -32,6 +38,7 @@ coverage/
 *.ear
 *.sln       
 
+# codebase 
 backend/PocketED.Api/bin/Debug/net10.0/PocketED.Api.pdb
 backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfo.cs
 backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfoInputs.cache

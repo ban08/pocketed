@@ -35,7 +35,8 @@ It is organised by the following activities:
     - [Physical architecture](#physical-architecture)
     - [Functional prototype](#functional-prototype)
   - [Project management](#project-management)
-    - [Sprint 0](#sprint-0)
+    - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
+    - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
 
 Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -355,9 +356,9 @@ You can find below information and references related with the project managemen
 
 -->
 
-### Sprint 0
+### Sprint 0 - All systems go.
 
-Sprint 0 focused on project initialization and planning activities.
+Sprint 0 was about getting to know eachother, laying down the product vision and getting the project up and running. After agreeing on the theme, we then settled on the tech stack that was better suited to us as a team and our goals. At this point the development was very much iterative, we did a lot of pair programming and a lot of things were put in and scrapped back altogether. We implemented the first and second versions of the app's UI and the general UX prototype.
 
 **Sprint goals:**
 
@@ -384,21 +385,19 @@ Sprint 0 focused on project initialization and planning activities.
 
 **Outcome:**
 
-So far on Sprint 0, we have:
-
 - A working development environment
 - A defined product vision
 - An initial backlog of user stories
 - A configured GitHub repository and project board
+- Verification and testing
 
-And we're still working on:
 
-- Software verification and validation
-- Misc
+### Sprint 1 - Spring cleaning!
+
+Sprint 0 was productive but messy, and we cleaned up most of it during this spring. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
+
 
 <!--
-### Sprint 1
-
 ### Sprint 2
 
 ### Sprint 3
