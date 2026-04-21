@@ -2,8 +2,6 @@ import { User } from "../models/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BASE_URL } from "./api";
 
-const USERS_KEY = "pocket_users"; // Storage key
-
 export const registerUser = async (
   name: string,
   email: string,
@@ -20,11 +18,13 @@ export const registerUser = async (
   if (!res.ok) throw new Error("Registration failed");
 
   const data = await res.json();
+  const userRes = await fetch(`${BASE_URL}/users/${data.id}`);
+  const fullUser = await userRes.json();
 
   const user: User = {
-    id: data.id,
-    email: data.email,
-    name,
+    id: fullUser.id,
+    email: fullUser.email,
+    name: fullUser.name,
   };
 
   await saveCurrentUser(user);
@@ -50,12 +50,17 @@ export const loginUser = async (
   }
 
   const data = await res.json();
+  console.log("LOGIN RESPONSE", data);
+
+  const userRes = await fetch(`${BASE_URL}/users/${data.id}`);
+  const fullUser = await userRes.json();
 
   const user: User = {
-    id: data.id,        
-    email: data.email,
-    name: "User",     
+    id: fullUser.id,        
+    email: fullUser.email,
+    name: fullUser.name, 
   };
+  console.log("FULL USER", fullUser);
 
   await saveCurrentUser(user);
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useContext } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
@@ -20,10 +20,13 @@ import {
 import { styles } from "./LoginScreen.style";
 
 export default function LoginScreen() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const router = useRouter();
+  const params = useLocalSearchParams();
   const { login } = useContext(AuthContext);
+
+  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState(params.email as string|| "");
+  
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
@@ -36,10 +39,10 @@ export default function LoginScreen() {
     }
     try {
       const user: User = await loginUser(email, password);
-      await saveCurrentUser(user); // Save session
       login(user);
       router.push("/(tabs)");
     } catch (error) {
+      console.error("LOGIN ERROR", error);
       Alert.alert("Error", "Login failed. Please check your credentials.");
     }
   }, [email, password, login, router]);
