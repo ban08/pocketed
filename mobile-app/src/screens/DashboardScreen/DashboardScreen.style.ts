@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    margin: 10,
   },
   logoBox: {
     width: 36,
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
   headerRight: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    margin: 12,
   },
   iconButton: {
     width: 38,
@@ -109,10 +109,14 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   summaryAmount: {
-    fontSize: 40,
+    fontSize: 22,
     fontWeight: "800",
     color: colors.primary,
     letterSpacing: -1,
+  },
+  balanceAmount: {
+    fontSize: 22,   // було ~32-40 → занадто
+    fontWeight: "600",
   },
   summaryBudgetRow: {
     flexDirection: "row",
@@ -145,7 +149,7 @@ export const styles = StyleSheet.create({
   statsRow: {
     flexDirection: "row",
     paddingHorizontal: spacing.lg,
-    gap: 10,
+    margin: 10,
     marginBottom: spacing.md,
   },
   statCard: {
@@ -154,7 +158,7 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     padding: spacing.md,
     alignItems: "center",
-    gap: 4,
+    margin: 4,
   },
   statEmoji: {
     fontSize: 22,
@@ -193,7 +197,7 @@ export const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: "row",
     paddingHorizontal: spacing.lg,
-    gap: 10,
+    margin: 10,
     marginBottom: spacing.lg,
   },
   actionPrimary: {
@@ -204,7 +208,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    margin: 8,
   },
   actionPrimaryText: {
     fontSize: 14,
@@ -221,7 +225,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    margin: 8,
   },
   actionSecondaryText: {
     fontSize: 14,
@@ -285,11 +289,11 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 20,
     padding: spacing.md,
-    gap: 16,
+    margin: 16,
     marginBottom: spacing.lg,
   },
   budgetItem: {
-    gap: 6,
+    margin: 6,
   },
   budgetRow: {
     flexDirection: "row",
@@ -299,7 +303,7 @@ export const styles = StyleSheet.create({
   budgetLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    margin: 8,
   },
   budgetEmoji: {
     fontSize: 16,

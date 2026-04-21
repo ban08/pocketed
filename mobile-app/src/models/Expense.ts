@@ -5,3 +5,4 @@ export interface Expense {
   category: string;
   date: string;
 }
+export const isIncome = (e: Expense) => e.category === "Income";

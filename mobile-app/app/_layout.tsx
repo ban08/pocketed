@@ -47,10 +47,13 @@ function RootLayoutContent() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="auth/welcome" />
-        <Stack.Screen name="auth/login" />
-        <Stack.Screen name="auth/register" />
+        <Stack.Screen name="auth/welcome"/>
+        <Stack.Screen name="auth/login"/>
+        <Stack.Screen name="auth/register"/>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="add-income" options={{ presentation: "modal", title: "Add Income" }}/>
+        <Stack.Screen name="add-expense" options={{ presentation: "modal", title: "Add Expense" }}/>
+        <Stack.Screen name="add-budget" options={{ presentation: "modal", title: "Add Budget" }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />

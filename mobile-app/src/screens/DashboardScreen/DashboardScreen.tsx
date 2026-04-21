@@ -10,30 +10,22 @@ import {
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { clearCurrentUser } from "../../services/authService";
+import { useFocusEffect } from "expo-router";
 import { useRouter } from "expo-router";
 import { styles } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense"
-// ─── Mock Data ────────────────────────────────────────────────────────────────
+import { getUserData, calculateSummary } from "@/src/services/expenseService";
+import { Budget } from "@/src/models/Budget";
 
-const MONTHLY_BUDGET = 1200;
-const MONTHLY_SPENT = 748.5;
-const MONTHLY_SAVINGS = 180;
-const MONTHLY_GOALS = 3;
+const categoryEmoji: Record<string, string> = {
+  Food: "🍔",
+  Transport: "🚌",
+  Entertainment: "🎬",
+  Education: "📚",
+  Other: "💸",
+};
 
-const MOCK_TRANSACTIONS: (Expense & { emoji: string })[] = [
-  { id: "1", title: "Grocery Run", amount: 42.3, category: "Food", date: "Today", emoji: "🛒" },
-  { id: "2", title: "Bus Pass", amount: 15.0, category: "Transport", date: "Today", emoji: "🚌" },
-  { id: "3", title: "Pizza Night", amount: 28.5, category: "Dining", date: "Yesterday", emoji: "🍕" },
-  { id: "4", title: "Netflix", amount: 12.99, category: "Entertainment", date: "Mar 14", emoji: "🎬" },
-  { id: "5", title: "Textbooks", amount: 89.0, category: "Education", date: "Mar 13", emoji: "📚" },
-];
-
-const MOCK_BUDGETS = [
-  { name: "Food & Dining", emoji: "🍔", spent: 320, total: 400, color: "#6366F1" },
-  { name: "Transport", emoji: "🚌", spent: 65, total: 150, color: "#10B981" },
-  { name: "Entertainment", emoji: "🎬", spent: 55, total: 100, color: "#F59E0B" },
-  { name: "Education", emoji: "📚", spent: 189, total: 300, color: "#3B82F6" },
-];
+const MONTHLY_SAVINGS = 0;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -45,7 +37,10 @@ function getGreeting(): string {
 }
 
 function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return amount.toLocaleString("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  });
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -79,10 +74,61 @@ export default function DashboardScreen() {
     router.replace("/auth/login"); // Go to login
   }, [logout, router]);
 
-  const spentPct = Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100);
+  // --- Get real data ----
+  const [budgets, setBudgets] = React.useState<Budget[]>([]);
+  const [expenses, setExpenses] = React.useState<Expense[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const load = async () => {
+        if (!user?.id) {
+          setLoading(false);
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const data = await getUserData(user.id);
+
+          setExpenses(data.expenses);
+          setBudgets(data.budgets);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      load();
+    }, [user])
+  );
+
+  const MONTHLY_GOALS = budgets.length;
+
+  const MONTHLY_BUDGET = budgets.reduce((sum, b) => sum + b.limit, 0);
+
+  const { income: MONTHLY_INCOME, spent: MONTHLY_SPENT, balance: BALANCE } =
+  calculateSummary(expenses);
+
+  const balanceColor =
+    BALANCE > 0 ? "#22C55E" :
+    BALANCE < 0 ? "#EF4444" :
+    "#6B7280";
+
   const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
+  const spentPct = MONTHLY_BUDGET
+    ? Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100)
+    : 0;
+  const getSpentByCategory = (category: string) => {
+    return expenses
+      .filter((e) => e.category === category && e.amount > 0)
+      .reduce((sum, e) => sum + e.amount, 0);
+  };
 
   return (
+    
     <View style={styles.root}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
@@ -127,15 +173,46 @@ export default function DashboardScreen() {
 
           {/* ===== Monthly Summary Card ===== */}
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Spent this month</Text>
-            <Text style={styles.summaryAmount}>{formatCurrency(MONTHLY_SPENT)}</Text>
-            <View style={styles.summaryBudgetRow}>
-              <Text style={styles.summaryBudgetText}>of {formatCurrency(MONTHLY_BUDGET)} budget</Text>
+
+            {/* NEW ROW */}
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+              {/* LEFT — INCOME */}
+              <View style={{ flex: 1 }}>
+                <Text style={styles.summaryLabel}>Income</Text>
+                <Text style={styles.summaryAmount}>
+                  {formatCurrency(MONTHLY_INCOME)}
+                </Text>
+              </View>
+
+              {/* RIGHT — EXPENSE */}
+              <View style={{ flex: 1, alignItems: "flex-end" }}>
+                <Text style={styles.summaryLabel}>Spent</Text>
+                <Text style={styles.summaryAmount}>
+                  {formatCurrency(MONTHLY_SPENT)}
+                </Text>
+              </View>
+
+            </View>
+
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={styles.summaryBudgetText}>
+                of {formatCurrency(MONTHLY_BUDGET)} budget
+              </Text>
               <Text style={styles.summaryPercent}>{spentPct}%</Text>
             </View>
+
             <View style={styles.progressTrack}>
               <View style={[styles.progressFill, { width: `${spentPct}%` as any }]} />
             </View>
+
+            <View style={{ marginTop: 12, alignItems: "center" }}>
+              <Text style={styles.summaryLabel}>Balance</Text>
+              <Text style={[styles.balanceAmount, { color: balanceColor }]}>
+                {formatCurrency(BALANCE)}
+              </Text>
+            </View>
+
           </View>
 
           {/* ===== Stats Row ===== */}
@@ -163,11 +240,26 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.actionsRow}>
             <Pressable
+              onPress={() => router.push("/add-income")}
+              style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
+            >
+              <Text style={{ fontSize: 16 }}>💵</Text>
+              <Text style={styles.actionSecondaryText}>Add Income</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/add-expense")}
               style={({ pressed }) => [styles.actionPrimary, pressed && styles.pressed]}
               accessibilityRole="button"
             >
               <Text style={{ fontSize: 16 }}>➕</Text>
               <Text style={styles.actionPrimaryText}>Add Expense</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/add-budget")}
+              style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
+            >
+              <Text style={{ fontSize: 16 }}>💰</Text>
+              <Text style={styles.actionSecondaryText}>Add Budget</Text>
             </Pressable>
             <Pressable
               style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
@@ -186,20 +278,30 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.transactionsCard}>
-            {MOCK_TRANSACTIONS.map((tx, index) => (
+            {expenses.map((tx, index) => (
               <React.Fragment key={tx.id}>
                 {index > 0 && <View style={styles.transactionDivider} />}
                 <Pressable
                   style={({ pressed }) => [styles.transactionRow, pressed && styles.pressed]}
                 >
                   <View style={styles.transactionIcon}>
-                    <Text style={styles.transactionEmoji}>{tx.emoji}</Text>
+                    <Text style={styles.transactionEmoji}>💸</Text>
                   </View>
                   <View style={styles.transactionInfo}>
                     <Text style={styles.transactionTitle}>{tx.title}</Text>
                     <Text style={styles.transactionMeta}>{tx.category} · {tx.date}</Text>
                   </View>
-                  <Text style={styles.transactionAmount}>-{formatCurrency(tx.amount)}</Text>
+                  <Text
+                    style={[
+                      styles.transactionAmount,
+                      { color: tx.amount < 0 ? "#22C55E" : "#EF4444" },
+                    ]}
+                    >
+                    {tx.amount < 0
+                      ? `+${formatCurrency(Math.abs(tx.amount))}`
+                      : `-${formatCurrency(tx.amount)}`
+                    }
+                  </Text>
                 </Pressable>
               </React.Fragment>
             ))}
@@ -213,20 +315,26 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.budgetsCard}>
-            {MOCK_BUDGETS.map((b) => (
-              <View key={b.name} style={styles.budgetItem}>
-                <View style={styles.budgetRow}>
-                  <View style={styles.budgetLeft}>
-                    <Text style={styles.budgetEmoji}>{b.emoji}</Text>
-                    <Text style={styles.budgetName}>{b.name}</Text>
+            {budgets.map((b) => {
+              const spent = getSpentByCategory(b.category);
+
+              return (
+                <View key={b.id} style={styles.budgetItem}>
+                  <View style={styles.budgetRow}>
+                    <View style={styles.budgetLeft}>
+                      <Text style={styles.budgetEmoji}>
+                        {categoryEmoji[b.category] || "💸"}
+                      </Text>
+                      <Text style={styles.budgetName}>{b.category}</Text>
+                    </View>
+                    <Text style={styles.budgetMeta}>
+                      {formatCurrency(spent)} / {formatCurrency(b.limit)}
+                    </Text>
                   </View>
-                  <Text style={styles.budgetMeta}>
-                    {formatCurrency(b.spent)} / {formatCurrency(b.total)}
-                  </Text>
+                  <BudgetBar spent={spent} total={b.limit} color="#6366F1" />
                 </View>
-                <BudgetBar spent={b.spent} total={b.total} color={b.color} />
-              </View>
-            ))}
+              );
+            })}
           </View>
 
         </ScrollView>

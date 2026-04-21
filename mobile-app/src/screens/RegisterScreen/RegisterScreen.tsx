@@ -42,9 +42,10 @@ export default function RegisterScreen() {
     }
     try {
       const user: User = await registerUser(name, email, password);
-      await saveCurrentUser(user); // Save session
-      login(user);
-      router.push("/(tabs)");
+      router.replace({
+        pathname: "/auth/login",
+        params: { email },
+      });
     } catch (error) {
       Alert.alert("Error", "Registration failed. Please try again.");
     }
