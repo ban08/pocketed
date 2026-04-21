@@ -14,7 +14,7 @@ import { useFocusEffect } from "expo-router";
 import { useRouter } from "expo-router";
 import { styles } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense"
-import { BASE_URL } from "@/src/services/api";
+import { getUserData, calculateSummary } from "@/src/services/expenseService";
 import { Budget } from "@/src/models/Budget";
 
 const categoryEmoji: Record<string, string> = {
@@ -37,7 +37,10 @@ function getGreeting(): string {
 }
 
 function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  return amount.toLocaleString("de-DE", {
+    style: "currency",
+    currency: "EUR",
+  });
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -79,13 +82,15 @@ export default function DashboardScreen() {
   useFocusEffect(
     React.useCallback(() => {
       const load = async () => {
-        if (!user?.id) return;
+        if (!user?.id) {
+          setLoading(false);
+          return;
+        }
 
         setLoading(true);
 
         try {
-          const res = await fetch(`${BASE_URL}/users/${user.id}`);
-          const data = await res.json();
+          const data = await getUserData(user.id);
 
           setExpenses(data.expenses);
           setBudgets(data.budgets);
@@ -99,18 +104,28 @@ export default function DashboardScreen() {
       load();
     }, [user])
   );
+
   const MONTHLY_GOALS = budgets.length;
+
   const MONTHLY_BUDGET = budgets.reduce((sum, b) => sum + b.limit, 0);
-  const MONTHLY_SPENT = expenses.reduce((sum, e) => sum + e.amount,0);
-  const getSpentByCategory = (category: string) => {
-    return expenses
-      .filter((e) => e.category === category)
-      .reduce((sum, e) => sum + e.amount, 0);
-  };
+
+  const { income: MONTHLY_INCOME, spent: MONTHLY_SPENT, balance: BALANCE } =
+  calculateSummary(expenses);
+
+  const balanceColor =
+    BALANCE > 0 ? "#22C55E" :
+    BALANCE < 0 ? "#EF4444" :
+    "#6B7280";
+
+  const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
   const spentPct = MONTHLY_BUDGET
     ? Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100)
     : 0;
-    const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
+  const getSpentByCategory = (category: string) => {
+    return expenses
+      .filter((e) => e.category === category && e.amount > 0)
+      .reduce((sum, e) => sum + e.amount, 0);
+  };
 
   return (
     
@@ -158,15 +173,46 @@ export default function DashboardScreen() {
 
           {/* ===== Monthly Summary Card ===== */}
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Spent this month</Text>
-            <Text style={styles.summaryAmount}>{formatCurrency(MONTHLY_SPENT)}</Text>
-            <View style={styles.summaryBudgetRow}>
-              <Text style={styles.summaryBudgetText}>of {formatCurrency(MONTHLY_BUDGET)} budget</Text>
+
+            {/* NEW ROW */}
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+              {/* LEFT — INCOME */}
+              <View style={{ flex: 1 }}>
+                <Text style={styles.summaryLabel}>Income</Text>
+                <Text style={styles.summaryAmount}>
+                  {formatCurrency(MONTHLY_INCOME)}
+                </Text>
+              </View>
+
+              {/* RIGHT — EXPENSE */}
+              <View style={{ flex: 1, alignItems: "flex-end" }}>
+                <Text style={styles.summaryLabel}>Spent</Text>
+                <Text style={styles.summaryAmount}>
+                  {formatCurrency(MONTHLY_SPENT)}
+                </Text>
+              </View>
+
+            </View>
+
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={styles.summaryBudgetText}>
+                of {formatCurrency(MONTHLY_BUDGET)} budget
+              </Text>
               <Text style={styles.summaryPercent}>{spentPct}%</Text>
             </View>
+
             <View style={styles.progressTrack}>
               <View style={[styles.progressFill, { width: `${spentPct}%` as any }]} />
             </View>
+
+            <View style={{ marginTop: 12, alignItems: "center" }}>
+              <Text style={styles.summaryLabel}>Balance</Text>
+              <Text style={[styles.balanceAmount, { color: balanceColor }]}>
+                {formatCurrency(BALANCE)}
+              </Text>
+            </View>
+
           </View>
 
           {/* ===== Stats Row ===== */}
@@ -193,6 +239,13 @@ export default function DashboardScreen() {
             <Text style={styles.sectionTitle}>Quick Actions</Text>
           </View>
           <View style={styles.actionsRow}>
+            <Pressable
+              onPress={() => router.push("/add-income")}
+              style={({ pressed }) => [styles.actionSecondary, pressed && styles.pressed]}
+            >
+              <Text style={{ fontSize: 16 }}>💵</Text>
+              <Text style={styles.actionSecondaryText}>Add Income</Text>
+            </Pressable>
             <Pressable
               onPress={() => router.push("/add-expense")}
               style={({ pressed }) => [styles.actionPrimary, pressed && styles.pressed]}
@@ -238,7 +291,17 @@ export default function DashboardScreen() {
                     <Text style={styles.transactionTitle}>{tx.title}</Text>
                     <Text style={styles.transactionMeta}>{tx.category} · {tx.date}</Text>
                   </View>
-                  <Text style={styles.transactionAmount}>-{formatCurrency(tx.amount)}</Text>
+                  <Text
+                    style={[
+                      styles.transactionAmount,
+                      { color: tx.amount < 0 ? "#22C55E" : "#EF4444" },
+                    ]}
+                    >
+                    {tx.amount < 0
+                      ? `+${formatCurrency(Math.abs(tx.amount))}`
+                      : `-${formatCurrency(tx.amount)}`
+                    }
+                  </Text>
                 </Pressable>
               </React.Fragment>
             ))}
