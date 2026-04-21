@@ -2,41 +2,33 @@
 
 > [!NOTE] In this file, you will find the structure you should follow to document your mobile app in the README.md file for LEIC-ES-2025-26. It is a single file with guidelines, as comments, only seen in Edit mode, not in Preview mode. You can add more sections, but for assessment reasons and automation, please make sure to include all sections of this template. Your professors will clarify about specificities of your app. -->
 
-# pocketED Development Report
+# _Pocket4Students_ Development Report
 
-> **Note 2: this document is currently being overhauled offline** <br>
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
-Welcome to the documentation of _pocketED_!
+Welcome to the documentation of _Pocket4Students_!
 
-This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _pocketED_, starting from a high-level vision and going into low-level implementation decisions.
+This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about _Pocket4Students_, starting from a high-level vision and going into low-level implementation decisions.
 
 It is organised by the following activities:
 
-- [pocketED Development Report](#pocketed-development-report)
-  - [Business Modelling](#business-modelling)
-  - [SDG Alignment](#sdg-alignment)
-    - [Goal 4 – Quality Education](#goal-4--quality-education)
-    - [Goal 12 – Responsible Consumption](#goal-12--responsible-consumption)
-  - [Product Vision](#product-vision)
-    - [Features and Assumptions](#features-and-assumptions)
-  - [Requirements](#requirements)
-    - [User Stories](#user-stories)
-    - [Domain model](#domain-model)
-    - [User Interfaces](#user-interfaces)
-      - [Welcome Screen](#welcome-screen)
-      - [Login Screen](#login-screen)
-      - [Registration Screen](#registration-screen)
-      - [Dashboard Screen](#dashboard-screen)
-      - [Transaction Management](#transaction-management)
-    - [Domain Concepts](#domain-concepts)
-  - [Architecture and Design](#architecture-and-design)
-    - [Logical architecture](#logical-architecture)
-    - [Physical architecture](#physical-architecture)
-    - [Functional prototype](#functional-prototype)
-  - [Project management](#project-management)
-    - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
-    - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
+- [Business modeling](#Business-Modelling)
+  - [Product Vision](#Product-Vision)
+  - [Features and Assumptions](#Features-and-Assumptions)
+- [Requirements](#Requirements)
+  - [User stories](#User-stories)
+  - [Domain model](#Domain-model)
+  - [User interfaces](#User-interfaces)
+- [Architecture and Design](#Architecture-And-Design)
+  - [Logical architecture](#Logical-Architecture)
+  - [Physical architecture](#Physical-Architecture)
+  - [Functional prototype](#Functional-Prototype)
+- [Project management](#Project-Management)
+  - [Sprint 0](#Sprint-0)
+  - [Sprint 1](#Sprint-1)
+  - [Sprint 2](#Sprint-2)
+  - [Sprint 3](#Sprint-3)
+  - [Final Release](#Final-Release)
 
 Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -63,7 +55,7 @@ Supporting financial literacy as a lifelong learning competence.
 
 ## Product Vision
 
-_pocketED_ empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
+_Pocket for Students_ empowers students to achieve financial independence through intuitive expense tracking and smart budget management, fostering responsible consumption habits.
 
 <!--
 Start by defining a clear and concise product vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form.
@@ -140,7 +132,7 @@ At the end, it is good to add a rough indication of the value of the user story 
 
 -->
 
-The requirements of pocketED are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
+The requirements of Pocket4Students are expressed as user stories that describe the main functionalities from the perspective of the user. These stories are managed through the project GitHub board.
 
 The main user stories identified for the system include:
 
@@ -166,16 +158,60 @@ Each user story includes acceptance scenarios and mockups that are managed in th
 
 ### Domain model
 
-***Under construction**. [Refer to the existing Mermaid UML diagrams file here](resources/uml/pocketed-mermaid-uml.md)*
+The following UML class diagram illustrates the key concepts and their relationships within Pocket4Students:
+
+```mermaid
+  classDiagram
+  User "1" --> "1" Wallet : owns
+  Wallet "1" --> "*" Transaction : records
+  Transaction <|-- Income
+  Transaction <|-- Expense
+  Expense "*" --> "1" Category : belongs to
+  Statistics --> Transaction : analyzes
+  
+  class User {
+      username : String
+      email : String
+  }
+  
+  class Wallet {
+      totalBalance : Double
+      monthlyLimit : Double
+  }
+  
+  class Transaction {
+      amount : Double
+      date : Date
+      description : String
+  }
+  
+  class Income {
+      source : String
+  }
+  
+  class Expense {
+      categoryId : String
+  }
+  
+  class Category {
+      name : String
+  }
+  
+  class Statistics {
+      totalIn : Double
+      totalOut : Double
+  }
+```
+
 
 ### User Interfaces
 
-The pocketED mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
+The Pocket4Students mobile application provides a simple and intuitive interface designed for students who want to track their personal finances.
 The main screens of the application are described below.
 
 #### Welcome Screen
 
-The welcome screen is the entry point of the application. It introduces the purpose of pocketED and provides navigation to authentication options.
+The welcome screen is the entry point of the application. It introduces the purpose of Pocket4Students and provides navigation to authentication options.
 
 **Main interface elements:**
 
@@ -265,7 +301,7 @@ To document the architecture requires describing the decomposition of the system
 In this section you should start by briefly describing the components of the project and their interrelations. You should describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
 -->
 
-pocketED is currently implemented as a cross-platform mobile application in [`mobile-app`](https://github.com/LEIC-ES-2025-26-2LEIC12/T1/tree/main/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
+Pocket4Students is currently implemented as a cross-platform mobile application in [`mobile-app`](https://github.com/LEIC-ES-2025-26-2LEIC12/T1/tree/main/mobile-app). The project follows a simple layered architecture: routing is handled through Expo Router in `app/`, while the domain-specific code lives in `src/`, grouped into screens, context, services, models, theme, and local data. This separation keeps navigation concerns independent from application logic and makes later backend integration easier.
 
 The current technology stack is:
 
@@ -289,8 +325,85 @@ Example of _UML package diagram_ showing a _logical view_ of the Eletronic Ticke
 ![LogicalView](https://user-images.githubusercontent.com/9655877/160585416-b1278ad7-18d7-463c-b8c6-afa4f7ac7639.png)
 -->
 
-***Under construction**. [Refer to the existing Mermaid UML diagrams file here](resources/uml/pocketed-mermaid-uml.md)*
+The logical structure of the current implementation is organized into the following packages:
 
+```mermaid
+flowchart LR
+    subgraph Routes["app/ - Expo Router layer"]
+        RootLayout["_layout.tsx\nRoot stack + providers"]
+        AuthRoutes["auth/\nwelcome, login, register"]
+        TabRoutes["(tabs)/\nindex, explore"]
+        ModalRoute["modal.tsx"]
+    end
+
+    subgraph Screens["src/screens/ - Presentation layer"]
+        WelcomeScreen["WelcomeScreen"]
+        LoginScreen["LoginScreen"]
+        RegisterScreen["RegisterScreen"]
+        DashboardScreen["DashboardScreen"]
+    end
+
+    subgraph State["src/context/ - State layer"]
+        AuthContext["AuthContext"]
+        AuthReducer["authReducer"]
+    end
+
+    subgraph Services["src/services/ - Service layer"]
+        AuthService["authService"]
+        ExpenseService["expenseService"]
+    end
+
+    subgraph Domain["src/models/ - Domain layer"]
+        UserModel["User"]
+        ExpenseModel["Expense"]
+    end
+
+    subgraph Shared["Shared resources"]
+        Theme["src/theme/\ncolors, spacing, typography"]
+        Data["src/data/\nexpenses.json"]
+        Assets["src/resources/\nimages"]
+    end
+
+    RootLayout --> AuthRoutes
+    RootLayout --> TabRoutes
+    RootLayout --> ModalRoute
+    RootLayout --> AuthContext
+
+    AuthRoutes --> WelcomeScreen
+    AuthRoutes --> LoginScreen
+    AuthRoutes --> RegisterScreen
+    TabRoutes --> DashboardScreen
+
+    WelcomeScreen --> Theme
+    WelcomeScreen --> Assets
+    LoginScreen --> Theme
+    LoginScreen --> Assets
+    RegisterScreen --> Theme
+    RegisterScreen --> Assets
+    DashboardScreen --> Theme
+
+    LoginScreen --> AuthContext
+    RegisterScreen --> AuthContext
+    DashboardScreen --> AuthContext
+    AuthContext --> AuthReducer
+    AuthContext --> UserModel
+
+    LoginScreen -. future integration .-> AuthService
+    RegisterScreen -. future integration .-> AuthService
+    DashboardScreen --> ExpenseService
+    ExpenseService --> ExpenseModel
+    ExpenseService --> Data
+```
+
+- `app/`: route entry points and layouts. The root layout defines the navigation stack and wraps the app with the authentication provider.
+- `src/screens/`: screen-level UI implementations such as welcome, login, register and dashboard.
+- `src/context/`: shared application state, currently centered on `AuthContext` and its reducer.
+- `src/services/`: data access and business-facing operations, such as loading expenses from the local dataset.
+- `src/models/`: typed domain entities like `User` and `Expense`.
+- `src/theme/`: shared visual tokens, including colors, spacing, and typography.
+- `src/data/` and `src/resources/`: bundled mock data and static media assets.
+
+The dependency flow is intentionally one-directional: routes render screens, screens consume context and services, and services rely on models plus local data sources. This reduces coupling and keeps the UI replaceable without changing the lower layers.
 
 ### Physical architecture
 
@@ -356,9 +469,9 @@ You can find below information and references related with the project managemen
 
 -->
 
-### Sprint 0 - All systems go.
+### Sprint 0
 
-Sprint 0 was about getting to know eachother, laying down the product vision and getting the project up and running. After agreeing on the theme, we then settled on the tech stack that was better suited to us as a team and our goals. At this point the development was very much iterative, we did a lot of pair programming and a lot of things were put in and scrapped back altogether. We implemented the first and second versions of the app's UI and the general UX prototype.
+Sprint 0 focused on project initialization and planning activities.
 
 **Sprint goals:**
 
@@ -385,19 +498,20 @@ Sprint 0 was about getting to know eachother, laying down the product vision and
 
 **Outcome:**
 
+So far on Sprint 0, we have:
+
 - A working development environment
 - A defined product vision
 - An initial backlog of user stories
 - A configured GitHub repository and project board
-- Verification and testing
 
+And we're still working on:
 
-### Sprint 1 - Spring cleaning!
+- Software verification and validation
+- Misc
 
-Sprint 0 was productive but messy, and we cleaned up most of it during this spring. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
+### Sprint 1
 
-
-<!--
 ### Sprint 2
 
 ### Sprint 3
@@ -405,4 +519,3 @@ Sprint 0 was productive but messy, and we cleaned up most of it during this spri
 ### Sprint 4
 
 ### Final Release
--->

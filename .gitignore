@@ -1,12 +1,34 @@
-*.DS_Store
+# # # # # # # # # # # # # # # # # # # # # # # # #
+# extremely neat and tidy gitignore             #
+# please tag new entries accordingly            #
+# # # # # # # # # # # # # # # # # # # # # # # # #
+
+# # # # # # # # # # # # # # # # # # # # # # # # # 
+# pocketED shtuff                               #
+# # # # # # # # # # # # # # # # # # # # # # # # # 
+
+# backend 
+backend/PocketED.Api/bin/Debug/net10.0/PocketED.Api.pdb
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfo.cs
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.AssemblyInfoInputs.cache
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.pdb
+backend/PocketED.Api/obj/Debug/net10.0/PocketED.Api.sourcelink.json
+backend/PocketED.Api/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
+backend/PocketED.Api/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
+backend/PocketED.Api/obj/Debug/net10.0/rpswa.dswa.cache.json
+backend/PocketED.Api/pocketed.db-shm
+backend/PocketED.Api/pocketed.db-wal
+
+# docs
+notes.md
+
+# ide+ai
 CLAUDE.md
 .idea/
 .claude/
 .vscode/
-node_modules/
-dist/
-build/
-coverage/
+
+# generic files
 *.log
 .env
 *.env.local
@@ -30,4 +52,54 @@ coverage/
 *.jar
 *.war
 *.ear
-*.sln       
+*.sln
+
+# other dirs
+node_modules/
+dist/
+build/
+coverage/
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+# # # # # # # # # # # # # # # # # # # # # # # # # 
+# OS shtuff                                     #
+# # # # # # # # # # # # # # # # # # # # # # # # # 
+
+# macos
+.DS_Store
+.localized
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon[]
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+
+# linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+nohup.out
+
+# windows
+$RECYCLE.BIN/
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
