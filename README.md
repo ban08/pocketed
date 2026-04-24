@@ -398,6 +398,33 @@ Sprint 0 was productive but messy, and we cleaned up most of it during this spri
 
 ![Sprint 1 Dashboard](resources/Sprint1Dashboard.png)
 
+#### Increment Scope
+
+The following features were delivered during Sprint 1:
+
+- **Backend API** — implemented a C# ASP.NET Core backend with local SQLite persistence, exposing endpoints for users, expenses, and budgets.
+- **User Authentication** — functional login, registration, and logout flows connected end-to-end between the mobile app and the backend.
+- **Add Expense** — users can record a new expense with amount, category, and description.
+- **Add Income** — users can record income entries that update their running balance.
+- **Add Budget** — users can define a monthly spending limit which is reflected on the dashboard.
+- **Local persistence** — transaction and budget data is persisted across sessions via the backend database.
+
+#### Sprint Review
+
+This release marks the first genuinely usable prototype of pocketED. For the first time users can create an account, log in, and actively record their financial activity — expenses, income, and a monthly budget — and see it reflected in real time on the dashboard. This is the foundation of the financial tracking experience we intend to deliver, and it adds real, demonstrable value to end-users.
+
+#### Sprint Retrospective
+
+**Did well:**
+- Code implementation quality improved significantly over Sprint 0 — the codebase is cleaner, better structured, and more consistent.
+- Team collaboration and workload distribution worked well, with members contributing according to their individual strengths.
+
+**Do differently:**
+- Testing was done entirely through manual verification by team members. No automated Maestro tests were written or executed, despite the tooling being set up. Next sprint we should write at least one Maestro flow per user story delivered.
+
+**Puzzles:**
+- We are still unsure about the right level of test coverage for a prototype at this stage, and how to balance automated testing effort against feature delivery speed.
+
 
 <!--
 ### Sprint 2
