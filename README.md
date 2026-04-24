@@ -396,6 +396,8 @@ Sprint 0 was about getting to know eachother, laying down the product vision and
 
 Sprint 0 was productive but messy, and we cleaned up most of it during this spring. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
 
+![Sprint 1 Dashboard](resources/Sprint1Dashboard.png)
+
 
 <!--
 ### Sprint 2
