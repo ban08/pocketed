@@ -54,14 +54,14 @@ export const styles = StyleSheet.create({
   },
   profileButton: {
     minHeight: 40,
-    maxWidth: 190,
+    width: 80,
     borderRadius: 20,
     backgroundColor: colors.primary,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     flexDirection: "row",
     paddingLeft: 4,
-    paddingRight: spacing.md,
+    paddingRight: 0,
     paddingVertical: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -76,7 +76,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: spacing.sm,
   },
   profileInitialsText: {
     color: colors.primary,
@@ -84,10 +83,11 @@ export const styles = StyleSheet.create({
     fontSize: 12,
   },
   profileButtonText: {
-    flexShrink: 1,
+    flex: 1,
     color: colors.textPrimary,
     fontSize: 13,
     fontWeight: "700",
+    textAlign: "center",
   },
 
   /* ===== Greeting ===== */
