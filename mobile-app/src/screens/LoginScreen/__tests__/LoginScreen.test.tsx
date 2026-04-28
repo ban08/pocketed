@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Alert } from "react-native";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { AuthContext } from "../../../context/AuthContext";
+import { loginUser } from "../../../services/authService";
+import LoginScreen from "../LoginScreen";
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -16,10 +19,6 @@ jest.mock("../../../services/authService", () => ({
   loginUser: jest.fn(),
   saveCurrentUser: jest.fn(),
 }));
-
-import { AuthContext } from "../../../context/AuthContext";
-import { loginUser } from "../../../services/authService";
-import LoginScreen from "../LoginScreen";
 
 const renderWithAuth = (
   contextValue: Partial<React.ContextType<typeof AuthContext>> = {}

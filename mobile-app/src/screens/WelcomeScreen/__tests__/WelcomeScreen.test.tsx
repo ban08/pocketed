@@ -1,5 +1,6 @@
 import * as React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
+import WelcomeScreen from "../WelcomeScreen";
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -9,8 +10,6 @@ jest.mock("expo-router", () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace, back: mockBack }),
   useLocalSearchParams: () => ({}),
 }));
-
-import WelcomeScreen from "../WelcomeScreen";
 
 beforeEach(() => {
   mockPush.mockClear();

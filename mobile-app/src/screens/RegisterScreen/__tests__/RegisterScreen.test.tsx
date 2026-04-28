@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Alert } from "react-native";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { AuthContext } from "../../../context/AuthContext";
+import { registerUser } from "../../../services/authService";
+import RegisterScreen from "../RegisterScreen";
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -15,10 +18,6 @@ jest.mock("../../../services/authService", () => ({
   registerUser: jest.fn(),
   saveCurrentUser: jest.fn(),
 }));
-
-import { AuthContext } from "../../../context/AuthContext";
-import { registerUser } from "../../../services/authService";
-import RegisterScreen from "../RegisterScreen";
 
 const renderWithAuth = () => {
   const value = {

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Alert } from "react-native";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { AuthContext } from "../../../context/AuthContext";
+import AddBudgetScreen from "../AddBudgetScreen";
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -10,9 +12,6 @@ jest.mock("expo-router", () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace, back: mockBack }),
   useLocalSearchParams: () => ({}),
 }));
-
-import { AuthContext } from "../../../context/AuthContext";
-import AddBudgetScreen from "../AddBudgetScreen";
 
 const renderWithUser = (user: { id: string; email: string; name: string } | null) => {
   const value = {

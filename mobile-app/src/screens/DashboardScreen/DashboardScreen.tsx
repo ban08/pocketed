@@ -271,7 +271,7 @@ export default function DashboardScreen() {
             <Text style={styles.greetingEyebrow}>{getGreeting()}</Text>
             <Text style={styles.greeting}>{userName}</Text>
             <Text style={styles.greetingSubtitle}>
-              Here's your financial summary
+              Here&apos;s your financial summary
             </Text>
           </View>
 

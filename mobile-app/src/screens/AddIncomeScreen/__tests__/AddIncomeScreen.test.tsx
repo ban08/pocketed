@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Alert } from "react-native";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { AuthContext } from "../../../context/AuthContext";
+import { addIncome } from "../../../services/expenseService";
+import AddIncomeScreen from "../AddIncomeScreen";
 
 const mockPush = jest.fn();
 const mockReplace = jest.fn();
@@ -14,10 +17,6 @@ jest.mock("expo-router", () => ({
 jest.mock("../../../services/expenseService", () => ({
   addIncome: jest.fn(),
 }));
-
-import { AuthContext } from "../../../context/AuthContext";
-import { addIncome } from "../../../services/expenseService";
-import AddIncomeScreen from "../AddIncomeScreen";
 
 const renderWithUser = (user: { id: string; email: string; name: string } | null) => {
   const value = {
