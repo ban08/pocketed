@@ -35,6 +35,21 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
+## Testing
+
+The project testing roadmap lives in
+[`../resources/testing/testing-plan.md`](../resources/testing/testing-plan.md).
+Mobile work is planned on the `tests` branch and will add Jest unit/component
+tests plus Maestro acceptance flows.
+
+Planned local commands once the test harness is implemented:
+
+```bash
+npm run lint
+npm test
+./scripts/maestro-wsl.sh .maestro
+```
+
 ## Learn more
 
 To learn more about developing your project with Expo, look at the following resources:

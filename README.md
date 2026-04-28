@@ -34,6 +34,7 @@ It is organised by the following activities:
     - [Logical architecture](#logical-architecture)
     - [Physical architecture](#physical-architecture)
     - [Functional prototype](#functional-prototype)
+  - [Testing Strategy](#testing-strategy)
   - [Project management](#project-management)
     - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
     - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
@@ -332,6 +333,44 @@ The current functional prototype validates the selected architecture through a t
 - The dashboard reads mock expense entries through a service layer and renders a basic monthly total.
 
 This prototype already demonstrates the viability of the chosen stack for navigation, state sharing, typed models, theming, and local data access.
+
+## Testing Strategy
+
+The testing work is planned on the `tests` branch. The full implementation roadmap is maintained in [`resources/testing/testing-plan.md`](resources/testing/testing-plan.md), which maps the current repository structure to unit, integration, and Maestro acceptance tests. Current priority is the mobile UI; backend test work is deferred until the UI flows are stable.
+
+The target test pyramid for pocketED is:
+
+- **Unit tests** for reducers, service functions, validation helpers, financial calculations, formatting helpers, and small extracted business rules.
+- **Mobile component tests** for screen behavior with React Native Testing Library, mocked navigation, mocked services, and mocked storage.
+- **Acceptance tests with Maestro** for the main user stories on Android: authentication navigation, register/login, add income, add expense, set budget, categorize expenses, view remaining balance, view statistics, profile, logout, and session behavior.
+- **Backend integration tests** later, after the mobile UI suite is useful and if the sprint has time left.
+
+Current testing status:
+
+- The mobile app has Expo lint tooling but no Jest test script yet.
+- Maestro files exist in `mobile-app/.maestro`, but several are drafts/placeholders and need to be synchronized with the current UI labels, euro currency formatting, app ID, and stable selectors.
+- The API base URL is currently hard-coded in the mobile services, so the plan includes centralizing it before adding reliable automated tests.
+- The backend is intentionally out of scope for the first testing commits.
+
+Planned commit slices on `tests`:
+
+- `docs: add testing strategy`
+- `test: add stable mobile automation selectors`
+- `test: stabilize maestro acceptance flows`
+- `test: add mobile jest harness`
+- `test: cover mobile auth and expense services`
+- `test: cover mobile screen interactions`
+- `ci: run mobile tests`
+- `docs: update coverage and test commands`
+
+Baseline commands after the suite is implemented:
+
+```bash
+cd mobile-app
+npm run lint
+npm test
+./scripts/maestro-wsl.sh .maestro
+```
 
 ## Project management
 
