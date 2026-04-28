@@ -1,4 +1,4 @@
-appId: mobile-app
+appId: com.pocketed.app
 ---
 - launchApp
 - tapOn: "Add Expense"

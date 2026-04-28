@@ -60,6 +60,7 @@ export default function AddExpenseScreen() {
 
         <Text style={styles.label}>Title</Text>
         <TextInput
+          testID="expense-title-input"
           style={styles.input}
           value={title}
           onChangeText={setTitle}
@@ -68,6 +69,7 @@ export default function AddExpenseScreen() {
 
         <Text style={styles.label}>Amount</Text>
         <TextInput
+          testID="expense-amount-input"
           style={styles.input}
           value={amount}
           onChangeText={setAmount}
@@ -77,6 +79,7 @@ export default function AddExpenseScreen() {
 
         <Text style={styles.label}>Category</Text>
         <TextInput
+          testID="expense-category-input"
           style={styles.input}
           value={category}
           onChangeText={setCategory}
@@ -84,6 +87,7 @@ export default function AddExpenseScreen() {
         />
 
         <Pressable
+          testID="expense-save-button"
           onPress={handleSave}
           style={({ pressed }) => [
             styles.buttonPrimary,
@@ -93,7 +97,11 @@ export default function AddExpenseScreen() {
           <Text style={styles.buttonText}>Save Expense</Text>
         </Pressable>
 
-        <Pressable onPress={() => router.back()} style={styles.buttonSecondary}>
+        <Pressable
+          testID="expense-cancel-button"
+          onPress={() => router.back()}
+          style={styles.buttonSecondary}
+        >
           <Text style={styles.buttonSecondaryText}>Cancel</Text>
         </Pressable>
 

@@ -1,4 +1,4 @@
-appId: mobile-app
+appId: com.pocketed.app
 ---
 - launchApp
 - tapOn: "Sign up"
@@ -16,4 +16,3 @@ appId: mobile-app
 - tapOn: "Sign in"
 - assertVisible: "Dashboard"
 - assertVisible: "Welcome"
-

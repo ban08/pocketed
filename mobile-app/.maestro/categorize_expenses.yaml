@@ -1,0 +1,22 @@
+appId: com.pocketed.app
+name: Categorize Expenses
+tags:
+  - acceptance
+  - category
+  - placeholder
+---
+# Checks Categorize Expenses. Placeholder until category selection is implemented.
+- launchApp:
+    clearState: true
+- tapOn: "Continue as guest"
+- assertVisible: "Recent Transactions"
+- assertVisible:
+    text: "Food.*Today"
+- assertVisible:
+    text: "Transport.*Today"
+- scrollUntilVisible:
+    element: "Budget Overview"
+    direction: DOWN
+- assertVisible: "Food & Dining"
+- assertVisible: "Transport"
+- assertNotVisible: "Category selector"

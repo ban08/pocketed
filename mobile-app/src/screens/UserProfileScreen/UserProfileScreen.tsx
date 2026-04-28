@@ -131,6 +131,7 @@ export default function UserProfileScreen() {
           {/* ===== Sign Out ===== */}
           <Text style={styles.sectionLabel}>Session</Text>
           <Pressable
+            testID="profile-sign-out-button"
             style={({ pressed }) => [styles.signOutButton, pressed && styles.pressed]}
             onPress={handleSignOut}
             accessibilityRole="button"
