@@ -9,11 +9,9 @@ import {
   View,
 } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
-import { clearCurrentUser } from "../../services/authService";
-import { useFocusEffect } from "expo-router";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { styles } from "./DashboardScreen.style";
-import { Expense } from "@/src/models/Expense"
+import { Expense } from "@/src/models/Expense";
 import { getUserData, calculateSummary } from "@/src/services/expenseService";
 import { Budget } from "@/src/models/Budget";
 
@@ -58,7 +56,7 @@ function BudgetBar({ spent, total, color }: { spent: number; total: number; colo
 
 export default function DashboardScreen() {
   // --- Real user data ---
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const router = useRouter();
   const userName = user?.name || "User";
   const userInitials = userName
@@ -67,12 +65,9 @@ export default function DashboardScreen() {
     .join("")
     .toUpperCase() || "U";
 
-  // --- Logout handler ---
-  const handleLogout = React.useCallback(async () => {
-    await clearCurrentUser(); // Clear saved session
-    logout(); // Update auth state
-    router.replace("/auth/login"); // Go to login
-  }, [logout, router]);
+  const handleProfilePress = React.useCallback(() => {
+    router.push("/(tabs)/profile");
+  }, [router]);
 
   // --- Get real data ----
   const [budgets, setBudgets] = React.useState<Budget[]>([]);
@@ -142,20 +137,17 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.headerRight}>
             <Pressable
-              style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
-              accessibilityLabel="Notifications"
+              style={({ pressed }) => [styles.profileButton, pressed && styles.pressed]}
+              onPress={handleProfilePress}
+              accessibilityRole="button"
+              accessibilityLabel={`Open profile for ${userName}`}
             >
-              <Text style={{ fontSize: 18 }}>🔔</Text>
-            </Pressable>
-            <View style={styles.avatar}>
-              <Text style={styles.avatarText}>{userInitials}</Text>
-            </View>
-            <Pressable
-              style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
-              onPress={handleLogout}
-              accessibilityLabel="Logout"
-            >
-              <Text style={{ fontSize: 18 }}>🚪</Text>
+              <View style={styles.profileInitials}>
+                <Text style={styles.profileInitialsText}>{userInitials}</Text>
+              </View>
+              <Text style={styles.profileButtonText} numberOfLines={1}>
+                {userName}
+              </Text>
             </Pressable>
           </View>
         </View>
