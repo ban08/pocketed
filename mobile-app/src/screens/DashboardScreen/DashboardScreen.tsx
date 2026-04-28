@@ -171,6 +171,10 @@ export default function DashboardScreen() {
       .join("")
       .toUpperCase() || "U";
 
+  const handleProfilePress = React.useCallback(() => {
+    router.push("/(tabs)/profile");
+  }, [router]);
+
   // --- Logout handler ---
   const handleLogout = React.useCallback(async () => {
     await clearCurrentUser();
@@ -259,9 +263,14 @@ export default function DashboardScreen() {
               <Icon.Bell />
               <View style={styles.iconBadgeDot} />
             </Pressable>
-            <View style={styles.avatar}>
+            <Pressable
+              style={({ pressed }) => [styles.avatar, pressed && styles.pressed]}
+              onPress={handleProfilePress}
+              accessibilityRole="button"
+              accessibilityLabel={`Open profile for ${userName}`}
+            >
               <Text style={styles.avatarText}>{userInitials}</Text>
-            </View>
+            </Pressable>
             <Pressable
               style={({ pressed }) => [
                 styles.iconButton,
