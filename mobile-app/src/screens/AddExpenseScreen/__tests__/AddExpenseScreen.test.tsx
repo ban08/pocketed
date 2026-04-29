@@ -88,4 +88,40 @@ describe("AddExpenseScreen", () => {
     fireEvent.press(getByTestId("expense-cancel-button"));
     expect(mockBack).toHaveBeenCalled();
   });
+
+  it("alerts and stays on screen when fetch rejects", async () => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    global.fetch = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("network down")) as unknown as typeof fetch;
+
+    const { getByTestId } = renderWithUser(sampleUser);
+    fireEvent.changeText(getByTestId("expense-title-input"), "Lunch");
+    fireEvent.changeText(getByTestId("expense-amount-input"), "12.5");
+    fireEvent.changeText(getByTestId("expense-category-input"), "Food");
+    fireEvent.press(getByTestId("expense-save-button"));
+
+    await waitFor(() =>
+      expect(Alert.alert).toHaveBeenCalledWith(
+        "Error",
+        "Failed to save expense"
+      )
+    );
+    expect(mockBack).not.toHaveBeenCalled();
+  });
+
+  it("posts NaN when amount is non-numeric (regression pin for missing validation)", async () => {
+    const { getByTestId } = renderWithUser(sampleUser);
+    fireEvent.changeText(getByTestId("expense-title-input"), "Lunch");
+    fireEvent.changeText(getByTestId("expense-amount-input"), "abc");
+    fireEvent.changeText(getByTestId("expense-category-input"), "Food");
+    fireEvent.press(getByTestId("expense-save-button"));
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+    const [, init] = (global.fetch as jest.Mock).mock.calls[0];
+    const body = JSON.parse(init.body);
+    // Pin current buggy behavior: Number("abc") -> NaN -> JSON.stringify drops to null.
+    // Test will fail (and need updating) once the screen validates numeric input.
+    expect(body.amount).toBeNull();
+  });
 });

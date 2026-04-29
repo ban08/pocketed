@@ -97,9 +97,40 @@ describe("AddIncomeScreen", () => {
     expect(mockBack).not.toHaveBeenCalled();
   });
 
-  it("syncs the title when a quick category is tapped", () => {
+  const allCategories = [
+    "Salary",
+    "Scholarship",
+    "Bonus",
+    "Gift",
+    "Freelance",
+    "Investment",
+    "Other",
+  ];
+
+  it.each(allCategories)(
+    "renders the %s category button and syncs the title when tapped",
+    (cat) => {
+      const { getByTestId, getByText } = renderWithUser(sampleUser);
+      const button = getByTestId(`income-category-${cat.toLowerCase()}`);
+      // Verify the visible label is exactly the category name.
+      expect(getByText(cat)).toBeTruthy();
+      fireEvent.press(button);
+      expect(getByTestId("income-title-input").props.value).toBe(cat);
+    }
+  );
+
+  it("rejects non-numeric amount input by sending NaN through addIncome (regression pin)", async () => {
+    (addIncome as jest.Mock).mockResolvedValueOnce({ id: "i1" });
+
     const { getByTestId } = renderWithUser(sampleUser);
-    fireEvent.press(getByTestId("income-category-bonus"));
-    expect(getByTestId("income-title-input").props.value).toBe("Bonus");
+    fireEvent.changeText(getByTestId("income-title-input"), "Salary");
+    fireEvent.changeText(getByTestId("income-amount-input"), "not-a-number");
+    fireEvent.press(getByTestId("income-save-button"));
+
+    await waitFor(() => expect(addIncome).toHaveBeenCalledTimes(1));
+    const [, payload] = (addIncome as jest.Mock).mock.calls[0];
+    // Pinning current behavior: Number("not-a-number") is NaN and is sent as-is.
+    // This is a known bug; test will need to flip once the screen validates input.
+    expect(Number.isNaN(payload.amount)).toBe(true);
   });
 });

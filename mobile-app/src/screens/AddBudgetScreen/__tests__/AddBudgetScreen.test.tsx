@@ -82,4 +82,37 @@ describe("AddBudgetScreen", () => {
     fireEvent.press(getByTestId("budget-cancel-button"));
     expect(mockBack).toHaveBeenCalled();
   });
+
+  it("alerts and stays on screen when fetch rejects", async () => {
+    jest.spyOn(console, "error").mockImplementation(() => {});
+    global.fetch = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("network down")) as unknown as typeof fetch;
+
+    const { getByTestId } = renderWithUser(sampleUser);
+    fireEvent.changeText(getByTestId("budget-category-input"), "Food");
+    fireEvent.changeText(getByTestId("budget-limit-input"), "300");
+    fireEvent.press(getByTestId("budget-save-button"));
+
+    await waitFor(() =>
+      expect(Alert.alert).toHaveBeenCalledWith(
+        "Error",
+        "Failed to save budget"
+      )
+    );
+    expect(mockBack).not.toHaveBeenCalled();
+  });
+
+  it("posts NaN when limit is non-numeric (regression pin for missing validation)", async () => {
+    const { getByTestId } = renderWithUser(sampleUser);
+    fireEvent.changeText(getByTestId("budget-category-input"), "Food");
+    fireEvent.changeText(getByTestId("budget-limit-input"), "abc");
+    fireEvent.press(getByTestId("budget-save-button"));
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+    const [, init] = (global.fetch as jest.Mock).mock.calls[0];
+    const body = JSON.parse(init.body);
+    // Pin current buggy behavior: Number("abc") -> NaN -> JSON null.
+    expect(body.limit).toBeNull();
+  });
 });

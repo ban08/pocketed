@@ -100,4 +100,16 @@ describe("LoginScreen", () => {
     expect(contextValue.login).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
   });
+
+  it("masks the password input via secureTextEntry", () => {
+    const { getByTestId } = renderWithAuth();
+    expect(getByTestId("login-password-input").props.secureTextEntry).toBe(true);
+    expect(getByTestId("login-email-input").props.secureTextEntry).toBeFalsy();
+  });
+
+  it("navigates to /auth/register when the sign-up link is pressed", () => {
+    const { getByTestId } = renderWithAuth();
+    fireEvent.press(getByTestId("login-register-link"));
+    expect(mockPush).toHaveBeenCalledWith("/auth/register");
+  });
 });
