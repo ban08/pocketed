@@ -1,0 +1,35 @@
+appId: com.pocketed.app
+name: Smoke - Welcome
+tags:
+  - smoke
+  - welcome
+---
+# Verifies the welcome screen wires its three entry points correctly.
+- launchApp:
+    clearState: true
+
+- assertVisible:
+    id: "welcome-register-button"
+- assertVisible:
+    id: "welcome-login-button"
+- assertVisible:
+    id: "welcome-guest-button"
+
+# Login -> back -> Register -> back loop. Confirms both navigation paths.
+- tapOn:
+    id: "welcome-login-button"
+- assertVisible:
+    id: "login-submit-button"
+- tapOn:
+    id: "Back to welcome screen"
+- assertVisible:
+    id: "welcome-register-button"
+
+- tapOn:
+    id: "welcome-register-button"
+- assertVisible:
+    id: "register-submit-button"
+- tapOn:
+    id: "Back to welcome screen"
+- assertVisible:
+    id: "welcome-register-button"

@@ -1,16 +1,10 @@
 # pocketED Maestro Acceptance Tests
 
-This folder contains the Android acceptance-test suite for pocketED. The current
-YAML files are a starting point and should be treated as drafts until the app has
-stable `testID` or accessibility selectors and deterministic test data.
+Acceptance flows that drive the running Android app, one user-story-sized
+journey per file. They target stable `testID` selectors that the screens
+already expose, so they survive copy and styling changes.
 
-For the complete testing roadmap, see:
-
-```text
-../../resources/testing/testing-plan.md
-```
-
-## Target App
+## App ID
 
 The Android package configured in `mobile-app/app.json` is:
 
@@ -18,65 +12,83 @@ The Android package configured in `mobile-app/app.json` is:
 com.pocketed.app
 ```
 
-Maestro flows should use this app ID when running against a development build:
+All flows declare `appId: com.pocketed.app`. Flows are written for a
+**development build**. Expo Go has different launch semantics and is not
+supported by these flows.
 
-```yaml
-appId: com.pocketed.app
+## Layout
+
+```text
+.maestro/
+  README.md
+  00_smoke_welcome.yaml
+  01_auth_register_login.yaml
+  02_add_income_record.yaml
+  03_add_expense_record.yaml
+  04_set_monthly_budget.yaml
+  05_categorize_expenses.yaml
+  06_view_remaining_balance.yaml
+  07_view_financial_statistics.yaml
+  08_profile_logout_session.yaml
+  setup/
+    seed_user.yaml      # subflow: register a fresh user and land on dashboard
 ```
 
-If the team runs the app through Expo Go, the launch strategy is different and
-the flows may need temporary Expo Go-specific setup. The recommended long-term
-path is a development build using `com.pocketed.app`.
+`setup/seed_user.yaml` is included by every flow that needs an authenticated
+session, via:
 
-## Planned Flow Suite
+```yaml
+- runFlow:
+    file: setup/seed_user.yaml
+```
 
-The final suite should cover one user-story-sized journey per file:
+## Test data
 
-- `00_smoke_welcome.yaml`: welcome screen and navigation entry points.
-- `01_auth_register_login.yaml`: account creation, login, and dashboard entry.
-- `02_add_income_record.yaml`: add income and verify summary changes.
-- `03_add_expense_record.yaml`: add expense and verify transaction plus totals.
-- `04_set_monthly_budget.yaml`: create or update a monthly budget.
-- `05_categorize_expenses.yaml`: verify category metadata and budget grouping.
-- `06_view_remaining_balance.yaml`: verify balance and remaining budget.
-- `07_view_financial_statistics.yaml`: verify dashboard/profile summaries.
-- `08_profile_logout_session.yaml`: profile information, logout, and relaunch.
+Each run defaults to `maestro@example.com / secret123`. Override per run to
+keep the backend clean:
 
-## Running From WSL
+```bash
+maestro -e USER_EMAIL="maestro+$(date +%s)@example.com" \
+        -e USER_PASSWORD="secret123" \
+        -e USER_NAME="Maestro Tester" \
+        test .maestro/01_auth_register_login.yaml
+```
+
+Most amounts and titles inside individual flows are also exposed as
+`env:` blocks at the top of each file — override them the same way.
+
+> **Backend note** — the API in `src/services/api.ts` reads
+> `EXPO_PUBLIC_API_BASE_URL`. For Maestro runs against a local backend, start
+> the dev build with that variable pointed at your test API to avoid mutating
+> the shared public server.
+
+## Running
+
+From `mobile-app/`:
+
+```bash
+npm install
+npx expo run:android   # build and install the dev client
+```
+
+In another terminal:
+
+```bash
+maestro test .maestro                  # run the whole suite
+maestro test .maestro/00_smoke_welcome.yaml   # run a single flow
+```
+
+### From WSL
 
 The helper script proxies Windows `adb.exe` so Maestro can run from WSL:
 
 ```bash
-cd mobile-app
 ./scripts/maestro-wsl.sh .maestro
+./scripts/maestro-wsl.sh .maestro/01_auth_register_login.yaml
 ```
 
-Run a single flow:
+## CI
 
-```bash
-./scripts/maestro-wsl.sh .maestro/auth_navigation.yaml
-```
-
-## Running Directly
-
-Start the app first:
-
-```bash
-cd mobile-app
-npx expo start --android
-```
-
-Then run Maestro:
-
-```bash
-maestro test .maestro
-```
-
-## Stabilization Checklist
-
-- Replace placeholder flows with current UI behavior.
-- Change `appId` from old placeholder values to `com.pocketed.app`.
-- Add stable selectors to the app for every tapped or asserted element.
-- Avoid depending on the shared public API; use a local testing backend or
-  unique per-run data.
-- Keep one acceptance flow per user story so failures are easy to understand.
+There is no automated runner yet — Maestro needs an Android emulator job, which
+is not part of `mobile-tests.yml`. Run the suite manually before tagging a
+release, or wire it into a self-hosted runner with an emulator image.

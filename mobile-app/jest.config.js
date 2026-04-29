@@ -8,8 +8,18 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "!src/**/*.style.ts",
+    "!src/models/**",
+    "!src/theme/**",
     "!src/resources/**",
     "!src/**/*.d.ts"
   ],
+  coverageThreshold: {
+    global: {
+      lines: 90,
+      statements: 90,
+      functions: 85,
+      branches: 70
+    }
+  },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"]
 };

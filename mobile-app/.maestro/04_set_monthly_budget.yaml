@@ -1,0 +1,34 @@
+appId: com.pocketed.app
+name: Set Monthly Budget
+tags:
+  - acceptance
+  - budget
+env:
+  BUDGET_CATEGORY: "Food"
+  BUDGET_LIMIT: "300"
+---
+- runFlow:
+    file: setup/seed_user.yaml
+
+- tapOn:
+    id: "dashboard-add-budget-button"
+
+- tapOn:
+    id: "budget-category-input"
+- inputText: ${BUDGET_CATEGORY}
+
+- tapOn:
+    id: "budget-limit-input"
+- inputText: ${BUDGET_LIMIT}
+- hideKeyboard
+
+- tapOn:
+    id: "budget-save-button"
+
+# Dashboard reflects new budget.
+- scrollUntilVisible:
+    element:
+      text: "Budget Overview"
+    direction: DOWN
+- assertVisible: ${BUDGET_CATEGORY}
+- assertVisible: ".*300.*"

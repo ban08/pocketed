@@ -1,0 +1,20 @@
+appId: com.pocketed.app
+name: Auth - Register and Login
+tags:
+  - acceptance
+  - auth
+---
+# Register a fresh user, log in, and confirm we reach the dashboard.
+# The seed subflow handles the full register + login round-trip.
+- runFlow:
+    file: setup/seed_user.yaml
+
+# Dashboard sanity: balance and quick actions are visible.
+- assertVisible:
+    id: "dashboard-balance-value"
+- assertVisible:
+    id: "dashboard-add-income-button"
+- assertVisible:
+    id: "dashboard-add-expense-button"
+- assertVisible:
+    id: "dashboard-add-budget-button"

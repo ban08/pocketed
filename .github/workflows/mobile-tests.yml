@@ -13,7 +13,7 @@ on:
 
 jobs:
   test:
-    name: lint + jest
+    name: lint + typecheck + jest
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,5 +36,17 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Run unit tests
-        run: npm test -- --runInBand --ci
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Run unit tests with coverage
+        run: npm run test:ci
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: mobile-app/coverage
+          if-no-files-found: warn
+          retention-days: 14
