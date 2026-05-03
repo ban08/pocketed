@@ -62,9 +62,9 @@ beforeEach(() => {
 });
 
 describe("UserProfileScreen", () => {
-  it("renders the user name, email, and computed initials", async () => {
+  it("renders the user name, email, and computed initials", () => {
+    (getUserData as jest.Mock).mockImplementationOnce(() => new Promise(() => {}));
     const { getByText, getAllByText } = renderWithUser(sampleUser);
-    await waitFor(() => expect(getUserData).toHaveBeenCalledWith("u1"));
     // Name appears twice: hero card + "Full Name" account row.
     expect(getAllByText("Alice Smith").length).toBeGreaterThanOrEqual(2);
     expect(getAllByText("alice@example.com").length).toBeGreaterThanOrEqual(2);

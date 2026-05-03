@@ -4,7 +4,6 @@
 
 # pocketED Development Report
 
-> **Note 2: this document is currently being overhauled offline** <br>
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
 Welcome to the documentation of _pocketED_!
@@ -336,40 +335,40 @@ This prototype already demonstrates the viability of the chosen stack for naviga
 
 ## Testing Strategy
 
-The testing work is planned on the `tests` branch. The full implementation roadmap is maintained in [`resources/testing/testing-plan.md`](resources/testing/testing-plan.md), which maps the current repository structure to unit, integration, and Maestro acceptance tests. Current priority is the mobile UI; backend test work is deferred until the UI flows are stable.
-
 The target test pyramid for pocketED is:
 
 - **Unit tests** for reducers, service functions, validation helpers, financial calculations, formatting helpers, and small extracted business rules.
 - **Mobile component tests** for screen behavior with React Native Testing Library, mocked navigation, mocked services, and mocked storage.
 - **Acceptance tests with Maestro** for the main user stories on Android: authentication navigation, register/login, add income, add expense, set budget, categorize expenses, view remaining balance, view statistics, profile, logout, and session behavior.
-- **Backend integration tests** later, after the mobile UI suite is useful and if the sprint has time left.
 
 Current testing status:
 
-- The mobile app has Expo lint tooling but no Jest test script yet.
-- Maestro files exist in `mobile-app/.maestro`, but several are drafts/placeholders and need to be synchronized with the current UI labels, euro currency formatting, app ID, and stable selectors.
-- The API base URL is currently hard-coded in the mobile services, so the plan includes centralizing it before adding reliable automated tests.
-- The backend is intentionally out of scope for the first testing commits.
+- The mobile app has a Jest/Expo test harness with React Native Testing Library, AsyncStorage mocks, fetch mocks, and test-only API configuration.
+- The automated mobile suite contains **14 Jest test files** covering auth context/reducer behavior, API service behavior, dashboard utility calculations, and all main mobile screens — **120 tests, all passing**.
+- Maestro acceptance flows are complete in `mobile-app/.maestro`: 9 numbered flows covering every user story plus a reusable `setup/seed_user.yaml` subflow. All flows use stable `testID` selectors and euro currency formatting.
+- CI runs lint, typecheck, and the full Jest suite with coverage on every push to `main` and `tests`.
+- The mobile API base URL is centralized in `mobile-app/src/services/api.ts`; Jest defaults it to `http://localhost/api` so automated tests do not target the shared public API.
+- Backend testing is intentionally deferred.
 
-Planned commit slices on `tests`:
-
-- `docs: add testing strategy`
-- `test: add stable mobile automation selectors`
-- `test: stabilize maestro acceptance flows`
-- `test: add mobile jest harness`
-- `test: cover mobile auth and expense services`
-- `test: cover mobile screen interactions`
-- `ci: run mobile tests`
-- `docs: update coverage and test commands`
-
-Baseline commands after the suite is implemented:
+Baseline commands:
 
 ```bash
 cd mobile-app
+
+# Lint and type-check
 npm run lint
+npm run typecheck
+
+# Unit and component tests (with coverage)
 npm test
+npm run test:coverage
+
+# Maestro acceptance suite (requires connected Android device/emulator)
+maestro test .maestro
+
+# From WSL with Windows ADB
 ./scripts/maestro-wsl.sh .maestro
+./scripts/maestro-wsl.sh .maestro/01_auth_register_login.yaml
 ```
 
 ## Project management

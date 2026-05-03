@@ -1,5 +1,7 @@
 module.exports = {
   preset: "jest-expo",
+  roots: ["<rootDir>/src", "<rootDir>/app"],
+  setupFiles: ["<rootDir>/jest.env.ts"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testPathIgnorePatterns: ["/node_modules/", "/.expo/", "/android/", "/ios/"],
   transformIgnorePatterns: [

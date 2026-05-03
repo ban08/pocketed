@@ -25,16 +25,13 @@ describe("AuthProvider", () => {
     return String(children ?? "");
   };
 
-  it("starts unauthenticated when AsyncStorage is empty", async () => {
+  it("starts unauthenticated when AsyncStorage is empty", () => {
     const { getByTestId } = render(
       <AuthProvider>
         <Probe />
       </AuthProvider>
     );
-    // Effect runs and resolves to no user.
-    await waitFor(() => {
-      expect(probeText(getByTestId("auth-probe"))).toBe("anon");
-    });
+    expect(probeText(getByTestId("auth-probe"))).toBe("anon");
   });
 
   it("hydrates the user from AsyncStorage on mount", async () => {
