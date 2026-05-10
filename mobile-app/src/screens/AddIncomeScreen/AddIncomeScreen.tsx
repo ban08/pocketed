@@ -64,7 +64,9 @@ export default function AddIncomeScreen() {
         <Text style={styles.title}>Add Income</Text>
 
         {/* TITLE */}
+        
         <Text style={styles.label}>Title</Text>
+
         <TextInput
           testID="income-title-input"
           style={styles.input}

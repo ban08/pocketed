@@ -453,12 +453,75 @@ This release marks the first genuinely usable prototype of pocketED. For the fir
 
 #### Sprint Retrospective
 
+#### Maestro End-to-End Testing
+
+As part of Sprint 1 validation, we implemented automated mobile UI testing using Maestro.
+
+The implemented flow validates the complete Add Income user journey:
+
+1. Open the application
+2. Navigate to Dashboard
+3. Open the Add Income screen
+4. Insert income title and amount
+5. Save the transaction
+6. Verify that the transaction appears in Recent Transactions
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "dashboard-screen"
+- tapOn: "income-button"
+- tapOn: "Title"
+- inputText: "Salary"
+- tapOn: "Amount"
+- inputText: "100"
+- tapOn: "Save Income"
+- assertVisible: "Salary"
+```
+
+##### Test Execution
+
+The test was executed with:
+
+```bash
+maestro test .maestro/flows/income.yaml
+```
+
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/dashboard-before.png" width="420"/><br>
+      Dashboard Before
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/income-added.png" width="420"/><br>
+      Income Added
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro-success.png" width="420"/><br>
+      Maestro Success
+    </td>
+  </tr>
+</table>
+
+
+##### Result
+
+The Maestro test completed successfully and validated the navigation and transaction creation flow of the application.
+
 **Did well:**
 - Code implementation quality improved significantly over Sprint 0 — the codebase is cleaner, better structured, and more consistent.
 - Team collaboration and workload distribution worked well, with members contributing according to their individual strengths.
 
 **Do differently:**
-- Testing was done entirely through manual verification by team members. No automated Maestro tests were written or executed, despite the tooling being set up. Next sprint we should write at least one Maestro flow per user story delivered.
+- While the team successfully implemented the core features, automated testing coverage is still limited. During this sprint, we implemented and validated the first Maestro end-to-end flow for the Add Income feature, covering dashboard navigation, form interaction, and transaction creation. Future sprints should expand Maestro coverage to additional user stories and edge cases.
 
 **Puzzles:**
 - We are still unsure about the right level of test coverage for a prototype at this stage, and how to balance automated testing effort against feature delivery speed.

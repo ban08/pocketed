@@ -216,7 +216,9 @@ export default function DashboardScreen() {
   const spentPct = getBudgetPercent(MONTHLY_SPENT, MONTHLY_BUDGET);
 
   return (
-    <View style={styles.root}>
+    <View 
+      testID="dashboard-screen"
+      style={styles.root}>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
         {/* ===== Header ===== */}
@@ -270,6 +272,7 @@ export default function DashboardScreen() {
           <View style={styles.greetingSection}>
             <Text style={styles.greetingEyebrow}>{getGreeting()}</Text>
             <Text style={styles.greeting}>{userName}</Text>
+
             <Text style={styles.greetingSubtitle}>
               Here&apos;s your financial summary
             </Text>
