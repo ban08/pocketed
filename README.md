@@ -4,7 +4,6 @@
 
 # pocketED Development Report
 
-> **Note 2: this document is currently being overhauled offline** <br>
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
 Welcome to the documentation of _pocketED_!
@@ -34,6 +33,7 @@ It is organised by the following activities:
     - [Logical architecture](#logical-architecture)
     - [Physical architecture](#physical-architecture)
     - [Functional prototype](#functional-prototype)
+  - [Testing Strategy](#testing-strategy)
   - [Project management](#project-management)
     - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
     - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
@@ -332,6 +332,44 @@ The current functional prototype validates the selected architecture through a t
 - The dashboard reads mock expense entries through a service layer and renders a basic monthly total.
 
 This prototype already demonstrates the viability of the chosen stack for navigation, state sharing, typed models, theming, and local data access.
+
+## Testing Strategy
+
+The target test pyramid for pocketED is:
+
+- **Unit tests** for reducers, service functions, validation helpers, financial calculations, formatting helpers, and small extracted business rules.
+- **Mobile component tests** for screen behavior with React Native Testing Library, mocked navigation, mocked services, and mocked storage.
+- **Acceptance tests with Maestro** for the main user stories on Android: authentication navigation, register/login, add income, add expense, set budget, categorize expenses, view remaining balance, view statistics, profile, logout, and session behavior.
+
+Current testing status:
+
+- The mobile app has a Jest/Expo test harness with React Native Testing Library, AsyncStorage mocks, fetch mocks, and test-only API configuration.
+- The automated mobile suite contains **14 Jest test files** covering auth context/reducer behavior, API service behavior, dashboard utility calculations, and all main mobile screens — **120 tests, all passing**.
+- Maestro acceptance flows are complete in `mobile-app/.maestro`: 9 numbered flows covering every user story plus a reusable `setup/seed_user.yaml` subflow. All flows use stable `testID` selectors and euro currency formatting.
+- CI runs lint, typecheck, and the full Jest suite with coverage on every push to `main` and `tests`.
+- The mobile API base URL is centralized in `mobile-app/src/services/api.ts`; Jest defaults it to `http://localhost/api` so automated tests do not target the shared public API.
+- Backend testing is intentionally deferred.
+
+Baseline commands:
+
+```bash
+cd mobile-app
+
+# Lint and type-check
+npm run lint
+npm run typecheck
+
+# Unit and component tests (with coverage)
+npm test
+npm run test:coverage
+
+# Maestro acceptance suite (requires connected Android device/emulator)
+maestro test .maestro
+
+# From WSL with Windows ADB
+./scripts/maestro-wsl.sh .maestro
+./scripts/maestro-wsl.sh .maestro/01_auth_register_login.yaml
+```
 
 ## Project management
 

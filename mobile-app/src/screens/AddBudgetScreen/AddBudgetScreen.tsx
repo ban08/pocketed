@@ -61,6 +61,7 @@ export default function AddBudgetScreen() {
 
         <Text style={styles.label}>Category</Text>
         <TextInput
+          testID="budget-category-input"
           style={styles.input}
           value={category}
           onChangeText={setCategory}
@@ -69,6 +70,7 @@ export default function AddBudgetScreen() {
 
         <Text style={styles.label}>Limit</Text>
         <TextInput
+          testID="budget-limit-input"
           style={styles.input}
           value={limit}
           onChangeText={setLimit}
@@ -77,6 +79,7 @@ export default function AddBudgetScreen() {
         />
 
         <Pressable
+          testID="budget-save-button"
           onPress={handleSave}
           style={({ pressed }) => [
             styles.buttonPrimary,
@@ -86,7 +89,11 @@ export default function AddBudgetScreen() {
           <Text style={styles.buttonText}>Save Budget</Text>
         </Pressable>
 
-        <Pressable onPress={() => router.back()} style={styles.buttonSecondary}>
+        <Pressable
+          testID="budget-cancel-button"
+          onPress={() => router.back()}
+          style={styles.buttonSecondary}
+        >
           <Text style={styles.buttonSecondaryText}>Cancel</Text>
         </Pressable>
 

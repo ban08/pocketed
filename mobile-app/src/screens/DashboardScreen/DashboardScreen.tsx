@@ -17,31 +17,18 @@ import { styles, dashColors } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense";
 import { getUserData, calculateSummary } from "@/src/services/expenseService";
 import { Budget } from "@/src/models/Budget";
+import {
+  getGreeting,
+  formatCurrency,
+  formatDate,
+  getInitials,
+  getSpentByCategory,
+  getBudgetPercent,
+  getBudgetLevel,
+  getBalanceLevel,
+} from "./dashboardUtils";
 
 const MONTHLY_SAVINGS = 0;
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-}
-
-function formatCurrency(amount: number): string {
-  return amount.toLocaleString("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  });
-}
-
-function formatDate(d: string): string {
-  // Best-effort: keep whatever the source gave us if it's not parseable.
-  const parsed = new Date(d);
-  if (isNaN(parsed.getTime())) return d;
-  return parsed.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
-}
 
 // ─── Inline SVG icon set (no emoji) ──────────────────────────────────────────
 // 1.5px stroke, lucide-style. Size + color are props.
@@ -164,12 +151,11 @@ export default function DashboardScreen() {
   const { user, logout } = useContext(AuthContext);
   const router = useRouter();
   const userName = user?.name || "User";
-  const userInitials =
-    userName
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase() || "U";
+  const userInitials = getInitials(userName);
+
+  const handleProfilePress = React.useCallback(() => {
+    router.push("/(tabs)/profile");
+  }, [router]);
 
   // --- Logout handler ---
   const handleLogout = React.useCallback(async () => {
@@ -218,23 +204,16 @@ export default function DashboardScreen() {
     balance: BALANCE,
   } = calculateSummary(expenses);
 
+  const balanceLevel = getBalanceLevel(BALANCE);
   const balanceColor =
-    BALANCE > 0
+    balanceLevel === "positive"
       ? dashColors.positive
-      : BALANCE < 0
+      : balanceLevel === "negative"
       ? dashColors.negative
       : dashColors.neutral;
 
   const remaining = MONTHLY_BUDGET - MONTHLY_SPENT;
-  const spentPct = MONTHLY_BUDGET
-    ? Math.round((MONTHLY_SPENT / MONTHLY_BUDGET) * 100)
-    : 0;
-
-  const getSpentByCategory = (category: string) => {
-    return expenses
-      .filter((e) => e.category === category && e.amount > 0)
-      .reduce((sum, e) => sum + e.amount, 0);
-  };
+  const spentPct = getBudgetPercent(MONTHLY_SPENT, MONTHLY_BUDGET);
 
   return (
     <View 
@@ -261,15 +240,22 @@ export default function DashboardScreen() {
               <Icon.Bell />
               <View style={styles.iconBadgeDot} />
             </Pressable>
-            <View style={styles.avatar}>
+            <Pressable
+              style={({ pressed }) => [styles.avatar, pressed && styles.pressed]}
+              onPress={handleProfilePress}
+              testID="dashboard-profile-button"
+              accessibilityRole="button"
+              accessibilityLabel={`Open profile for ${userName}`}
+            >
               <Text style={styles.avatarText}>{userInitials}</Text>
-            </View>
+            </Pressable>
             <Pressable
               style={({ pressed }) => [
                 styles.iconButton,
                 pressed && styles.pressed,
               ]}
               onPress={handleLogout}
+              testID="dashboard-logout-button"
               accessibilityLabel="Logout"
             >
               <Icon.LogOut />
@@ -286,11 +272,9 @@ export default function DashboardScreen() {
           <View style={styles.greetingSection}>
             <Text style={styles.greetingEyebrow}>{getGreeting()}</Text>
             <Text style={styles.greeting}>{userName}</Text>
-            
-            <Text 
-              testID="financial-summary"
-              style={styles.greetingSubtitle}>
-              Here's your financial summary
+
+            <Text style={styles.greetingSubtitle}>
+              Here&apos;s your financial summary
             </Text>
           </View>
 
@@ -299,7 +283,10 @@ export default function DashboardScreen() {
             <View style={styles.summaryTopRow}>
               <View style={styles.summaryBalanceBlock}>
                 <Text style={styles.summaryLabel}>Balance</Text>
-                <Text style={[styles.balanceAmount, { color: balanceColor }]}>
+                <Text
+                  testID="dashboard-balance-value"
+                  style={[styles.balanceAmount, { color: balanceColor }]}
+                >
                   {formatCurrency(BALANCE)}
                 </Text>
                 <View style={styles.balanceDelta}>
@@ -342,9 +329,9 @@ export default function DashboardScreen() {
                   {
                     width: `${spentPct}%` as any,
                     backgroundColor:
-                      spentPct >= 100
+                      getBudgetLevel(spentPct) === "over"
                         ? dashColors.negative
-                        : spentPct >= 80
+                        : getBudgetLevel(spentPct) === "warn"
                         ? "#FBBF24"
                         : dashColors.accent,
                   },
@@ -357,6 +344,7 @@ export default function DashboardScreen() {
               <View style={styles.summarySplitCol}>
                 <Text style={styles.summaryLabel}>Income</Text>
                 <Text
+                  testID="dashboard-income-value"
                   style={[styles.summaryAmount, { color: dashColors.positive }]}
                 >
                   {formatCurrency(MONTHLY_INCOME)}
@@ -366,6 +354,7 @@ export default function DashboardScreen() {
               <View style={styles.summarySplitColRight}>
                 <Text style={styles.summaryLabel}>Spent</Text>
                 <Text
+                  testID="dashboard-spent-value"
                   style={[styles.summaryAmount, { color: dashColors.negative }]}
                 >
                   {formatCurrency(MONTHLY_SPENT)}
@@ -380,7 +369,9 @@ export default function DashboardScreen() {
               <View style={styles.statIconWrap}>
                 <Icon.Wallet color={dashColors.accent} />
               </View>
-              <Text style={styles.statValue}>{formatCurrency(remaining)}</Text>
+              <Text testID="dashboard-remaining-value" style={styles.statValue}>
+                {formatCurrency(remaining)}
+              </Text>
               <Text style={styles.statLabel}>Remaining</Text>
             </View>
             <View style={styles.statCard}>
@@ -407,13 +398,8 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.actionsRow}>
             <Pressable
-              testID="income-button"
-              accessibilityLabel="income-button"
-              
-              onPress={() => {
-                console.log("INCOME BUTTON PRESSED");
-                router.push("/add-income");
-              }}
+              testID="dashboard-add-income-button"
+              onPress={() => router.push("/add-income")}
               style={({ pressed }) => [
                 styles.actionSecondary,
                 pressed && styles.pressed,
@@ -423,6 +409,7 @@ export default function DashboardScreen() {
               <Text style={styles.actionSecondaryText}>Income</Text>
             </Pressable>
             <Pressable
+              testID="dashboard-add-expense-button"
               onPress={() => router.push("/add-expense")}
               style={({ pressed }) => [
                 styles.actionPrimary,
@@ -434,6 +421,7 @@ export default function DashboardScreen() {
               <Text style={styles.actionPrimaryText}>Expense</Text>
             </Pressable>
             <Pressable
+              testID="dashboard-add-budget-button"
               onPress={() => router.push("/add-budget")}
               style={({ pressed }) => [
                 styles.actionSecondary,
@@ -530,13 +518,14 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.budgetsCard}>
             {budgets.map((b) => {
-              const spent = getSpentByCategory(b.category);
-              const pct = b.limit > 0 ? Math.round((spent / b.limit) * 100) : 0;
+              const spent = getSpentByCategory(expenses, b.category);
+              const pct = getBudgetPercent(spent, b.limit);
               const tint = categoryColor(b.category);
+              const level = getBudgetLevel(pct);
               const barColor =
-                pct >= 100
+                level === "over"
                   ? dashColors.negative
-                  : pct >= 80
+                  : level === "warn"
                   ? "#FBBF24"
                   : tint;
 

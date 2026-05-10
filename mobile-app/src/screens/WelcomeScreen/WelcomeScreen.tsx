@@ -80,7 +80,7 @@ export default function WelcomeScreen() {
 
             <View style={styles.buttonRow}>
               <Pressable
-                testID="register-button"
+                testID="welcome-register-button"
                 style={({ pressed }) => [
                   styles.secondaryButton,
                   pressed && styles.pressed,
@@ -91,7 +91,7 @@ export default function WelcomeScreen() {
               </Pressable>
 
               <Pressable
-                testID="login-button"
+                testID="welcome-login-button"
                 style={({ pressed }) => [
                   styles.primaryButton,
                   pressed && styles.pressed,
@@ -102,7 +102,7 @@ export default function WelcomeScreen() {
               </Pressable>
 
               <Pressable
-                testID="guest-button"
+                testID="welcome-guest-button"
                 style={({ pressed }) => [
                   styles.thirdButton,
                   pressed && styles.pressed,

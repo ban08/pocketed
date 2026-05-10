@@ -99,7 +99,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>📧</Text>
               <TextInput
-                testID="email-input"
+                testID="login-email-input"
                 style={styles.input}
                 placeholder="you@university.edu"
                 placeholderTextColor="#9CA3AF"
@@ -114,7 +114,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>🔒</Text>
               <TextInput
-                testID="password-input"
+                testID="login-password-input"
                 style={styles.input}
                 placeholder="Your secret password"
                 placeholderTextColor="#9CA3AF"
@@ -130,7 +130,7 @@ export default function LoginScreen() {
 
             {/* ===== Actions ===== */}
             <Pressable
-              testID="login-submit"
+              testID="login-submit-button"
               style={({ pressed }) => [
                 styles.primaryButton,
                 pressed && styles.pressed,
@@ -162,7 +162,10 @@ export default function LoginScreen() {
               <Text style={styles.footerText}>
                 Don&apos;t have an account yet?{" "}
               </Text>
-              <Pressable onPress={() => router.push("/auth/register")}>
+              <Pressable
+                testID="login-register-link"
+                onPress={() => router.push("/auth/register")}
+              >
                 <Text style={styles.footerLink}>Sign Up</Text>
               </Pressable>
             </View>
