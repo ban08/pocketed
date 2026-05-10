@@ -64,12 +64,13 @@ export default function AddIncomeScreen() {
         <Text style={styles.title}>Add Income</Text>
 
         {/* TITLE */}
+        
         <Text style={styles.label}>Title</Text>
-        <TextInput style={styles.input} value={title} onChangeText={setTitle} />
+        <TextInput testID="income-title-input" style={styles.input} value={title} onChangeText={setTitle} />
 
         {/* AMOUNT */}
         <Text style={styles.label}>Amount</Text>
-        <TextInput style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" />
+        <TextInput testID="income-amount-input" style={styles.input} value={amount} onChangeText={setAmount} keyboardType="numeric" />
 
         {/* CATEGORIES */}
         <View style={{ flexDirection: "row", flexWrap: "wrap", margin: 8 }}>
@@ -95,6 +96,7 @@ export default function AddIncomeScreen() {
 
         {/* SAVE BUTTON */}
         <Pressable
+          testID="income-save-button"
           onPress={() => {
             console.log("PRESS WORKS");
             handleSave();

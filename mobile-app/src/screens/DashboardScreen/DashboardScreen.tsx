@@ -237,7 +237,9 @@ export default function DashboardScreen() {
   };
 
   return (
-    <View style={styles.root}>
+    <View 
+      testID="dashboard-screen"
+      style={styles.root}>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
         {/* ===== Header ===== */}
@@ -284,7 +286,10 @@ export default function DashboardScreen() {
           <View style={styles.greetingSection}>
             <Text style={styles.greetingEyebrow}>{getGreeting()}</Text>
             <Text style={styles.greeting}>{userName}</Text>
-            <Text style={styles.greetingSubtitle}>
+            
+            <Text 
+              testID="financial-summary"
+              style={styles.greetingSubtitle}>
               Here's your financial summary
             </Text>
           </View>
@@ -402,7 +407,13 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.actionsRow}>
             <Pressable
-              onPress={() => router.push("/add-income")}
+              testID="income-button"
+              accessibilityLabel="income-button"
+              
+              onPress={() => {
+                console.log("INCOME BUTTON PRESSED");
+                router.push("/add-income");
+              }}
               style={({ pressed }) => [
                 styles.actionSecondary,
                 pressed && styles.pressed,

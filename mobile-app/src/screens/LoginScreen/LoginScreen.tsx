@@ -99,6 +99,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>📧</Text>
               <TextInput
+                testID="email-input"
                 style={styles.input}
                 placeholder="you@university.edu"
                 placeholderTextColor="#9CA3AF"
@@ -113,6 +114,7 @@ export default function LoginScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>🔒</Text>
               <TextInput
+                testID="password-input"
                 style={styles.input}
                 placeholder="Your secret password"
                 placeholderTextColor="#9CA3AF"
@@ -128,6 +130,7 @@ export default function LoginScreen() {
 
             {/* ===== Actions ===== */}
             <Pressable
+              testID="login-submit"
               style={({ pressed }) => [
                 styles.primaryButton,
                 pressed && styles.pressed,
