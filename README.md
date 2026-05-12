@@ -4,7 +4,6 @@
 
 # pocketED Development Report
 
-> **Note 2: this document is currently being overhauled offline** <br>
 > **Note:** A lot of commits to this repository have been made through pair programming and keyboard-sharing by all 4 group members during practical classes as per Extreme Programming methodology. For this reason, the number of commits made by a single person does not accurately represent the entire participation of all members during the development cycle.
 
 Welcome to the documentation of _pocketED_!
@@ -34,9 +33,18 @@ It is organised by the following activities:
     - [Logical architecture](#logical-architecture)
     - [Physical architecture](#physical-architecture)
     - [Functional prototype](#functional-prototype)
+  - [Testing Strategy](#testing-strategy)
   - [Project management](#project-management)
     - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
     - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
+      - [Increment Scope](#increment-scope)
+      - [Sprint Review](#sprint-review)
+      - [Sprint Retrospective](#sprint-retrospective)
+      - [Maestro End-to-End Testing](#maestro-end-to-end-testing)
+        - [Tested Flow](#tested-flow)
+        - [Test Execution](#test-execution)
+        - [Screenshots](#screenshots)
+        - [Result](#result)
 
 Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -333,6 +341,44 @@ The current functional prototype validates the selected architecture through a t
 
 This prototype already demonstrates the viability of the chosen stack for navigation, state sharing, typed models, theming, and local data access.
 
+## Testing Strategy
+
+The target test pyramid for pocketED is:
+
+- **Unit tests** for reducers, service functions, validation helpers, financial calculations, formatting helpers, and small extracted business rules.
+- **Mobile component tests** for screen behavior with React Native Testing Library, mocked navigation, mocked services, and mocked storage.
+- **Acceptance tests with Maestro** for the main user stories on Android: authentication navigation, register/login, add income, add expense, set budget, categorize expenses, view remaining balance, view statistics, profile, logout, and session behavior.
+
+Current testing status:
+
+- The mobile app has a Jest/Expo test harness with React Native Testing Library, AsyncStorage mocks, fetch mocks, and test-only API configuration.
+- The automated mobile suite contains **14 Jest test files** covering auth context/reducer behavior, API service behavior, dashboard utility calculations, and all main mobile screens — **120 tests, all passing**.
+- Maestro acceptance flows are complete in `mobile-app/.maestro`: 9 numbered flows covering every user story plus a reusable `setup/seed_user.yaml` subflow. All flows use stable `testID` selectors and euro currency formatting.
+- CI runs lint, typecheck, and the full Jest suite with coverage on every push to `main` and `tests`.
+- The mobile API base URL is centralized in `mobile-app/src/services/api.ts`; Jest defaults it to `http://localhost/api` so automated tests do not target the shared public API.
+- Backend testing is intentionally deferred.
+
+Baseline commands:
+
+```bash
+cd mobile-app
+
+# Lint and type-check
+npm run lint
+npm run typecheck
+
+# Unit and component tests (with coverage)
+npm test
+npm run test:coverage
+
+# Maestro acceptance suite (requires connected Android device/emulator)
+maestro test .maestro
+
+# From WSL with Windows ADB
+./scripts/maestro-wsl.sh .maestro
+./scripts/maestro-wsl.sh .maestro/01_auth_register_login.yaml
+```
+
 ## Project management
 
 <!--
@@ -394,7 +440,99 @@ Sprint 0 was about getting to know eachother, laying down the product vision and
 
 ### Sprint 1 - Spring cleaning!
 
-Sprint 0 was productive but messy, and we cleaned up most of it during this spring. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
+Sprint 0 was productive but messy, and we cleaned up most of it during this sprint. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
+
+![Sprint 1 Dashboard](resources/Sprint1Dashboard.png)
+
+#### Increment Scope
+
+The following features were delivered during Sprint 1:
+
+- **Backend API** — implemented a C# ASP.NET Core backend with local SQLite persistence, exposing endpoints for users, expenses, and budgets.
+- **User Authentication** — functional login, registration, and logout flows connected end-to-end between the mobile app and the backend.
+- **Add Expense** — users can record a new expense with amount, category, and description.
+- **Add Income** — users can record income entries that update their running balance.
+- **Add Budget** — users can define a monthly spending limit which is reflected on the dashboard.
+- **Local persistence** — transaction and budget data is persisted across sessions via the backend database.
+
+#### Sprint Review
+
+This release marks the first genuinely usable prototype of pocketED. For the first time users can create an account, log in, and actively record their financial activity — expenses, income, and a monthly budget — and see it reflected in real time on the dashboard. This is the foundation of the financial tracking experience we intend to deliver, and it adds real, demonstrable value to end-users.
+
+#### Sprint Retrospective
+
+#### Maestro End-to-End Testing
+
+As part of Sprint 1 validation, we implemented automated mobile UI testing using Maestro.
+
+The implemented flow validates the complete Add Income user journey:
+
+1. Open the application
+2. Navigate to Dashboard
+3. Open the Add Income screen
+4. Insert income title and amount
+5. Save the transaction
+6. Verify that the transaction appears in Recent Transactions
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "dashboard-screen"
+- tapOn: "income-button"
+- tapOn: "Title"
+- inputText: "Salary"
+- tapOn: "Amount"
+- inputText: "100"
+- tapOn: "Save Income"
+- assertVisible: "Salary"
+```
+
+##### Test Execution
+
+The test was executed with:
+
+```bash
+maestro test .maestro/flows/income.yaml
+```
+
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/dashboard-before.png" width="420"/><br>
+      Dashboard Before
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/income-added.png" width="420"/><br>
+      Income Added
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro-success.png" width="420"/><br>
+      Maestro Success
+    </td>
+  </tr>
+</table>
+
+
+##### Result
+
+The Maestro test completed successfully and validated the navigation and transaction creation flow of the application.
+
+**Did well:**
+- Code implementation quality improved significantly over Sprint 0 — the codebase is cleaner, better structured, and more consistent.
+- Team collaboration and workload distribution worked well, with members contributing according to their individual strengths.
+
+**Do differently:**
+- While the team successfully implemented the core features, automated testing coverage is still limited. During this sprint, we implemented and validated the first Maestro end-to-end flow for the Add Income feature, covering dashboard navigation, form interaction, and transaction creation. Future sprints should expand Maestro coverage to additional user stories and edge cases.
+
+**Puzzles:**
+- We are still unsure about the right level of test coverage for a prototype at this stage, and how to balance automated testing effort against feature delivery speed.
 
 
 <!--

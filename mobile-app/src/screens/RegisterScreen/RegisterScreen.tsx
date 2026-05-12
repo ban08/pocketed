@@ -115,6 +115,7 @@ export default function RegisterScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>😊</Text>
               <TextInput
+                testID="register-name-input"
                 style={styles.input}
                 placeholder="What should we call you?"
                 placeholderTextColor="#9CA3AF"
@@ -128,6 +129,7 @@ export default function RegisterScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>📧</Text>
               <TextInput
+                testID="register-email-input"
                 style={styles.input}
                 placeholder="you@university.edu"
                 placeholderTextColor="#9CA3AF"
@@ -142,6 +144,7 @@ export default function RegisterScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>🔒</Text>
               <TextInput
+                testID="register-password-input"
                 style={styles.input}
                 placeholder="Make it strong 💪"
                 placeholderTextColor="#9CA3AF"
@@ -155,6 +158,7 @@ export default function RegisterScreen() {
             <View style={styles.inputWrapper}>
               <Text style={styles.inputIcon}>🔑</Text>
               <TextInput
+                testID="register-confirm-password-input"
                 style={styles.input}
                 placeholder="One more time..."
                 placeholderTextColor="#9CA3AF"
@@ -166,6 +170,7 @@ export default function RegisterScreen() {
 
             {/* ===== Actions ===== */}
             <Pressable
+              testID="register-submit-button"
               style={({ pressed }) => [
                 styles.primaryButton,
                 pressed && styles.pressed,
@@ -205,7 +210,10 @@ export default function RegisterScreen() {
               <Text style={styles.footerText}>
                 Already have an account?{" "}
               </Text>
-              <Pressable onPress={() => router.push("/auth/login")}>
+              <Pressable
+                testID="register-login-link"
+                onPress={() => router.push("/auth/login")}
+              >
                 <Text style={styles.footerLink}>Log In</Text>
               </Pressable>
             </View>

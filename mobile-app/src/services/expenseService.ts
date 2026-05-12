@@ -1,4 +1,4 @@
-const BASE_URL = "http://91.98.197.3:5022/api";
+import { BASE_URL } from "./api";
 
 export async function getUserData(userId: string) {
   const res = await fetch(`${BASE_URL}/users/${userId}`);
