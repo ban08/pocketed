@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../models/User";
-import { loginUser, saveCurrentUser } from "../../services/authService";
+import { loginUser } from "../../services/authService";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -17,7 +17,31 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { styles } from "./LoginScreen.style";
+import Svg, { Path, Rect } from "react-native-svg";
+import { styles, loginPalette } from "./LoginScreen.style";
+
+type IconProps = { size?: number; color?: string };
+
+const Icon = {
+  Mail: ({ size = 18, color = loginPalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Rect x={2} y={4} width={20} height={16} rx={2} stroke={color} strokeWidth={1.5} strokeLinejoin="round" />
+      <Path d="M2 8l10 6 10-6" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+  Lock: ({ size = 18, color = loginPalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Rect x={5} y={11} width={14} height={10} rx={2} stroke={color} strokeWidth={1.5} />
+      <Path d="M8 11V7a4 4 0 0 1 8 0v4" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+    </Svg>
+  ),
+  GraduationCap: ({ size = 20, color = loginPalette.textPrimary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path d="M22 10L12 5 2 10l10 5 10-5z" stroke={color} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+      <Path d="M6 12.5v4C8 18 10 19 12 19s4-1 6-2.5v-4" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+};
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -25,8 +49,7 @@ export default function LoginScreen() {
   const { login } = useContext(AuthContext);
 
   const [password, setPassword] = React.useState("");
-  const [email, setEmail] = React.useState(params.email as string|| "");
-  
+  const [email, setEmail] = React.useState(params.email as string || "");
 
   const handleLogoPress = React.useCallback(() => {
     router.replace("/auth/welcome");
@@ -67,12 +90,12 @@ export default function LoginScreen() {
                   accessibilityRole="button"
                   accessibilityLabel="Back to welcome screen"
                 >
-                  <Text style={styles.logoText}>P4</Text>
+                  <Text style={styles.logoText}>P.</Text>
                 </Pressable>
                 <Text style={styles.brandText}>pocketED</Text>
               </View>
 
-              <Text style={styles.greeting}>Welcome back! 👋</Text>
+              <Text style={styles.greeting}>Welcome back</Text>
               <Text style={styles.subtitle}>
                 Log in and keep your finances on track.
               </Text>
@@ -94,15 +117,16 @@ export default function LoginScreen() {
           <View style={styles.card}>
             <View style={styles.cardHandle} />
 
-            {/* ===== Form ===== */}
             <Text style={styles.label}>Email</Text>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputIcon}>📧</Text>
+              <View style={styles.inputIconWrap}>
+                <Icon.Mail />
+              </View>
               <TextInput
                 testID="login-email-input"
                 style={styles.input}
                 placeholder="you@university.edu"
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor="#5B6471"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -112,12 +136,14 @@ export default function LoginScreen() {
 
             <Text style={styles.label}>Password</Text>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputIcon}>🔒</Text>
+              <View style={styles.inputIconWrap}>
+                <Icon.Lock />
+              </View>
               <TextInput
                 testID="login-password-input"
                 style={styles.input}
                 placeholder="Your secret password"
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor="#5B6471"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -137,7 +163,7 @@ export default function LoginScreen() {
               ]}
               onPress={handleLogin}
             >
-              <Text style={styles.primaryButtonText}>Let&apos;s Go 🚀</Text>
+              <Text style={styles.primaryButtonText}>Let&apos;s Go</Text>
             </Pressable>
 
             <View style={styles.dividerRow}>
@@ -152,10 +178,8 @@ export default function LoginScreen() {
                 pressed && styles.pressed,
               ]}
             >
-              <Text style={{ fontSize: 20 }}>🎓</Text>
-              <Text style={styles.secondaryButtonText}>
-                University Account
-              </Text>
+              <Icon.GraduationCap size={20} color={loginPalette.textPrimary} />
+              <Text style={styles.secondaryButtonText}>University Account</Text>
             </Pressable>
 
             <View style={styles.footerRow}>

@@ -9,10 +9,11 @@ import {
   View,
 } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
+import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { AuthContext } from "../../context/AuthContext";
 import { clearCurrentUser } from "../../services/authService";
 import { getUserData, calculateSummary } from "../../services/expenseService";
-import { styles } from "./UserProfileScreen.style";
+import { styles, profilePalette } from "./UserProfileScreen.style";
 
 function formatCurrency(amount: number): string {
   return amount.toLocaleString("de-DE", {
@@ -20,6 +21,29 @@ function formatCurrency(amount: number): string {
     currency: "EUR",
   });
 }
+
+type IconProps = { size?: number; color?: string };
+
+const Icon = {
+  User: ({ size = 18, color = profilePalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Circle cx={12} cy={8} r={4} stroke={color} strokeWidth={1.5} />
+      <Path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+    </Svg>
+  ),
+  Mail: ({ size = 18, color = profilePalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Rect x={2} y={4} width={20} height={16} rx={2} stroke={color} strokeWidth={1.5} strokeLinejoin="round" />
+      <Path d="M2 8l10 6 10-6" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+  LogOut: ({ size = 18, color = profilePalette.negative }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="M16 17l5-5-5-5M21 12H9" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+};
 
 export default function UserProfileScreen() {
   const { user, logout } = useContext(AuthContext);
@@ -67,7 +91,7 @@ export default function UserProfileScreen() {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.safeArea}>
 
         {/* ===== Header ===== */}
@@ -95,11 +119,11 @@ export default function UserProfileScreen() {
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
                 <Text style={styles.statLabel}>Income</Text>
-                <Text style={styles.statValue}>{fmt(income)}</Text>
+                <Text style={[styles.statValue, { color: profilePalette.positive }]}>{fmt(income)}</Text>
               </View>
               <View style={[styles.statItem, styles.statItemBorder]}>
                 <Text style={styles.statLabel}>Spent</Text>
-                <Text style={styles.statValue}>{fmt(spent)}</Text>
+                <Text style={[styles.statValue, { color: profilePalette.negative }]}>{fmt(spent)}</Text>
               </View>
               <View style={[styles.statItem, styles.statItemBorder]}>
                 <Text style={styles.statLabel}>Balance</Text>
@@ -112,7 +136,9 @@ export default function UserProfileScreen() {
           <Text style={styles.sectionLabel}>Account</Text>
           <View style={styles.card}>
             <View style={styles.infoRow}>
-              <Text style={styles.infoEmoji}>👤</Text>
+              <View style={styles.infoIconWrap}>
+                <Icon.User />
+              </View>
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Full Name</Text>
                 <Text style={styles.infoValue}>{userName}</Text>
@@ -120,7 +146,9 @@ export default function UserProfileScreen() {
             </View>
             <View style={styles.infoRowDivider} />
             <View style={styles.infoRow}>
-              <Text style={styles.infoEmoji}>✉️</Text>
+              <View style={styles.infoIconWrap}>
+                <Icon.Mail />
+              </View>
               <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>Email</Text>
                 <Text style={styles.infoValue}>{userEmail}</Text>
@@ -137,7 +165,7 @@ export default function UserProfileScreen() {
             accessibilityRole="button"
             accessibilityLabel="Sign out"
           >
-            <Text style={{ fontSize: 18 }}>🚪</Text>
+            <Icon.LogOut />
             <Text style={styles.signOutText}>Sign Out</Text>
           </Pressable>
 

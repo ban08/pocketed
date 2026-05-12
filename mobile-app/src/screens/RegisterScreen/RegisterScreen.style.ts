@@ -1,73 +1,83 @@
-import { colors } from "@/src/theme/colors";
-import { spacing } from "@/src/theme/spacing";
-import { typography } from "@/src/theme/typography";
 import { StyleSheet } from "react-native";
 
+const palette = {
+  bg: "#0B0D10",
+  surface: "#14171C",
+  surfaceElevated: "#1B1F26",
+  hairline: "rgba(255,255,255,0.06)",
+  textPrimary: "#F5F6F8",
+  textSecondary: "#9CA3AF",
+  textTertiary: "#5B6471",
+  accent: "#7BE3B5",
+  accentText: "#0B0D10",
+};
+
+const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24 };
+
+export const registerPalette = palette;
+
 export const styles = StyleSheet.create({
-  /* ===== Layout ===== */
   root: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: palette.bg,
   },
 
-  /* ===== Image Hero Banner ===== */
-  heroBanner: {
-    height: 310,
-  },
-  heroBannerImage: {
-    resizeMode: "cover",
-  },
+  /* ===== Hero Banner ===== */
+  heroBanner: { height: 310 },
+  heroBannerImage: { resizeMode: "cover" },
   heroOverlay: {
     flex: 1,
-    backgroundColor: colors.background,
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xl + 8,
+    backgroundColor: "rgba(11,13,16,0.78)",
+    paddingHorizontal: space.lg,
+    paddingBottom: space.xl + 8,
   },
   safeArea: {
     flex: 1,
     justifyContent: "space-between",
-    paddingTop: spacing.xl,
+    paddingTop: space.xl,
   },
-  heroTopGroup: {
-    flex: 0,
-  },
+  heroTopGroup: { flex: 0 },
 
   /* ===== Header ===== */
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: spacing.xs,
+    marginBottom: space.sm,
   },
   logoBox: {
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: colors.primary,
+    backgroundColor: palette.accent,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: spacing.xs + 8,
+    marginRight: space.sm + 4,
   },
   logoText: {
     fontWeight: "900",
-    color: colors.secondary,
+    color: palette.accentText,
+    fontSize: 15,
+    letterSpacing: -0.5,
   },
   brandText: {
-    fontSize: typography.body.fontSize,
+    fontSize: 15,
     fontWeight: "600",
-    color: colors.brand,
+    color: palette.textPrimary,
+    letterSpacing: -0.2,
   },
 
   /* ===== Hero Text ===== */
   greeting: {
-    fontSize: typography.title.fontSize + 4,
-    fontWeight: typography.title.fontWeight,
-    color: colors.textPrimary,
-    lineHeight: 36,
+    fontSize: 26,
+    fontWeight: "700",
+    color: palette.textPrimary,
+    letterSpacing: -0.6,
+    lineHeight: 32,
   },
   subtitle: {
-    ...typography.body,
-    color: colors.textSecondary,
-    marginTop: spacing.xs + 2,
+    fontSize: 14,
+    color: palette.textSecondary,
+    marginTop: 6,
     lineHeight: 20,
   },
 
@@ -75,16 +85,21 @@ export const styles = StyleSheet.create({
   pillRow: {
     flexDirection: "row",
     gap: 8,
-    marginTop: spacing.md,
+    marginTop: space.md,
   },
   pill: {
-    backgroundColor: colors.background_dark,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: "rgba(123,227,181,0.10)",
+    borderWidth: 1,
+    borderColor: "rgba(123,227,181,0.22)",
     paddingVertical: 5,
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
     borderRadius: 50,
   },
   pillText: {
-    color: colors.textPrimary,
+    color: palette.accent,
     fontSize: 11,
     fontWeight: "600",
   },
@@ -94,54 +109,57 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: -24,
   },
-  scrollContent: {
-    flexGrow: 1,
-  },
+  scrollContent: { flexGrow: 1 },
   card: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: palette.surface,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.xl,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: palette.hairline,
+    paddingHorizontal: space.lg,
+    paddingTop: space.md,
+    paddingBottom: space.xl,
   },
   cardHandle: {
     width: 40,
     height: 4,
-    backgroundColor: colors.background_dark,
+    backgroundColor: "rgba(255,255,255,0.10)",
     borderRadius: 50,
     alignSelf: "center",
-    marginBottom: spacing.lg,
-    opacity: 0.6,
+    marginBottom: space.lg,
   },
 
   /* ===== Form ===== */
   label: {
-    fontSize: 14,
+    fontSize: 11,
     fontWeight: "600",
-    color: colors.textSecondary,
-    marginBottom: spacing.xs + 4,
+    color: palette.textTertiary,
+    letterSpacing: 0.6,
+    textTransform: "uppercase",
+    marginBottom: space.xs + 4,
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.background,
+    backgroundColor: palette.surfaceElevated,
     borderRadius: 14,
-    borderWidth: 1.5,
-    borderColor: colors.background_dark,
-    paddingHorizontal: spacing.md,
+    borderWidth: 1,
+    borderColor: palette.hairline,
+    paddingHorizontal: space.md,
     height: 52,
-    marginBottom: spacing.md,
+    marginBottom: space.md,
   },
-  inputIcon: {
-    fontSize: 18,
-    marginRight: spacing.xs + 8,
+  inputIconWrap: {
+    marginRight: space.sm + 4,
+    opacity: 0.6,
   },
   input: {
     flex: 1,
-    color: colors.textPrimary,
-    fontSize: typography.body.fontSize,
+    color: palette.textPrimary,
+    fontSize: 15,
   },
 
   /* ===== Primary Button ===== */
@@ -149,30 +167,26 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 54,
     borderRadius: 16,
-    backgroundColor: colors.secondary,
+    backgroundColor: palette.accent,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: spacing.xs,
-    shadowColor: colors.secondary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 6,
+    marginTop: space.xs,
   },
   primaryButtonText: {
-    fontSize: typography.body.fontSize,
+    fontSize: 15,
     fontWeight: "800",
-    color: colors.primary,
+    color: palette.accentText,
+    letterSpacing: 0.2,
   },
   termsText: {
     fontSize: 12,
-    color: colors.textSecondary,
+    color: palette.textTertiary,
     textAlign: "center",
     lineHeight: 18,
-    marginTop: spacing.md,
+    marginTop: space.md,
   },
   termsLink: {
-    color: colors.secondary,
+    color: palette.accent,
     fontWeight: "600",
   },
 
@@ -180,18 +194,18 @@ export const styles = StyleSheet.create({
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: spacing.md + 4,
+    marginVertical: space.md + 4,
   },
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: colors.background_dark,
-    opacity: 0.8,
+    backgroundColor: palette.hairline,
   },
   dividerText: {
-    color: colors.textSecondary,
-    fontSize: 13,
-    paddingHorizontal: spacing.md,
+    color: palette.textTertiary,
+    fontSize: 12,
+    paddingHorizontal: space.md,
+    fontWeight: "500",
   },
 
   /* ===== Secondary Button ===== */
@@ -199,18 +213,18 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 54,
     borderRadius: 16,
-    borderWidth: 1.5,
-    borderColor: colors.secondary,
-    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: palette.hairline,
+    backgroundColor: palette.surfaceElevated,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     gap: 10,
   },
   secondaryButtonText: {
-    fontSize: typography.body.fontSize,
+    fontSize: 15,
     fontWeight: "700",
-    color: colors.secondary,
+    color: palette.textPrimary,
   },
 
   /* ===== Footer ===== */
@@ -218,20 +232,17 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: spacing.lg,
+    marginTop: space.lg,
   },
   footerText: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: palette.textSecondary,
   },
   footerLink: {
     fontSize: 14,
     fontWeight: "700",
-    color: colors.secondary,
+    color: palette.accent,
   },
 
-  pressed: {
-    opacity: 0.85,
-    transform: [{ scale: 0.98 }],
-  },
+  pressed: { opacity: 0.7 },
 });
