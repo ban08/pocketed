@@ -37,6 +37,14 @@ It is organised by the following activities:
   - [Project management](#project-management)
     - [Sprint 0 - All systems go.](#sprint-0---all-systems-go)
     - [Sprint 1 - Spring cleaning!](#sprint-1---spring-cleaning)
+      - [Increment Scope](#increment-scope)
+      - [Sprint Review](#sprint-review)
+      - [Sprint Retrospective](#sprint-retrospective)
+      - [Maestro End-to-End Testing](#maestro-end-to-end-testing)
+        - [Tested Flow](#tested-flow)
+        - [Test Execution](#test-execution)
+        - [Screenshots](#screenshots)
+        - [Result](#result)
 
 Contributions are to be made exclusively by the initial team, but we may open them to the community, after the course, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
 
@@ -432,7 +440,7 @@ Sprint 0 was about getting to know eachother, laying down the product vision and
 
 ### Sprint 1 - Spring cleaning!
 
-Sprint 0 was productive but messy, and we cleaned up most of it during this spring. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
+Sprint 0 was productive but messy, and we cleaned up most of it during this sprint. Just in time for the stereotypical spring cleaning! There were a lot of changes under the hood, and while most of them were not necessarily either visible or flashy, they were defo very much needed. From bugfixes to general QoL improvements, we revised our work process and better redistributed the workload between eachother, focusing on our individual strengths.
 
 ![Sprint 1 Dashboard](resources/Sprint1Dashboard.png)
 
