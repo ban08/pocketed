@@ -1,0 +1,13 @@
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "dashboard-screen"
+- tapOn: "income-button"
+- tapOn: "Title"
+- inputText: "Salary"
+- tapOn: "Amount"
+- inputText: "100"
+- tapOn: "Save Income"
+- assertVisible: "Salary"

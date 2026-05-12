@@ -1,0 +1,22 @@
+appId: host.exp.exponent
+---
+
+- tapOn:
+    id: "go-to-login"
+
+- tapOn:
+    id: "email-input"
+- inputText: "test@edu.up.pt"
+
+- tapOn:
+    id: "password-input"
+- inputText: "Test123#"
+
+- hideKeyboard
+
+- tapOn:
+    id: "login-submit"
+
+- waitForAnimationToEnd
+
+- assertVisible: "Quick Actions"
