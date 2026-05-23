@@ -48,9 +48,12 @@ const renderWithUser = (user: typeof sampleUser | null = sampleUser) => {
   );
 };
 
-beforeEach(() => {
+beforeEach(async () => {
   jest.clearAllMocks();
   jest.spyOn(Alert, "alert").mockImplementation(() => {});
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const AsyncStorage = require("@react-native-async-storage/async-storage").default;
+  await AsyncStorage.clear();
   (getUserData as jest.Mock).mockResolvedValue({
     categories: [{ id: "c1", name: "Food" }],
     expenses: [
