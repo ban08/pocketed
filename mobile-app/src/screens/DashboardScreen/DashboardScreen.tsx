@@ -547,7 +547,13 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.categoryGroupsCard}>
-            {categoryGroups.length === 0 ? (
+            {loading ? (
+              <View style={styles.categoryGroupEmptyState}>
+                <Text style={styles.categoryGroupEmptyText}>
+                  Loading categorized expenses
+                </Text>
+              </View>
+            ) : categoryGroups.length === 0 ? (
               <View style={styles.categoryGroupEmptyState}>
                 <Text style={styles.categoryGroupEmptyText}>
                   No categorized expenses yet
