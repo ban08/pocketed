@@ -70,7 +70,7 @@ export async function createCategory(userId: string, name: string): Promise<Cate
 
   const existing = await readStoredCategories(userId);
   const duplicate = existing.find(
-    (category) => category.name.toLocaleLowerCase() === cleanName.toLocaleLowerCase()
+    (category) => category.name.toLowerCase() === cleanName.toLowerCase()
   );
   if (duplicate) return duplicate;
 
