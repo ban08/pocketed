@@ -13,7 +13,7 @@ export function mergeCategoryNames(...groups: (string | undefined)[][]): string[
 
   groups.flat().forEach((name) => {
     const cleanName = cleanCategoryName(name ?? "");
-    const key = cleanName.toLocaleLowerCase();
+    const key = cleanName.toLowerCase();
     if (!cleanName || seen.has(key)) return;
 
     seen.add(key);
