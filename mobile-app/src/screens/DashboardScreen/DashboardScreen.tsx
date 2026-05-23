@@ -27,16 +27,9 @@ import {
   getBudgetLevel,
   getBalanceLevel,
 } from "./dashboardUtils";
+import { getCategoryFallbackColor } from "@/src/utils/categoryColor";
 
 const MONTHLY_SAVINGS = 0;
-const FALLBACK_CATEGORY_COLORS = [
-  "#7BE3B5",
-  "#F4A988",
-  "#88B7F4",
-  "#C8A0F2",
-  "#F2D27A",
-  "#F87171",
-];
 
 // ─── Inline SVG icon set (no emoji) ──────────────────────────────────────────
 // 1.5px stroke, lucide-style. Size + color are props.
@@ -126,11 +119,7 @@ const Icon = {
 // Category → tint dot color
 function categoryColor(category: string): string {
   if (dashColors.cat[category]) return dashColors.cat[category];
-
-  const hash = category
-    .split("")
-    .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return FALLBACK_CATEGORY_COLORS[hash % FALLBACK_CATEGORY_COLORS.length];
+  return getCategoryFallbackColor(category);
 }
 
 function categoryTestId(category: string): string {

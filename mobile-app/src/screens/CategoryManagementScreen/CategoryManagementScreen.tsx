@@ -27,17 +27,9 @@ import {
   groupExpensesByCategory,
 } from "../DashboardScreen/dashboardUtils";
 import { styles, categoryPalette } from "./CategoryManagementScreen.style";
+import { getCategoryFallbackColor } from "@/src/utils/categoryColor";
 
 type IconProps = { size?: number; color?: string };
-
-const fallbackCategoryColors = [
-  "#7BE3B5",
-  "#F4A988",
-  "#88B7F4",
-  "#C8A0F2",
-  "#F2D27A",
-  "#F87171",
-];
 
 const Icon = {
   ChevronLeft: ({ size = 20, color = categoryPalette.textPrimary }: IconProps) => (
@@ -59,10 +51,7 @@ const Icon = {
 };
 
 function categoryColor(category: string): string {
-  const hash = category
-    .split("")
-    .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  return fallbackCategoryColors[hash % fallbackCategoryColors.length];
+  return getCategoryFallbackColor(category);
 }
 
 function categoryTestId(category: string): string {
