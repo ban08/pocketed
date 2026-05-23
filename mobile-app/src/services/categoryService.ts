@@ -29,7 +29,7 @@ export function withDefaultCategories(categories: Category[]): Category[] {
 
   return mergedNames.map((name) => {
     const existing = categories.find(
-      (category) => category.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+      (category) => category.name.toLowerCase() === name.toLowerCase()
     );
 
     return existing ?? { id: name, name };
