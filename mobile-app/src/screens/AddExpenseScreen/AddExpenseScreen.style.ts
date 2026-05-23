@@ -92,7 +92,9 @@ export const styles = StyleSheet.create({
   /* ===== Category Pills ===== */
   categoryRow: {
     gap: space.sm,
-    marginTop: space.sm,
+    marginTop: space.xl,
+    marginBottom: space.xl,
+    justifyContent: "center",
   },
   categoryPill: {
     paddingVertical: 8,
@@ -122,7 +124,6 @@ export const styles = StyleSheet.create({
     backgroundColor: palette.accent,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: space.xl,
   },
   buttonPrimaryPressed: {
     opacity: 0.7,
