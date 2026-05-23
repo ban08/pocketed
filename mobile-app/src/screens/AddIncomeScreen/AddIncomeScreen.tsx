@@ -9,9 +9,31 @@ import {
   Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { styles } from "../AddExpenseScreen/AddExpenseScreen.style";
+import Svg, { Path, Line } from "react-native-svg";
+import { styles, addScreenPalette } from "../AddExpenseScreen/AddExpenseScreen.style";
 import { AuthContext } from "@/src/context/AuthContext";
 import { addIncome } from "@/src/services/expenseService";
+
+type IconProps = { size?: number; color?: string };
+
+const Icon = {
+  ChevronLeft: ({ size = 20, color = addScreenPalette.textPrimary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path d="M15 18l-6-6 6-6" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+  Tag: ({ size = 18, color = addScreenPalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+  DollarSign: ({ size = 18, color = addScreenPalette.textSecondary }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Line x1={12} y1={1} x2={12} y2={23} stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+      <Path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  ),
+};
 
 const incomeCategories = [
   "Salary",
@@ -32,16 +54,16 @@ export default function AddIncomeScreen() {
   const [category, setCategory] = useState("Salary");
 
   const handleSave = async () => {
-    console.log("HANDLE START"); 
+    console.log("HANDLE START");
     if (!title || !amount) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
-        if (!user?.id) {
+    if (!user?.id) {
       Alert.alert("Error", "User not found");
       return;
     }
-    try{ 
+    try {
       console.log("TRY START");
       await addIncome(user.id, {
         title,
@@ -49,90 +71,115 @@ export default function AddIncomeScreen() {
         category: "Income",
         date: new Date().toISOString().split("T")[0],
       });
-      console.log("SUCCESS"); 
+      console.log("SUCCESS");
       router.back();
     } catch (error) {
-      console.error("ERROR",error);
+      console.error("ERROR", error);
       Alert.alert("Error", "Failed to save income");
     }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, padding: 20 }}>
+    <View style={styles.root}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.safeArea}>
 
-        <Text style={styles.title}>Add Income</Text>
-
-        {/* TITLE */}
-        
-        <Text style={styles.label}>Title</Text>
-
-        <TextInput
-          testID="income-title-input"
-          style={styles.input}
-          value={title}
-          onChangeText={setTitle}
-        />
-
-        {/* AMOUNT */}
-        <Text style={styles.label}>Amount</Text>
-        <TextInput
-          testID="income-amount-input"
-          style={styles.input}
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="numeric"
-        />
-
-        {/* CATEGORIES */}
-        <View style={{ flexDirection: "row", flexWrap: "wrap", margin: 8 }}>
-          {incomeCategories.map((cat) => (
-            <Pressable
-              key={cat}
-              testID={`income-category-${cat.toLowerCase()}`}
-              onPress={() => {
-                setCategory(cat);
-                setTitle(cat);
-              }}
-              style={{
-                padding: 8,
-                borderRadius: 8,
-                backgroundColor: category === cat ? "#6366F1" : "#E5E7EB",
-              }}
-            >
-              <Text style={{ color: category === cat ? "white" : "black" }}>
-                {cat}
-              </Text>
-            </Pressable>
-          ))}
+        {/* ===== Header ===== */}
+        <View style={styles.header}>
+          <Pressable
+            style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <Icon.ChevronLeft />
+          </Pressable>
+          <Text style={styles.title}>Add Income</Text>
         </View>
 
-        {/* SAVE BUTTON */}
-        <Pressable
-          testID="income-save-button"
-          onPress={() => {
-            console.log("PRESS WORKS");
-            handleSave();
-          }}
-          style={({ pressed }) => [
-            {
-              backgroundColor: "#6366F1",
-              paddingVertical: 14,
-              borderRadius: 12,
-              alignItems: "center",
-              marginTop: 20,
-              width: "100%",
-              zIndex: 10, 
-            },
-            pressed && { opacity: 0.7 },
-          ]}
-        >
-          <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
-            Save Income
-          </Text>
-        </Pressable>
+        {/* ===== Form ===== */}
+        <View style={styles.content}>
+          <Text style={styles.label}>Title</Text>
+          <View style={styles.inputWrapper}>
+            <View style={styles.inputIconWrap}>
+              <Icon.Tag />
+            </View>
+            <TextInput
+              testID="income-title-input"
+              style={styles.input}
+              value={title}
+              onChangeText={setTitle}
+              placeholder="e.g. Monthly salary"
+              placeholderTextColor="#5B6471"
+            />
+          </View>
 
-      </View>
-    </SafeAreaView>
+          <Text style={styles.label}>Amount</Text>
+          <View style={styles.inputWrapper}>
+            <View style={styles.inputIconWrap}>
+              <Icon.DollarSign />
+            </View>
+            <TextInput
+              testID="income-amount-input"
+              style={styles.input}
+              value={amount}
+              onChangeText={setAmount}
+              keyboardType="numeric"
+              placeholder="e.g. 1200"
+              placeholderTextColor="#5B6471"
+            />
+          </View>
+
+          <Text style={styles.label}>Category</Text>
+          <View style={styles.categoryRow}>
+            {incomeCategories.map((cat) => (
+              <Pressable
+                key={cat}
+                testID={`income-category-${cat.toLowerCase()}`}
+                onPress={() => {
+                  setCategory(cat);
+                  setTitle(cat);
+                }}
+                style={[
+                  styles.categoryPill,
+                  category === cat && styles.categoryPillActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.categoryPillText,
+                    category === cat && styles.categoryPillTextActive,
+                  ]}
+                >
+                  {cat}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+
+          <Pressable
+            testID="income-save-button"
+            onPress={() => {
+              console.log("PRESS WORKS");
+              handleSave();
+            }}
+            style={({ pressed }) => [
+              styles.buttonPrimary,
+              pressed && styles.buttonPrimaryPressed,
+            ]}
+          >
+            <Text style={styles.buttonText}>Save Income</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.back()}
+            style={styles.buttonSecondary}
+          >
+            <Text style={styles.buttonSecondaryText}>Cancel</Text>
+          </Pressable>
+        </View>
+
+      </SafeAreaView>
+    </View>
   );
 }
