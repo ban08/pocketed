@@ -606,7 +606,7 @@ export default function DashboardScreen() {
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Budget Overview</Text>
             <Pressable
-              onPress={() => router.push("/categories")}
+              onPress={() => router.push("/add-budget")}
               accessibilityRole="button"
             >
               <Text style={styles.seeAll}>Manage</Text>
