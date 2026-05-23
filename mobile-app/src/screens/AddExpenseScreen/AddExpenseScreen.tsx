@@ -185,7 +185,10 @@ export default function AddExpenseScreen() {
             renderItem={({ item: cat }) => (
               <Pressable
                 key={cat}
-                testID={`expense-category-option-${cat.toLowerCase()}`}
+                testID={`expense-category-option-${cat
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/^-|-$/g, "")}`}
                 onPress={() => setCategory(cat)}
                 style={[
                   styles.categoryPill,
