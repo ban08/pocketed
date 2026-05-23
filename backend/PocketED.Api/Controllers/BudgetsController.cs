@@ -16,8 +16,15 @@ public class BudgetsController(AppDbContext db) : ControllerBase
         if (!await db.Users.AnyAsync(u => u.Id == userId))
             return NotFound(new { message = "User not found." });
 
+        var categoryName = CategoryCatalog.CleanName(req.Category);
+        if (string.IsNullOrWhiteSpace(categoryName))
+            return BadRequest(new { message = "Category is required." });
+
+        var category = await CategoryCatalog.EnsureCategoryAsync(db, userId, categoryName);
+        categoryName = category.Category.Name;
+
         var existing = await db.Budgets.FirstOrDefaultAsync(b =>
-            b.UserId == userId && b.Category == req.Category && b.Period == req.Period);
+            b.UserId == userId && b.Category == categoryName && b.Period == req.Period);
 
         if (existing is not null)
         {
@@ -30,7 +37,7 @@ public class BudgetsController(AppDbContext db) : ControllerBase
         {
             Id = Guid.NewGuid().ToString(),
             UserId = userId,
-            Category = req.Category,
+            Category = categoryName,
             Limit = req.Limit,
             Period = req.Period,
             CreatedAt = DateTime.UtcNow.ToString("o")

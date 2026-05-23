@@ -54,7 +54,6 @@ export default function AddIncomeScreen() {
   const [category, setCategory] = useState("Salary");
 
   const handleSave = async () => {
-    console.log("HANDLE START");
     if (!title || !amount) {
       Alert.alert("Error", "Please fill all fields");
       return;
@@ -64,14 +63,12 @@ export default function AddIncomeScreen() {
       return;
     }
     try {
-      console.log("TRY START");
       await addIncome(user.id, {
         title,
         amount: Number(amount),
         category: "Income",
         date: new Date().toISOString().split("T")[0],
       });
-      console.log("SUCCESS");
       router.back();
     } catch (error) {
       console.error("ERROR", error);
@@ -159,10 +156,7 @@ export default function AddIncomeScreen() {
 
           <Pressable
             testID="income-save-button"
-            onPress={() => {
-              console.log("PRESS WORKS");
-              handleSave();
-            }}
+            onPress={handleSave}
             style={({ pressed }) => [
               styles.buttonPrimary,
               pressed && styles.buttonPrimaryPressed,

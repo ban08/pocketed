@@ -11,8 +11,7 @@ import {
 import Svg, { Path, Circle, Rect, Line } from "react-native-svg";
 import { AuthContext } from "../../context/AuthContext";
 import { clearCurrentUser } from "../../services/authService";
-import { useFocusEffect } from "expo-router";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { styles, dashColors } from "./DashboardScreen.style";
 import { Expense } from "@/src/models/Expense";
 import { getUserData, calculateSummary } from "@/src/services/expenseService";
@@ -23,12 +22,21 @@ import {
   formatDate,
   getInitials,
   getSpentByCategory,
+  groupExpensesByCategory,
   getBudgetPercent,
   getBudgetLevel,
   getBalanceLevel,
 } from "./dashboardUtils";
 
 const MONTHLY_SAVINGS = 0;
+const FALLBACK_CATEGORY_COLORS = [
+  "#7BE3B5",
+  "#F4A988",
+  "#88B7F4",
+  "#C8A0F2",
+  "#F2D27A",
+  "#F87171",
+];
 
 // ─── Inline SVG icon set (no emoji) ──────────────────────────────────────────
 // 1.5px stroke, lucide-style. Size + color are props.
@@ -117,7 +125,16 @@ const Icon = {
 
 // Category → tint dot color
 function categoryColor(category: string): string {
-  return dashColors.cat[category] || dashColors.cat.Other;
+  if (dashColors.cat[category]) return dashColors.cat[category];
+
+  const hash = category
+    .split("")
+    .reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return FALLBACK_CATEGORY_COLORS[hash % FALLBACK_CATEGORY_COLORS.length];
+}
+
+function categoryTestId(category: string): string {
+  return category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -205,6 +222,7 @@ export default function DashboardScreen() {
   } = calculateSummary(expenses);
 
   const balanceLevel = getBalanceLevel(BALANCE);
+  const categoryGroups = groupExpensesByCategory(expenses);
   const balanceColor =
     balanceLevel === "positive"
       ? dashColors.positive
@@ -432,6 +450,8 @@ export default function DashboardScreen() {
               <Text style={styles.actionSecondaryText}>Budget</Text>
             </Pressable>
             <Pressable
+              testID="dashboard-categories-button"
+              onPress={() => router.push("/categories")}
               style={({ pressed }) => [
                 styles.actionSecondary,
                 pressed && styles.pressed,
@@ -439,7 +459,7 @@ export default function DashboardScreen() {
               accessibilityRole="button"
             >
               <Icon.BarChart size={18} color={dashColors.textPrimary} />
-              <Text style={styles.actionSecondaryText}>Reports</Text>
+              <Text style={styles.actionSecondaryText}>Categories</Text>
             </Pressable>
           </View>
 
@@ -451,7 +471,13 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           <View style={styles.transactionsCard}>
-            {expenses.length === 0 ? (
+            {loading ? (
+              <View style={styles.transactionEmptyState}>
+                <Text style={styles.transactionEmptyText}>
+                  Loading transactions
+                </Text>
+              </View>
+            ) : expenses.length === 0 ? (
               <View style={styles.transactionEmptyState}>
                 <Text style={styles.transactionEmptyText}>
                   No transactions yet
@@ -509,10 +535,80 @@ export default function DashboardScreen() {
             )}
           </View>
 
+          {/* ===== Category Groups ===== */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Expenses by Category</Text>
+            <Pressable
+              testID="dashboard-manage-categories-link"
+              onPress={() => router.push("/categories")}
+              accessibilityRole="button"
+            >
+              <Text style={styles.seeAll}>Manage</Text>
+            </Pressable>
+          </View>
+          <View style={styles.categoryGroupsCard}>
+            {categoryGroups.length === 0 ? (
+              <View style={styles.categoryGroupEmptyState}>
+                <Text style={styles.categoryGroupEmptyText}>
+                  No categorized expenses yet
+                </Text>
+              </View>
+            ) : (
+              categoryGroups.map((group, index) => {
+                const tint = categoryColor(group.category);
+                const preview = group.expenses
+                  .slice(0, 2)
+                  .map((expense) => expense.title)
+                  .join(" · ");
+
+                return (
+                  <React.Fragment key={group.category}>
+                    {index > 0 && <View style={styles.categoryGroupDivider} />}
+                    <View
+                      testID={`dashboard-category-group-${categoryTestId(group.category)}`}
+                      style={styles.categoryGroupRow}
+                    >
+                      <View style={styles.categoryGroupTop}>
+                        <View style={styles.categoryGroupNameWrap}>
+                          <View
+                            style={[
+                              styles.categoryGroupDot,
+                              { backgroundColor: tint },
+                            ]}
+                          />
+                          <View style={styles.categoryGroupTextWrap}>
+                            <Text style={styles.categoryGroupName}>
+                              {group.category}
+                            </Text>
+                            <Text style={styles.categoryGroupMeta}>
+                              {group.count}{" "}
+                              {group.count === 1 ? "expense" : "expenses"}
+                            </Text>
+                          </View>
+                        </View>
+                        <Text style={styles.categoryGroupTotal}>
+                          {formatCurrency(group.total)}
+                        </Text>
+                      </View>
+                      {preview.length > 0 && (
+                        <Text style={styles.categoryGroupPreview}>
+                          {preview}
+                        </Text>
+                      )}
+                    </View>
+                  </React.Fragment>
+                );
+              })
+            )}
+          </View>
+
           {/* ===== Budget Overview ===== */}
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Budget Overview</Text>
-            <Pressable accessibilityRole="button">
+            <Pressable
+              onPress={() => router.push("/categories")}
+              accessibilityRole="button"
+            >
               <Text style={styles.seeAll}>Manage</Text>
             </Pressable>
           </View>

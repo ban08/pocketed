@@ -1,13 +1,11 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext } from 'react';
-import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-reanimated';
 
-import { AuthContext } from '../src/context/AuthContext';
-import { AuthProvider } from '../src/context/AuthContext';
+import { AuthContext, AuthProvider } from '../src/context/AuthContext';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -42,7 +40,7 @@ function RootLayoutContent() {
         router.replace("/auth/welcome");
       }
     }
-  }, [isAuthenticated, hasUsers]);
+  }, [isAuthenticated, hasUsers, router]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -54,6 +52,7 @@ function RootLayoutContent() {
         <Stack.Screen name="add-income" options={{ presentation: "modal", title: "Add Income" }}/>
         <Stack.Screen name="add-expense" options={{ presentation: "modal", title: "Add Expense" }}/>
         <Stack.Screen name="add-budget" options={{ presentation: "modal", title: "Add Budget" }} />
+        <Stack.Screen name="categories" options={{ presentation: "modal", title: "Categories" }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />

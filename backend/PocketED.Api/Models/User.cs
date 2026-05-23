@@ -10,4 +10,5 @@ public class User
 
     public List<Expense> Expenses { get; set; } = [];
     public List<Budget> Budgets { get; set; } = [];
+    public List<Category> Categories { get; set; } = [];
 }

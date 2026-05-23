@@ -4,6 +4,7 @@ import {
   formatDate,
   getInitials,
   getSpentByCategory,
+  groupExpensesByCategory,
   getBudgetPercent,
   getBudgetLevel,
   getBalanceLevel,
@@ -112,6 +113,35 @@ describe("getSpentByCategory", () => {
 
   it("returns 0 for an empty list", () => {
     expect(getSpentByCategory([], "Food")).toBe(0);
+  });
+});
+
+describe("groupExpensesByCategory", () => {
+  it("groups positive expenses by category and sorts by total spent", () => {
+    const groups = groupExpensesByCategory([
+      { title: "Lunch", category: "Food", amount: 10 },
+      { title: "Dinner", category: "Food", amount: 15 },
+      { title: "Bus", category: "Transport", amount: 5 },
+      { title: "Salary", category: "Income", amount: -100 },
+    ]);
+
+    expect(groups).toHaveLength(2);
+    expect(groups[0]).toMatchObject({
+      category: "Food",
+      total: 25,
+      count: 2,
+    });
+    expect(groups[1]).toMatchObject({
+      category: "Transport",
+      total: 5,
+      count: 1,
+    });
+  });
+
+  it("uses Other when an expense has no category", () => {
+    expect(groupExpensesByCategory([{ category: "", amount: 10 }])[0].category).toBe(
+      "Other"
+    );
   });
 });
 
