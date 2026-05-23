@@ -96,6 +96,14 @@ export default function UserProfileScreen() {
 
         {/* ===== Header ===== */}
         <View style={styles.header}>
+          <Pressable
+            testID="back-button"
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+          >
+            <Text style={{ color: "white", fontSize: 16 }}>← Back</Text>
+          </Pressable>
           <Text style={styles.headerTitle}>My Profile</Text>
         </View>
 
