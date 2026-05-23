@@ -91,8 +91,6 @@ export const styles = StyleSheet.create({
 
   /* ===== Category Pills ===== */
   categoryRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     gap: space.sm,
     marginTop: space.sm,
   },

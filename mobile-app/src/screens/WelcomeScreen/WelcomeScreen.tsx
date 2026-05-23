@@ -3,11 +3,11 @@ import { useRouter } from "expo-router";
 import {
   ImageBackground,
   Pressable,
-  SafeAreaView,
   StatusBar,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Circle, Line } from "react-native-svg";
 import { styles, welcomePalette } from "./WelcomeScreen.style";
 

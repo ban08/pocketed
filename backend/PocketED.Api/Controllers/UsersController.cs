@@ -52,15 +52,12 @@ public class UsersController(AppDbContext db) : ControllerBase
         if (user is null)
             return NotFound(new { message = "User not found." });
 
-        var categories = await CategoryCatalog.SyncUserCategoriesAsync(db, id);
-
         var response = new UserAccountResponse(
             user.Id,
             user.Email,
             user.Name,
             user.Expenses.Select(e => new ExpenseResponse(e.Id, e.Title, e.Amount, e.Category, e.Date)).ToList(),
-            user.Budgets.Select(b => new BudgetResponse(b.Id, b.Category, b.Limit, b.Period)).ToList(),
-            categories.Select(c => new CategoryResponse(c.Id, c.Name)).ToList()
+            user.Budgets.Select(b => new BudgetResponse(b.Id, b.Category, b.Limit, b.Period)).ToList()
         );
 
         return Ok(response);

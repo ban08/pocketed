@@ -16,23 +16,13 @@ public class ExpensesController(AppDbContext db) : ControllerBase
         if (!await db.Users.AnyAsync(u => u.Id == userId))
             return NotFound(new { message = "User not found." });
 
-        var categoryName = CategoryCatalog.CleanName(req.Category);
-        if (string.IsNullOrWhiteSpace(categoryName))
-            return BadRequest(new { message = "Category is required." });
-
-        if (req.Amount >= 0)
-        {
-            var result = await CategoryCatalog.EnsureCategoryAsync(db, userId, categoryName);
-            categoryName = result.Category.Name;
-        }
-
         var expense = new Expense
         {
             Id = Guid.NewGuid().ToString(),
             UserId = userId,
             Title = req.Title,
             Amount = req.Amount,
-            Category = categoryName,
+            Category = req.Category,
             Date = req.Date,
             CreatedAt = DateTime.UtcNow.ToString("o")
         };

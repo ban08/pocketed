@@ -2,13 +2,13 @@ import React, { useCallback, useContext, useMemo, useState } from "react";
 import {
   Alert,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useRouter } from "expo-router";
 import Svg, { Path, Circle } from "react-native-svg";
 import { AuthContext } from "@/src/context/AuthContext";
@@ -18,6 +18,7 @@ import { getUserData } from "@/src/services/expenseService";
 import {
   cleanCategoryName,
   createCategory,
+  getCategories,
   mergeCategoryNames,
   withDefaultCategories,
 } from "@/src/services/categoryService";
@@ -87,8 +88,10 @@ export default function CategoryManagementScreen() {
 
     setLoading(true);
     try {
-      const data = await getUserData(user.id);
-      const apiCategories = Array.isArray(data.categories) ? data.categories : [];
+      const [data, storedCategories] = await Promise.all([
+        getUserData(user.id),
+        getCategories(user.id),
+      ]);
       const expenseCategories = Array.isArray(data.expenses)
         ? data.expenses
             .filter((expense: Expense) => expense.amount > 0)
@@ -98,14 +101,14 @@ export default function CategoryManagementScreen() {
         ? data.budgets.map((budget: { category?: string }) => budget.category)
         : [];
       const names = mergeCategoryNames(
-        apiCategories.map((category: Category) => category.name),
+        storedCategories.map((category) => category.name),
         expenseCategories,
         budgetCategories
       );
       const mergedCategories = withDefaultCategories(
         names.map((name) => {
-          const existing = apiCategories.find(
-            (category: Category) =>
+          const existing = storedCategories.find(
+            (category) =>
               category.name.toLocaleLowerCase() === name.toLocaleLowerCase()
           );
           return existing ?? { id: name, name };
@@ -116,7 +119,6 @@ export default function CategoryManagementScreen() {
       setExpenses(Array.isArray(data.expenses) ? data.expenses : []);
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "Failed to load categories");
       setCategories(withDefaultCategories([]));
       setExpenses([]);
     } finally {
@@ -245,10 +247,12 @@ export default function CategoryManagementScreen() {
                               { backgroundColor: categoryColor(category.name) },
                             ]}
                           />
-                          <View>
+                          <View style={styles.categoryTextWrap}>
                             <Text style={styles.categoryName}>{category.name}</Text>
                             <Text style={styles.categoryMeta}>
-                              {count} {count === 1 ? "expense" : "expenses"}
+                              {count === 0
+                                ? "No expenses"
+                                : `${count} ${count === 1 ? "expense" : "expenses"}`}
                             </Text>
                           </View>
                         </View>

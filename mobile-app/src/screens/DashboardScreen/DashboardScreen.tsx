@@ -2,12 +2,12 @@ import * as React from "react";
 import { useContext } from "react";
 import {
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Circle, Rect, Line } from "react-native-svg";
 import { AuthContext } from "../../context/AuthContext";
 import { clearCurrentUser } from "../../services/authService";

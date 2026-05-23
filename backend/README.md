@@ -29,8 +29,6 @@
    - [Register](#post-apiusersregister)
    - [Login](#post-apiuserslogin)
    - [Get Account](#get-apiusersid)
-   - [List Categories](#get-apiusersidcategories)
-   - [Create Category](#post-apiusersidcategories)
    - [Add Expense](#post-apiusersidhexpenses)
    - [Add / Update Budget](#post-apiusersidbudgets)
 7. [Error Reference](#error-reference)
@@ -195,18 +193,6 @@ SQLite file: `backend/PocketED.Api/pocketed.db`
 
 > Each user can have one budget per `(Category, Period)` combination. Posting a duplicate upserts the `Limit`.
 
-#### `Categories`
-
-| Column           | Type | Notes                                      |
-|------------------|------|--------------------------------------------|
-| `Id`             | TEXT | Primary key, GUID                          |
-| `UserId`         | TEXT | Foreign key -> `Users.Id`                  |
-| `Name`           | TEXT | Display name, e.g. `"Food"`                |
-| `NormalizedName` | TEXT | Uppercased name for duplicate prevention   |
-| `CreatedAt`      | TEXT | ISO 8601 datetime (UTC)                    |
-
-> Each user can only have one category per normalized name. The API also syncs categories from existing positive expenses and budgets so older data remains visible.
-
 ---
 
 ## Endpoints
@@ -282,7 +268,7 @@ Validates credentials and returns the user's ID.
 
 ### `GET /api/users/{id}`
 
-Returns the full account snapshot for a user, including all their expenses, budgets, and managed categories. This is the main endpoint the dashboard screen consumes.
+Returns the full account snapshot for a user, including all their expenses and budgets. This is the main endpoint the dashboard screen consumes.
 
 **Path parameter**
 
@@ -319,12 +305,6 @@ GET /api/users/8e3fee0c-d6a4-4568-b7d2-a5367adfe6b8
       "limit": 300.0,
       "period": "monthly"
     }
-  ],
-  "categories": [
-    {
-      "id": "5ea9ce3d-6a77-4ab6-bfea-2481e3a3ed01",
-      "name": "Food"
-    }
   ]
 }
 ```
@@ -337,70 +317,9 @@ GET /api/users/8e3fee0c-d6a4-4568-b7d2-a5367adfe6b8
 
 ---
 
-### `GET /api/users/{id}/categories`
-
-Returns the user's categories ordered by name.
-
-**Response `200 OK`**
-
-```json
-[
-  {
-    "id": "5ea9ce3d-6a77-4ab6-bfea-2481e3a3ed01",
-    "name": "Food"
-  }
-]
-```
-
-**Response `404 Not Found`** — user ID does not exist
-
-```json
-{ "message": "User not found." }
-```
-
----
-
-### `POST /api/users/{id}/categories`
-
-Creates a managed category for the user. Names are trimmed, repeated spaces are collapsed, and duplicate names are matched case-insensitively.
-
-**Request body**
-
-```json
-{
-  "name": "Groceries"
-}
-```
-
-**Response `201 Created`**
-
-```json
-{
-  "id": "5ea9ce3d-6a77-4ab6-bfea-2481e3a3ed01",
-  "name": "Groceries"
-}
-```
-
-**Response `200 OK`** — category already exists
-
-```json
-{
-  "id": "5ea9ce3d-6a77-4ab6-bfea-2481e3a3ed01",
-  "name": "Groceries"
-}
-```
-
-**Response `400 Bad Request`** — category name is blank
-
-```json
-{ "message": "Category name is required." }
-```
-
----
-
 ### `POST /api/users/{id}/expenses`
 
-Adds a new expense entry to the user's history. Positive expenses automatically create the category if it does not already exist.
+Adds a new expense entry to the user's history.
 
 **Path parameter**
 
@@ -423,7 +342,7 @@ Adds a new expense entry to the user's history. Positive expenses automatically 
 |------------|--------|----------|--------------------------------------|
 | `title`    | string | yes      | Short description of the expense     |
 | `amount`   | number | yes      | Cost as a decimal                    |
-| `category` | string | yes      | Managed category label               |
+| `category` | string | yes      | Free-form category label             |
 | `date`     | string | yes      | ISO 8601 date (`"YYYY-MM-DD"`)       |
 
 **Response `201 Created`**
@@ -448,7 +367,7 @@ Adds a new expense entry to the user's history. Positive expenses automatically 
 
 ### `POST /api/users/{id}/budgets`
 
-Adds a budget for a category and automatically creates the category if it does not already exist. If a budget for the same `(category, period)` already exists for this user, it updates the limit instead of creating a duplicate.
+Adds a budget for a category. If a budget for the same `(category, period)` already exists for this user, it updates the limit instead of creating a duplicate.
 
 **Path parameter**
 

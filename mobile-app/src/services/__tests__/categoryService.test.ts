@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   cleanCategoryName,
   createCategory,
@@ -6,17 +7,9 @@ import {
   withDefaultCategories,
 } from "../categoryService";
 
-const mockFetch = (response: { ok: boolean; body?: any }) => {
-  const fn = jest.fn().mockResolvedValue({
-    ok: response.ok,
-    json: async () => response.body ?? {},
-  });
-  global.fetch = fn as unknown as typeof fetch;
-  return fn;
-};
-
-beforeEach(() => {
+beforeEach(async () => {
   jest.clearAllMocks();
+  await AsyncStorage.clear();
 });
 
 describe("cleanCategoryName", () => {
@@ -36,7 +29,7 @@ describe("mergeCategoryNames", () => {
 });
 
 describe("withDefaultCategories", () => {
-  it("keeps API categories and adds defaults", () => {
+  it("keeps stored categories and adds defaults", () => {
     const categories = withDefaultCategories([{ id: "rent", name: "Rent" }]);
     expect(categories.map((category) => category.name)).toContain("Rent");
     expect(categories.map((category) => category.name)).toContain("Food");
@@ -44,45 +37,43 @@ describe("withDefaultCategories", () => {
 });
 
 describe("getCategories", () => {
-  it("returns normalized categories from the API", async () => {
-    mockFetch({
-      ok: true,
-      body: [
-        { id: "c1", name: " Food " },
-        { id: "c2", name: "" },
-      ],
-    });
-
-    await expect(getCategories("u1")).resolves.toEqual([{ id: "c1", name: "Food" }]);
+  it("returns an empty list when nothing is stored", async () => {
+    await expect(getCategories("u1")).resolves.toEqual([]);
   });
 
-  it("throws when the API responds with an error", async () => {
-    mockFetch({ ok: false });
-    await expect(getCategories("u1")).rejects.toThrow("Failed to fetch categories");
+  it("returns previously stored categories", async () => {
+    await AsyncStorage.setItem(
+      "categories:u1",
+      JSON.stringify([{ id: "c1", name: "Food" }])
+    );
+
+    await expect(getCategories("u1")).resolves.toEqual([{ id: "c1", name: "Food" }]);
   });
 });
 
 describe("createCategory", () => {
-  it("posts a cleaned category name", async () => {
-    const fetchMock = mockFetch({ ok: true, body: { id: "c1", name: "Groceries" } });
+  it("stores a new cleaned category", async () => {
+    const created = await createCategory("u1", " Groceries ");
 
-    await expect(createCategory("u1", " Groceries ")).resolves.toEqual({
-      id: "c1",
-      name: "Groceries",
-    });
-
-    const [url, init] = fetchMock.mock.calls[0];
-    expect(url).toMatch(/\/users\/u1\/categories$/);
-    expect(init.method).toBe("POST");
-    expect(JSON.parse(init.body)).toEqual({ name: "Groceries" });
+    expect(created.name).toBe("Groceries");
+    const stored = JSON.parse((await AsyncStorage.getItem("categories:u1")) ?? "[]");
+    expect(stored).toEqual([{ id: created.id, name: "Groceries" }]);
   });
 
-  it("throws for blank input before calling the API", async () => {
-    const fetchMock = mockFetch({ ok: true });
+  it("returns the existing category when name already exists", async () => {
+    const first = await createCategory("u1", "Food");
+    const second = await createCategory("u1", " food ");
 
+    expect(second).toEqual(first);
+    const stored = JSON.parse((await AsyncStorage.getItem("categories:u1")) ?? "[]");
+    expect(stored).toHaveLength(1);
+  });
+
+  it("throws for blank input before writing", async () => {
     await expect(createCategory("u1", "   ")).rejects.toThrow(
       "Category name is required"
     );
-    expect(fetchMock).not.toHaveBeenCalled();
+
+    expect(await AsyncStorage.getItem("categories:u1")).toBeNull();
   });
 });

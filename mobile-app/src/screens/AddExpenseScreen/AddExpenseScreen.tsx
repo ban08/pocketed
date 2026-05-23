@@ -4,11 +4,12 @@ import {
   Text,
   TextInput,
   Pressable,
-  SafeAreaView,
   StatusBar,
   Alert,
   ScrollView,
+  FlatList,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Path, Line, Circle } from "react-native-svg";
 import { styles, addScreenPalette } from "./AddExpenseScreen.style";
@@ -175,8 +176,13 @@ export default function AddExpenseScreen() {
               placeholderTextColor="#5B6471"
             />
           </View>
-          <View style={styles.categoryRow}>
-            {categoryOptions.map((cat) => (
+          <FlatList
+            data={categoryOptions}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(cat) => cat}
+            contentContainerStyle={styles.categoryRow}
+            renderItem={({ item: cat }) => (
               <Pressable
                 key={cat}
                 testID={`expense-category-option-${cat.toLowerCase()}`}
@@ -195,8 +201,8 @@ export default function AddExpenseScreen() {
                   {cat}
                 </Text>
               </Pressable>
-            ))}
-          </View>
+            )}
+          />
 
           <Pressable
             testID="expense-save-button"

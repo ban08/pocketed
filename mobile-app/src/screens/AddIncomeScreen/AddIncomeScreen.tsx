@@ -4,10 +4,10 @@ import {
   Text,
   TextInput,
   Pressable,
-  SafeAreaView,
   StatusBar,
   Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Path, Line } from "react-native-svg";
 import { styles, addScreenPalette } from "../AddExpenseScreen/AddExpenseScreen.style";

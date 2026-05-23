@@ -138,6 +138,9 @@ export const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
   },
+  categoryTextWrap: {
+    flex: 1,
+  },
   categoryName: {
     fontSize: 14,
     fontWeight: "700",
