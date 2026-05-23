@@ -149,7 +149,7 @@ export default function CategoryManagementScreen() {
     }
     if (
       categories.some(
-        (category) => category.name.toLocaleLowerCase() === cleanName.toLocaleLowerCase()
+        (category) => category.name.toLowerCase() === cleanName.toLowerCase()
       )
     ) {
       setCategoryName("");
