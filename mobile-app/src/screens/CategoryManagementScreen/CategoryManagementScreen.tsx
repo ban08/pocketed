@@ -97,8 +97,7 @@ export default function CategoryManagementScreen() {
       const mergedCategories = withDefaultCategories(
         names.map((name) => {
           const existing = storedCategories.find(
-            (category) =>
-              category.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+            (category) => category.name.toLowerCase() === name.toLowerCase()
           );
           return existing ?? { id: name, name };
         })
