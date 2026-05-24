@@ -523,18 +523,84 @@ appId: host.exp.exponent
   <tr>
     <td align="center" valign="bottom">
       <img src="mobile-app/src/resources/screenshots/registering.jpg" width="420"/><br>
-      Dashboard Before
+      Registering
     </td>
     <td align="center" valign="bottom">
       <img src="mobile-app/src/resources/screenshots/screen_after_register.jpg" width="420"/><br>
-      Income Added
+      Succes Register
     </td>
     <td align="center" valign="bottom">
       <img src="mobile-app/src/resources/screenshots/maestro_register_flow.png" width="420"/><br>
-      Maestro Success
+      Maestro Success Register
     </td>
   </tr>
 </table>
+
+##### Login Flow Validation
+
+Additional Maestro validation was performed for the Login user flow using a physical Android device connected through ADB and Expo Go.
+
+The automated login flow successfully validated:
+
+1. Welcome screen navigation
+2. Login screen rendering
+3. Email and password form interaction
+4. Keyboard handling on Android devices
+5. Successful authentication
+6. Automatic redirection to Dashboard
+7. Dashboard rendering after authentication
+
+The tests were executed directly on a real Android device to ensure stable interaction behavior outside the Android emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "welcome-login-button"
+- tapOn:
+    id: "welcome-login-button"
+- assertVisible:
+    id: "login-email-input"
+- tapOn:
+    id: "login-email-input"
+- inputText: "mariia20@test.com"
+- tapOn:
+    id: "login-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "login-submit-button"
+    direction: DOWN
+- tapOn:
+    id: "login-submit-button"
+- assertVisible:
+    id: "Mariia20"
+```
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/loginning.jpg" width="420"/><br>
+      Ligin Process
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/success_login.jpg" width="420"/><br>
+      Success login
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_login_flow.png" width="420"/><br>
+      Maestro Success Login
+    </td>
+  </tr>
+</table>
+
+
 
 ### The implemented flow validates the complete Add Income user journey:
 
