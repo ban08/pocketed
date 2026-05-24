@@ -21,6 +21,7 @@ import {
   withDefaultCategories,
 } from "@/src/services/categoryService";
 import { DEFAULT_EXPENSE_CATEGORIES } from "@/src/models/Category";
+import { categoryTestId } from "@/src/utils/categoryColor";
 
 type IconProps = { size?: number; color?: string };
 
@@ -185,10 +186,7 @@ export default function AddExpenseScreen() {
             renderItem={({ item: cat }) => (
               <Pressable
                 key={cat}
-                testID={`expense-category-option-${cat
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, "-")
-                  .replace(/^-|-$/g, "")}`}
+                testID={`expense-category-option-${categoryTestId(cat)}`}
                 onPress={() => setCategory(cat)}
                 style={[
                   styles.categoryPill,

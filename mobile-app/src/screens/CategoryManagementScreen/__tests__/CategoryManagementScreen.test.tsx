@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { AuthContext } from "../../../context/AuthContext";
 import { getUserData } from "../../../services/expenseService";
@@ -51,8 +52,6 @@ const renderWithUser = (user: typeof sampleUser | null = sampleUser) => {
 beforeEach(async () => {
   jest.clearAllMocks();
   jest.spyOn(Alert, "alert").mockImplementation(() => {});
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const AsyncStorage = require("@react-native-async-storage/async-storage").default;
   await AsyncStorage.clear();
   (getUserData as jest.Mock).mockResolvedValue({
     categories: [{ id: "c1", name: "Food" }],
@@ -83,6 +82,24 @@ describe("CategoryManagementScreen", () => {
 
     await waitFor(() => expect(createCategory).toHaveBeenCalledWith("u1", "Rent"));
     expect(await findByTestId("category-row-rent")).toBeTruthy();
+  });
+
+  it("persists a category that was only inferred from expenses", async () => {
+    (getUserData as jest.Mock).mockResolvedValueOnce({
+      categories: [],
+      expenses: [
+        { id: "e1", title: "Rent", amount: 400, category: "Rent", date: "2026-04-02" },
+      ],
+      budgets: [],
+    });
+
+    const { getByTestId, findByTestId } = renderWithUser();
+    await findByTestId("category-row-rent");
+
+    fireEvent.changeText(getByTestId("category-name-input"), "Rent");
+    fireEvent.press(getByTestId("category-create-button"));
+
+    await waitFor(() => expect(createCategory).toHaveBeenCalledWith("u1", "Rent"));
   });
 
   it("alerts when creating a blank category", async () => {

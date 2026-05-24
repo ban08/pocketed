@@ -166,7 +166,7 @@ The main user stories identified for the system include:
   As a student, I want to categorize my expenses so that I can better understand my spending habits.
 
 - **Implement Category Management (#59)**  
-  As a student, I want to categorize my expenses so that I can better understand my spending habits.  
+  As a student, I want to create and manage my own spending categories so that expense tracking matches my habits.
   **Status:** Implemented.  
   **Acceptance criteria confirmed:**
   - User can create categories.

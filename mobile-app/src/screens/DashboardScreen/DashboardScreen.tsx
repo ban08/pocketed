@@ -27,7 +27,10 @@ import {
   getBudgetLevel,
   getBalanceLevel,
 } from "./dashboardUtils";
-import { getCategoryFallbackColor } from "@/src/utils/categoryColor";
+import {
+  categoryTestId,
+  getCategoryFallbackColor,
+} from "@/src/utils/categoryColor";
 
 const MONTHLY_SAVINGS = 0;
 
@@ -120,10 +123,6 @@ const Icon = {
 function categoryColor(category: string): string {
   if (dashColors.cat[category]) return dashColors.cat[category];
   return getCategoryFallbackColor(category);
-}
-
-function categoryTestId(category: string): string {
-  return category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────

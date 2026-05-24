@@ -143,6 +143,20 @@ describe("groupExpensesByCategory", () => {
       "Other"
     );
   });
+
+  it("normalizes category spacing and casing before grouping", () => {
+    const groups = groupExpensesByCategory([
+      { title: "Lunch", category: " Food ", amount: 10 },
+      { title: "Dinner", category: "food", amount: 15 },
+    ]);
+
+    expect(groups).toHaveLength(1);
+    expect(groups[0]).toMatchObject({
+      category: "Food",
+      total: 25,
+      count: 2,
+    });
+  });
 });
 
 describe("getBudgetPercent", () => {

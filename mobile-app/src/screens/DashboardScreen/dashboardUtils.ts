@@ -1,3 +1,5 @@
+import { getCategoryKey, normalizeCategoryName } from "@/src/utils/categoryColor";
+
 export type BudgetLevel = "ok" | "warn" | "over";
 export type BalanceLevel = "positive" | "negative" | "neutral";
 
@@ -55,8 +57,9 @@ export function groupExpensesByCategory<T extends { category: string; amount: nu
   expenses
     .filter((expense) => expense.amount > 0)
     .forEach((expense) => {
-      const category = expense.category || "Other";
-      const existing = groups.get(category) ?? {
+      const category = normalizeCategoryName(expense.category);
+      const key = getCategoryKey(category);
+      const existing = groups.get(key) ?? {
         category,
         total: 0,
         count: 0,
@@ -66,7 +69,7 @@ export function groupExpensesByCategory<T extends { category: string; amount: nu
       existing.total += expense.amount;
       existing.count += 1;
       existing.expenses.push(expense);
-      groups.set(category, existing);
+      groups.set(key, existing);
     });
 
   return Array.from(groups.values()).sort((a, b) => {

@@ -27,7 +27,11 @@ import {
   groupExpensesByCategory,
 } from "../DashboardScreen/dashboardUtils";
 import { styles, categoryPalette } from "./CategoryManagementScreen.style";
-import { getCategoryFallbackColor } from "@/src/utils/categoryColor";
+import {
+  categoryTestId,
+  getCategoryFallbackColor,
+  getCategoryKey,
+} from "@/src/utils/categoryColor";
 
 type IconProps = { size?: number; color?: string };
 
@@ -52,10 +56,6 @@ const Icon = {
 
 function categoryColor(category: string): string {
   return getCategoryFallbackColor(category);
-}
-
-function categoryTestId(category: string): string {
-  return category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 export default function CategoryManagementScreen() {
@@ -122,7 +122,7 @@ export default function CategoryManagementScreen() {
 
   const spendingByCategory = useMemo(() => {
     const groups = groupExpensesByCategory(expenses);
-    return new Map(groups.map((group) => [group.category, group]));
+    return new Map(groups.map((group) => [getCategoryKey(group.category), group]));
   }, [expenses]);
 
   const handleCreate = async () => {
@@ -135,18 +135,16 @@ export default function CategoryManagementScreen() {
       Alert.alert("Error", "User not found");
       return;
     }
-    if (
-      categories.some(
-        (category) => category.name.toLowerCase() === cleanName.toLowerCase()
-      )
-    ) {
-      setCategoryName("");
-      return;
-    }
-
     try {
       const created = await createCategory(user.id, cleanName);
-      setCategories((current) => withDefaultCategories([...current, created]));
+      setCategories((current) =>
+        withDefaultCategories([
+          created,
+          ...current.filter(
+            (category) => getCategoryKey(category.name) !== getCategoryKey(created.name)
+          ),
+        ])
+      );
       setCategoryName("");
     } catch (error) {
       console.error(error);
@@ -216,7 +214,7 @@ export default function CategoryManagementScreen() {
               </View>
             ) : (
               categories.map((category, index) => {
-                const group = spendingByCategory.get(category.name);
+                const group = spendingByCategory.get(getCategoryKey(category.name));
                 const count = group?.count ?? 0;
                 const total = group?.total ?? 0;
 
