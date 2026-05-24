@@ -1,0 +1,48 @@
+appId: host.exp.exponent
+---
+- launchApp
+
+- tapOn: "mobile-app"
+
+- assertVisible:
+    id: "dashboard-screen"
+
+- tapOn:
+    id: "dashboard-add-expense-button"
+
+- assertVisible:
+    id: "expense-title-input"
+
+- tapOn:
+    id: "expense-title-input"
+
+- inputText: "Groceries"
+
+- tapOn:
+    id: "expense-amount-input"
+
+- inputText: "50"
+
+- hideKeyboard
+
+- scrollUntilVisible:
+    element:
+      id: "expense-category-input"
+    direction: DOWN
+
+- tapOn:
+    id: "expense-category-input"
+
+- inputText: "Food"
+
+- hideKeyboard
+
+- scrollUntilVisible:
+    element:
+      id: "expense-save-button"
+    direction: DOWN
+
+- tapOn:
+    id: "expense-save-button"
+
+- assertVisible: "Groceries"
