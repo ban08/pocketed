@@ -1,0 +1,26 @@
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "welcome-login-button"
+- tapOn:
+    id: "welcome-login-button"
+- assertVisible:
+    id: "login-email-input"
+- tapOn:
+    id: "login-email-input"
+
+- inputText: "mariia20@test.com"
+- tapOn:
+    id: "login-password-input"
+
+- inputText: "12345678"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "login-submit-button"
+    direction: DOWN
+- tapOn:
+    id: "login-submit-button"
+- assertVisible: "Mariia20"

@@ -465,7 +465,144 @@ This release marks the first genuinely usable prototype of pocketED. For the fir
 
 As part of Sprint 1 validation, we implemented automated mobile UI testing using Maestro.
 
-The implemented flow validates the complete Add Income user journey:
+##### Authentication Flow Validation
+
+During Sprint 1, additional Maestro end-to-end validation was performed on a physical Android device connected through ADB and Expo Go.
+
+The automated authentication flow successfully validated:
+
+1. Welcome screen navigation
+2. Registration flow
+3. Form interaction and keyboard handling
+4. User creation
+5. Automatic redirection to the login screen
+6. Login screen prefilled email state
+
+The tests were executed directly on a real Android device using Maestro and Expo Go, ensuring that the application works correctly outside the emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "welcome-register-button"
+- tapOn:
+    id: "welcome-register-button"
+- assertVisible:
+    id: "register-name-input"
+- tapOn:
+    id: "register-name-input"
+- inputText: "Mariia20"
+- tapOn:
+    id: "register-email-input"
+- inputText: "mariia20@test.com"
+- tapOn:
+    id: "register-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "register-confirm-password-input"
+    direction: DOWN
+- tapOn:
+    id: "register-confirm-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- tapOn:
+    id: "register-submit-button"
+- assertVisible: "Welcome back"
+
+
+---
+
+```
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/registering.jpg" width="420"/><br>
+      Registering
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/screen_after_register.jpg" width="420"/><br>
+      Succes Register
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_register_flow.png" width="420"/><br>
+      Maestro Success Register
+    </td>
+  </tr>
+</table>
+
+##### Login Flow Validation
+
+Additional Maestro validation was performed for the Login user flow using a physical Android device connected through ADB and Expo Go.
+
+The automated login flow successfully validated:
+
+1. Welcome screen navigation
+2. Login screen rendering
+3. Email and password form interaction
+4. Keyboard handling on Android devices
+5. Successful authentication
+6. Automatic redirection to Dashboard
+7. Dashboard rendering after authentication
+
+The tests were executed directly on a real Android device to ensure stable interaction behavior outside the Android emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "welcome-login-button"
+- tapOn:
+    id: "welcome-login-button"
+- assertVisible:
+    id: "login-email-input"
+- tapOn:
+    id: "login-email-input"
+- inputText: "mariia20@test.com"
+- tapOn:
+    id: "login-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "login-submit-button"
+    direction: DOWN
+- tapOn:
+    id: "login-submit-button"
+- assertVisible:
+    id: "Mariia20"
+```
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/loginning.jpg" width="420"/><br>
+      Ligin Process
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/success_login.jpg" width="420"/><br>
+      Success login
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_login_flow.png" width="420"/><br>
+      Maestro Success Login
+    </td>
+  </tr>
+</table>
+
+
+
+### The implemented flow validates the complete Add Income user journey:
 
 1. Open the application
 2. Navigate to Dashboard
@@ -515,6 +652,77 @@ maestro test .maestro/flows/income.yaml
     <td align="center" valign="bottom">
       <img src="mobile-app/src/resources/screenshots/maestro-success.png" width="420"/><br>
       Maestro Success
+    </td>
+  </tr>
+</table>
+
+##### Expense Flow Validation
+
+Additional Maestro validation was performed for the Expense creation flow using a physical Android device connected through ADB and Expo Go.
+
+The automated expense flow successfully validated:
+
+1. Dashboard rendering
+2. Navigation to the Add Expense screen
+3. Expense form interaction
+4. Android keyboard handling
+5. Expense creation
+6. Dashboard refresh after submission
+7. Transaction rendering in Recent Transactions
+
+The tests were executed directly on a real Android device to validate stable interaction behavior outside the Android emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "dashboard-screen"
+- tapOn:
+    id: "expense-button"
+- assertVisible:
+    id: "expense-title-input"
+- tapOn:
+    id: "expense-title-input"
+- inputText: "Groceries"
+- tapOn:
+    id: "expense-amount-input"
+- inputText: "50"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-category-input"
+    direction: DOWN
+- tapOn:
+    id: "expense-category-input"
+- inputText: "Food"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-save-button"
+    direction: DOWN
+- tapOn:
+    id: "expense-save-button"
+- assertVisible: "Groceries"
+```
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/adding_expense.jpg" width="420"/><br>
+      Adding Expense
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/add_expense_successful.jpg" width="420"/><br>
+      Expense Added
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_expense_flow.png" width="420"/><br>
+      Maestro Expense Flow
     </td>
   </tr>
 </table>
