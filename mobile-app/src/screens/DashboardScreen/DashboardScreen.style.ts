@@ -445,6 +445,74 @@ export const styles = StyleSheet.create({
     color: palette.textTertiary,
   },
 
+  /* ===== Category Groups ===== */
+  categoryGroupsCard: {
+    marginHorizontal: space.lg,
+    backgroundColor: palette.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: palette.hairline,
+    overflow: "hidden",
+    marginBottom: space.xl,
+  },
+  categoryGroupRow: {
+    paddingHorizontal: space.lg,
+    paddingVertical: 14,
+  },
+  categoryGroupDivider: {
+    height: 1,
+    backgroundColor: palette.hairline,
+    marginHorizontal: space.lg,
+  },
+  categoryGroupTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: space.md,
+  },
+  categoryGroupNameWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    gap: space.sm,
+  },
+  categoryGroupDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  categoryGroupTextWrap: {
+    flex: 1,
+  },
+  categoryGroupName: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: palette.textPrimary,
+  },
+  categoryGroupMeta: {
+    fontSize: 12,
+    color: palette.textSecondary,
+    marginTop: 2,
+  },
+  categoryGroupTotal: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: palette.textPrimary,
+  },
+  categoryGroupPreview: {
+    fontSize: 12,
+    color: palette.textTertiary,
+    marginTop: space.sm,
+  },
+  categoryGroupEmptyState: {
+    paddingVertical: space.xl,
+    alignItems: "center",
+  },
+  categoryGroupEmptyText: {
+    fontSize: 13,
+    color: palette.textTertiary,
+  },
+
   /* ===== Budget Overview ===== */
   budgetsCard: {
     marginHorizontal: space.lg,

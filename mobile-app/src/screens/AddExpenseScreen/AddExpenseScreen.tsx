@@ -1,18 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
   TextInput,
   Pressable,
-  SafeAreaView,
   StatusBar,
   Alert,
+  ScrollView,
+  FlatList,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import Svg, { Path, Line, Circle } from "react-native-svg";
 import { styles, addScreenPalette } from "./AddExpenseScreen.style";
 import { AuthContext } from "@/src/context/AuthContext";
-import { BASE_URL } from "@/src/services/api";
+import { addExpense } from "@/src/services/expenseService";
+import {
+  cleanCategoryName,
+  getCategories,
+  withDefaultCategories,
+} from "@/src/services/categoryService";
+import { DEFAULT_EXPENSE_CATEGORIES } from "@/src/models/Category";
+import { categoryTestId } from "@/src/utils/categoryColor";
 
 type IconProps = { size?: number; color?: string };
 
@@ -48,9 +57,36 @@ export default function AddExpenseScreen() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState(DEFAULT_EXPENSE_CATEGORIES);
+
+  useEffect(() => {
+    let active = true;
+
+    if (!user?.id) {
+      setCategoryOptions(DEFAULT_EXPENSE_CATEGORIES);
+      return () => {
+        active = false;
+      };
+    }
+
+    getCategories(user.id)
+      .then((categories) => {
+        if (!active) return;
+        setCategoryOptions(withDefaultCategories(categories).map((item) => item.name));
+      })
+      .catch(() => {
+        if (!active) return;
+        setCategoryOptions(DEFAULT_EXPENSE_CATEGORIES);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [user?.id]);
 
   const handleSave = async () => {
-    if (!title || !amount || !category) {
+    const cleanCategory = cleanCategoryName(category);
+    if (!title || !amount || !cleanCategory) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
@@ -59,15 +95,11 @@ export default function AddExpenseScreen() {
       return;
     }
     try {
-      await fetch(`${BASE_URL}/users/${user?.id}/expenses`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          amount: Number(amount),
-          category,
-          date: new Date().toISOString().split("T")[0],
-        }),
+      await addExpense(user.id, {
+        title: title.trim(),
+        amount: Number(amount),
+        category: cleanCategory,
+        date: new Date().toISOString().split("T")[0],
       });
       router.back();
     } catch (error) {
@@ -95,7 +127,11 @@ export default function AddExpenseScreen() {
         </View>
 
         {/* ===== Form ===== */}
-        <View style={styles.content}>
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.contentBody}
+          showsVerticalScrollIndicator={false}
+        >
           <Text style={styles.label}>Title</Text>
           <View style={styles.inputWrapper}>
             <View style={styles.inputIconWrap}>
@@ -141,6 +177,33 @@ export default function AddExpenseScreen() {
               placeholderTextColor="#5B6471"
             />
           </View>
+          <FlatList
+            data={categoryOptions}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(cat) => cat}
+            contentContainerStyle={styles.categoryRow}
+            renderItem={({ item: cat }) => (
+              <Pressable
+                key={cat}
+                testID={`expense-category-option-${categoryTestId(cat)}`}
+                onPress={() => setCategory(cat)}
+                style={[
+                  styles.categoryPill,
+                  category === cat && styles.categoryPillActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.categoryPillText,
+                    category === cat && styles.categoryPillTextActive,
+                  ]}
+                >
+                  {cat}
+                </Text>
+              </Pressable>
+            )}
+          />
 
           <Pressable
             testID="expense-save-button"
@@ -160,7 +223,7 @@ export default function AddExpenseScreen() {
           >
             <Text style={styles.buttonSecondaryText}>Cancel</Text>
           </Pressable>
-        </View>
+        </ScrollView>
 
       </SafeAreaView>
     </View>

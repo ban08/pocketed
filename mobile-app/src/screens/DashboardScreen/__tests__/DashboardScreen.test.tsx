@@ -69,6 +69,7 @@ describe("DashboardScreen", () => {
     expect(getByTestId("dashboard-add-expense-button")).toBeTruthy();
     expect(getByTestId("dashboard-add-income-button")).toBeTruthy();
     expect(getByTestId("dashboard-add-budget-button")).toBeTruthy();
+    expect(getByTestId("dashboard-categories-button")).toBeTruthy();
     expect(getByTestId("dashboard-profile-button")).toBeTruthy();
     expect(getByTestId("dashboard-logout-button")).toBeTruthy();
     expect(await findByText("AS")).toBeTruthy();
@@ -100,6 +101,21 @@ describe("DashboardScreen", () => {
     });
   });
 
+  it("groups positive expenses by category on the dashboard", async () => {
+    (getUserData as jest.Mock).mockResolvedValue({
+      expenses: [
+        { id: "e1", title: "Lunch", amount: 25, category: "Food", date: "2026-04-02" },
+        { id: "e2", title: "Dinner", amount: 10, category: "Food", date: "2026-04-03" },
+        { id: "e3", title: "Salary", amount: -1000, category: "Income", date: "2026-04-01" },
+      ],
+      budgets: [],
+    });
+
+    const { findByTestId, findByText } = renderWithUser(sampleUser);
+    expect(await findByTestId("dashboard-category-group-food")).toBeTruthy();
+    expect(await findByText("2 expenses")).toBeTruthy();
+  });
+
   it("navigates to add screens when quick actions are pressed", async () => {
     const { getByTestId } = renderWithUser(sampleUser);
     await waitFor(() => expect(getUserData).toHaveBeenCalled());
@@ -107,9 +123,11 @@ describe("DashboardScreen", () => {
     fireEvent.press(getByTestId("dashboard-add-expense-button"));
     fireEvent.press(getByTestId("dashboard-add-income-button"));
     fireEvent.press(getByTestId("dashboard-add-budget-button"));
+    fireEvent.press(getByTestId("dashboard-categories-button"));
     expect(mockPush).toHaveBeenCalledWith("/add-expense");
     expect(mockPush).toHaveBeenCalledWith("/add-income");
     expect(mockPush).toHaveBeenCalledWith("/add-budget");
+    expect(mockPush).toHaveBeenCalledWith("/categories");
   });
 
   it("opens the profile when the avatar is pressed", async () => {

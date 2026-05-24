@@ -69,24 +69,26 @@ describe("getUserData", () => {
       body: {
         expenses: [{ id: "e1", amount: 10 }],
         budgets: [{ id: "b1", limit: 100 }],
+        categories: [{ id: "c1", name: "Food" }],
       },
     });
 
     const data = await getUserData("u1");
     expect(data.expenses).toHaveLength(1);
     expect(data.budgets).toHaveLength(1);
+    expect(data.categories).toHaveLength(1);
   });
 
   it("falls back to empty arrays when fields are missing", async () => {
     mockFetch({ ok: true, body: {} });
     const data = await getUserData("u1");
-    expect(data).toEqual({ expenses: [], budgets: [] });
+    expect(data).toEqual({ expenses: [], budgets: [], categories: [] });
   });
 
   it("falls back to empty arrays when fields are not arrays", async () => {
-    mockFetch({ ok: true, body: { expenses: null, budgets: "nope" } });
+    mockFetch({ ok: true, body: { expenses: null, budgets: "nope", categories: {} } });
     const data = await getUserData("u1");
-    expect(data).toEqual({ expenses: [], budgets: [] });
+    expect(data).toEqual({ expenses: [], budgets: [], categories: [] });
   });
 
   it("throws when the response is not ok", async () => {

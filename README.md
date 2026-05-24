@@ -28,6 +28,7 @@ It is organised by the following activities:
       - [Registration Screen](#registration-screen)
       - [Dashboard Screen](#dashboard-screen)
       - [Transaction Management](#transaction-management)
+      - [Category Management](#category-management)
     - [Domain Concepts](#domain-concepts)
   - [Architecture and Design](#architecture-and-design)
     - [Logical architecture](#logical-architecture)
@@ -97,7 +98,7 @@ To learn more about how to write a good product vision, please read:
 
 - **Income & Expense Tracking:** Users can manually record money coming in (scholarships, allowance) and money going out.
 - **Budget Definition:** Set a monthly spending limit to monitor financial health.
-- **Expense Categorization:** Assign transactions to categories (Food, Transport, etc.) for better analysis.
+- **Category Management:** Create spending categories, assign them to expenses, and review grouped spending by category.
 - **Real-time Balance:** Instant calculation of available funds based on total incomes and expenses.
 - **Financial Statistics:** Visual summary of spending patterns over time.
 
@@ -164,6 +165,15 @@ The main user stories identified for the system include:
 - **Categorize Expenses**  
   As a student, I want to categorize my expenses so that I can better understand my spending habits.
 
+- **Implement Category Management (#59)**  
+  As a student, I want to create and manage my own spending categories so that expense tracking matches my habits.
+  **Status:** Implemented.  
+  **Acceptance criteria confirmed:**
+  - User can create categories.
+  - User can assign a category to an expense.
+  - Categories are displayed correctly.
+  - User can view expenses grouped by category.
+
 - **View Remaining Balance**  
   As a student, I want to see my remaining balance so that I know how much money I can still spend.
 
@@ -222,7 +232,8 @@ The dashboard is the main screen where users can view their financial overview.
 - Current balance
 - List of recent transactions
 - Budget overview
-- Access to add income or expense
+- Expenses grouped by category
+- Access to add income, expense, budget, or category management
 
 #### Transaction Management
 
@@ -234,6 +245,18 @@ Users can add financial transactions to track their spending and income.
 - Category selector (for expenses)
 - Description field
 - Save transaction button
+
+#### Category Management
+
+Users can create and review expense categories so that spending is easier to understand.
+
+**Main interface elements:**
+
+- Category name input
+- Create category button
+- List of categories
+- Total expenses grouped by category
+- Expense count for each category
 
 ### Domain Concepts
 
@@ -247,7 +270,7 @@ Users can add financial transactions to track their spending and income.
 
 - **Expense** – A specialized type of transaction representing money spent by the user. Each expense is associated with a category.
 
-- **Category** – Represents a classification used to group expenses (for example Food, Transport, Entertainment).
+- **Category** – Represents a user-managed classification used to group expenses (for example Food, Transport, Entertainment). Categories can be created by the user, assigned to expense records, displayed in the dashboard, and used to group expense totals.
 
 - **Statistics** – Represents calculated financial summaries such as total income and total expenses based on recorded transactions.
 

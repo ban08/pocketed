@@ -7,6 +7,7 @@ export async function getUserData(userId: string) {
   return {
     expenses: Array.isArray(data.expenses) ? data.expenses : [],
     budgets: Array.isArray(data.budgets) ? data.budgets : [],
+    categories: Array.isArray(data.categories) ? data.categories : [],
   };
 }
 
