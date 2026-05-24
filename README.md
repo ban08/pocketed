@@ -656,6 +656,77 @@ maestro test .maestro/flows/income.yaml
   </tr>
 </table>
 
+##### Expense Flow Validation
+
+Additional Maestro validation was performed for the Expense creation flow using a physical Android device connected through ADB and Expo Go.
+
+The automated expense flow successfully validated:
+
+1. Dashboard rendering
+2. Navigation to the Add Expense screen
+3. Expense form interaction
+4. Android keyboard handling
+5. Expense creation
+6. Dashboard refresh after submission
+7. Transaction rendering in Recent Transactions
+
+The tests were executed directly on a real Android device to validate stable interaction behavior outside the Android emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "dashboard-screen"
+- tapOn:
+    id: "expense-button"
+- assertVisible:
+    id: "expense-title-input"
+- tapOn:
+    id: "expense-title-input"
+- inputText: "Groceries"
+- tapOn:
+    id: "expense-amount-input"
+- inputText: "50"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-category-input"
+    direction: DOWN
+- tapOn:
+    id: "expense-category-input"
+- inputText: "Food"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-save-button"
+    direction: DOWN
+- tapOn:
+    id: "expense-save-button"
+- assertVisible: "Groceries"
+```
+##### Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/adding_expense.jpg" width="420"/><br>
+      Adding Expense
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/add_expense_successful.jpg" width="420"/><br>
+      Expense Added
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_expense_flow.png" width="420"/><br>
+      Maestro Expense Flow
+    </td>
+  </tr>
+</table>
+
 
 ##### Result
 
