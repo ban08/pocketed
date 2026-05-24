@@ -465,7 +465,78 @@ This release marks the first genuinely usable prototype of pocketED. For the fir
 
 As part of Sprint 1 validation, we implemented automated mobile UI testing using Maestro.
 
-The implemented flow validates the complete Add Income user journey:
+##### Authentication Flow Validation
+
+During Sprint 1, additional Maestro end-to-end validation was performed on a physical Android device connected through ADB and Expo Go.
+
+The automated authentication flow successfully validated:
+
+1. Welcome screen navigation
+2. Registration flow
+3. Form interaction and keyboard handling
+4. User creation
+5. Automatic redirection to the login screen
+6. Login screen prefilled email state
+
+The tests were executed directly on a real Android device using Maestro and Expo Go, ensuring that the application works correctly outside the emulator environment.
+
+##### Tested Flow
+
+```yaml
+appId: host.exp.exponent
+---
+- launchApp
+- tapOn: "mobile-app"
+- assertVisible:
+    id: "welcome-register-button"
+- tapOn:
+    id: "welcome-register-button"
+- assertVisible:
+    id: "register-name-input"
+- tapOn:
+    id: "register-name-input"
+- inputText: "Mariia20"
+- tapOn:
+    id: "register-email-input"
+- inputText: "mariia20@test.com"
+- tapOn:
+    id: "register-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "register-confirm-password-input"
+    direction: DOWN
+- tapOn:
+    id: "register-confirm-password-input"
+- inputText: "12345678"
+- hideKeyboard
+- tapOn:
+    id: "register-submit-button"
+- assertVisible: "Welcome back"
+
+
+---
+
+```
+<table>
+  <tr>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/registering.jpg" width="420"/><br>
+      Dashboard Before
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/screen_after_register.jpg" width="420"/><br>
+      Income Added
+    </td>
+    <td align="center" valign="bottom">
+      <img src="mobile-app/src/resources/screenshots/maestro_register_flow.png" width="420"/><br>
+      Maestro Success
+    </td>
+  </tr>
+</table>
+
+### The implemented flow validates the complete Add Income user journey:
 
 1. Open the application
 2. Navigate to Dashboard
