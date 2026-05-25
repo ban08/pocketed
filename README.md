@@ -13,7 +13,7 @@ This is the software development report for _pocketED_. It covers the project fr
 - [Project Management](#project-management)
 
 
-Some, not all, (but defo more than none) rights reserved - **Filipe Camacho** (up202208040@up.pt), **João Gusmão** (up201406255@up.pt), **Mariia Hutsul** (up202310202@up.pt), **Rafael Hartilek Issa** (up202300428@up.pt), for Engenharia de Software at FEUP, 2026. 
+Some, not all, (but defo more than none) rights reserved - **Filipe Camacho** (up202208040@up.pt), **João Gusmão** (up201406255@up.pt), **Mariia Hutsul** (up202310202@up.pt), **Rafael Hartilek Issa** (up202300428@up.pt) - Engenharia de Software at FEUP, 2026. 
 
 ---
  
