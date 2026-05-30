@@ -1,0 +1,127 @@
+appId: host.exp.exponent
+---
+# Full E2E flow: Register → Login → Income → Expense → User Profile
+
+# ── 1. Launch ────────────────────────────────────────────────────────────────
+- launchApp
+- tapOn: "mobile-app"
+
+# ── 2. Register ──────────────────────────────────────────────────────────────
+- assertVisible:
+    id: "welcome-register-button"
+- tapOn:
+    id: "welcome-register-button"
+
+- assertVisible:
+    id: "register-name-input"
+- tapOn:
+    id: "register-name-input"
+- inputText: "E2E TestUser"
+
+- tapOn:
+    id: "register-email-input"
+- inputText: "e2e_full@test.com"
+
+- tapOn:
+    id: "register-password-input"
+- inputText: "TestPass123"
+
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "register-confirm-password-input"
+    direction: DOWN
+- tapOn:
+    id: "register-confirm-password-input"
+- inputText: "TestPass123"
+
+- hideKeyboard
+- tapOn:
+    id: "register-submit-button"
+
+# ── 3. Login (redirected here after register; email is pre-filled) ───────────
+- assertVisible:
+    id: "login-email-input"
+
+- tapOn:
+    id: "login-password-input"
+- inputText: "TestPass123"
+
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "login-submit-button"
+    direction: DOWN
+- tapOn:
+    id: "login-submit-button"
+
+# ── 4. Dashboard ─────────────────────────────────────────────────────────────
+- assertVisible:
+    id: "dashboard-screen"
+
+# ── 5. Add Income ─────────────────────────────────────────────────────────────
+- tapOn:
+    id: "dashboard-add-income-button"
+
+- assertVisible:
+    id: "income-title-input"
+- tapOn:
+    id: "income-title-input"
+- inputText: "Monthly Salary"
+
+- tapOn:
+    id: "income-amount-input"
+- inputText: "1500"
+
+- hideKeyboard
+- tapOn:
+    id: "income-save-button"
+
+# ── 6. Back on Dashboard ──────────────────────────────────────────────────────
+- assertVisible:
+    id: "dashboard-screen"
+
+# ── 7. Add Expense ────────────────────────────────────────────────────────────
+- tapOn:
+    id: "dashboard-add-expense-button"
+
+- assertVisible:
+    id: "expense-title-input"
+- tapOn:
+    id: "expense-title-input"
+- inputText: "Groceries"
+
+- tapOn:
+    id: "expense-amount-input"
+- inputText: "50"
+
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-category-input"
+    direction: DOWN
+- tapOn:
+    id: "expense-category-input"
+- inputText: "Food"
+
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "expense-save-button"
+    direction: DOWN
+- tapOn:
+    id: "expense-save-button"
+
+# ── 8. Back on Dashboard ──────────────────────────────────────────────────────
+- assertVisible:
+    id: "dashboard-screen"
+
+# ── 9. User Profile ───────────────────────────────────────────────────────────
+- tapOn:
+    id: "dashboard-profile-button"
+
+- assertVisible: "My Profile"
+- assertVisible: "E2E TestUser"
+- assertVisible: "e2e_full@test.com"
+- assertVisible:
+    id: "profile-sign-out-button"
