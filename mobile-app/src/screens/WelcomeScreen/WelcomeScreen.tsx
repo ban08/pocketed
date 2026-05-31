@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
 import {
-  Image, // <-- Added Image import
+  Image, 
   ImageBackground,
   Pressable,
   StatusBar,
@@ -12,10 +12,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Circle, Line } from "react-native-svg";
 import { styles, welcomePalette } from "./WelcomeScreen.style";
 
-// ===== PNG Asset Imports =====
-// Adjust these relative paths if your assets are located elsewhere
+
+
 const AppLogo = require("@/assets/images/pocketed-icon-color.png"); 
-const BrandText = require("@/assets/images/pocketed-logo-white.png");
+const BrandText = require("@/assets/images/pocketed-logo-green.png");
 
 type IconProps = { size?: number; color?: string };
 
@@ -62,7 +62,7 @@ export default function WelcomeScreen() {
       source={require("@/src/resources/welcome-banner.jpeg")}
       style={styles.root}
       imageStyle={styles.image}
-    >
+    > */
       <StatusBar barStyle="light-content" />
 
       <View style={styles.overlay}>

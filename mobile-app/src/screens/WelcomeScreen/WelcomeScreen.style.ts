@@ -25,16 +25,17 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
-  /* ===== Background image ===== */
   image: {
     marginTop: -260,
-    width: "100%",
-    height: "100%",
+    width: "00%",
+    height: "00%",
     resizeMode: "cover",
   },
+
+
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(11,13,16,0.82)",
+    backgroundColor: "rgba(0,0,0,1)",
   },
 
   /* ===== Header ===== */
@@ -93,6 +94,16 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
     marginBottom: space.lg,
   },
+
+logoImage: {
+  width: 40,      // Adjust to fit your design
+  height: 40,     // Adjust to fit your design
+},
+brandImage: {
+  width: 120,     // Adjust based on your text image's aspect ratio
+  height: 30,     // Adjust based on your text image's aspect ratio
+  marginLeft: 10, // Gives a clean spacing between the icon box and the brand text
+},
 
   /* ===== Feature Pills ===== */
   pillRow: {
