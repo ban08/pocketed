@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100mm"
+   height="100mm"
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d, 2026-05-05)"
+   sodipodi:docname="pocketed-icon-color.svg"
+   inkscape:export-filename="pocketed-icon-color.png"
+   inkscape:export-xdpi="254"
+   inkscape:export-ydpi="254"
+   inkscape:export-batch-name="pocketed-icon-color"
+   inkscape:export-batch-path="/Users/joao/Desktop/pocketedism"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.3118861"
+     inkscape:cx="228.67839"
+     inkscape:cy="163.88618"
+     inkscape:window-width="1396"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:50.8px;writing-mode:lr-tb;direction:ltr;display:none;fill:#000000;stroke-width:0.264583"
+       x="33.866665"
+       y="67.99791"
+       id="text1"><tspan
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.8px;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#6366f1;fill-opacity:1;stroke-width:0.264583"
+         x="0"
+         y="0"
+         sodipodi:role="line">P</tspan></text>
+    <rect
+       style="fill:#7be3b5;fill-opacity:1;stroke-width:0.480702"
+       id="rect1"
+       width="100"
+       height="100"
+       x="0"
+       y="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="letter">
+    <a
+       id="a2"
+       transform="translate(-1.0571267,0.11043865)"
+       style="fill:#000000;fill-opacity:1">
+      <path
+         style="font-size:50.8px;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';white-space:pre;fill:#000000;stroke-width:0.691101;fill-opacity:1"
+         d="M 10.689127,8.4706287 V 91.308494 h 8.968411 V 57.430822 h 38.532269 c 10.926675,0.07736 19.15334,-2.074098 24.736775,-6.381067 5.646865,-4.355898 8.507144,-11.707277 8.498525,-18.09903 -0.0086,-6.391753 -2.83284,-13.728964 -8.498525,-17.98301 -5.564508,-4.33139 -13.8101,-6.4970863 -24.736775,-6.4970863 z"
+         id="text2"
+         aria-label="P"
+         sodipodi:nodetypes="cccccszcsc" />
+    </a>
+  </g>
+</svg>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="80.736mm"
+   height="82.837868mm"
+   viewBox="0 0 80.736 82.837868"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d, 2026-05-05)"
+   sodipodi:docname="pocketed-p-white.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.3118861"
+     inkscape:cx="228.29727"
+     inkscape:cy="163.88618"
+     inkscape:window-width="1396"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:50.8px;writing-mode:lr-tb;direction:ltr;display:none;fill:#000000;stroke-width:0.264583"
+       x="33.866665"
+       y="67.99791"
+       id="text1"><tspan
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.8px;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#6366f1;fill-opacity:1;stroke-width:0.264583"
+         x="0"
+         y="0"
+         sodipodi:role="line">P</tspan></text>
+    <path
+       style="font-size:50.8px;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';white-space:pre;fill:#ffffff;stroke-width:0.691101"
+       d="M 0,0 V 82.837866 H 8.9684116 V 48.960194 H 47.500681 c 10.926675,0.07736 19.15334,-2.074098 24.736775,-6.381067 C 77.884321,38.223229 80.7446,30.87185 80.735981,24.480097 80.727362,18.088344 77.903141,10.751133 72.237456,6.4970867 66.672948,2.1656967 58.427356,0 47.500681,0 Z"
+       id="text2"
+       aria-label="P"
+       sodipodi:nodetypes="cccccszcsc" />
+  </g>
+</svg>

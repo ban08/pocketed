@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useRouter } from "expo-router";
 import {
+  Image, // <-- Added Image import
   ImageBackground,
   Pressable,
   StatusBar,
@@ -10,6 +11,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Circle, Line } from "react-native-svg";
 import { styles, welcomePalette } from "./WelcomeScreen.style";
+
+// ===== PNG Asset Imports =====
+// Adjust these relative paths if your assets are located elsewhere
+const AppLogo = require("@/assets/images/pocketed-icon-color.png"); 
+const BrandText = require("@/assets/images/pocketed-logo-white.png");
 
 type IconProps = { size?: number; color?: string };
 
@@ -64,9 +70,20 @@ export default function WelcomeScreen() {
           {/* ===== Header ===== */}
           <View style={styles.header}>
             <View style={styles.logoBox}>
-              <Text style={styles.logoText}>P.</Text>
+              {/* App Logo PNG */}
+              <Image 
+                source={AppLogo} 
+                style={styles.logoImage} 
+                resizeMode="contain" 
+              />
             </View>
-            <Text style={styles.brandText}>pocketED.</Text>
+            
+            {/* Brand Text PNG */}
+            <Image 
+              source={BrandText} 
+              style={styles.brandImage} 
+              resizeMode="contain" 
+            />
           </View>
 
           {/* ===== Hero Section ===== */}
@@ -76,8 +93,7 @@ export default function WelcomeScreen() {
             <Text style={styles.title}>Take control{"\n"}of your money.</Text>
 
             <Text style={styles.subtitle}>
-              Track expenses, set goals and build better financial habits with a
-              simple and modern experience.
+              Track expenses, set goals and build better financial habits.
             </Text>
 
             {/* Feature Pills */}
@@ -145,7 +161,7 @@ export default function WelcomeScreen() {
             </View>
 
             <Text style={styles.footerText}>
-              Secure · Private · For Students, From Students
+              For Students, From Students
             </Text>
           </View>
         </SafeAreaView>
