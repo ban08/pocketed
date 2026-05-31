@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useContext } from "react";
 import {
+  Image,
   Pressable,
   ScrollView,
   StatusBar,
@@ -31,6 +32,10 @@ import {
   categoryTestId,
   getCategoryFallbackColor,
 } from "@/src/utils/categoryColor";
+
+
+const AppLogo = require("@/assets/images/pocketed-icon-color.png"); 
+const BrandText = require("@/assets/images/pocketed-logo-green.png");
 
 const MONTHLY_SAVINGS = 0;
 
@@ -231,9 +236,17 @@ export default function DashboardScreen() {
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <View style={styles.logoBox}>
-              <Text style={styles.logoText}>P.</Text>
+              <Image 
+                source={AppLogo} 
+                style={styles.logoImage} 
+                resizeMode="contain" 
+              />
             </View>
-            <Text style={styles.brandText}>Pocket</Text>
+            <Image 
+              source={BrandText} 
+              style={styles.brandImage} 
+              resizeMode="contain" 
+            />
           </View>
           <View style={styles.headerRight}>
             <Pressable

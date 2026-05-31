@@ -59,10 +59,10 @@ export default function WelcomeScreen() {
 
   return (
     <ImageBackground
-      source={require("@/src/resources/welcome-banner.jpeg")}
+      source={require("@/src/resources/welcome-banner.png")}
       style={styles.root}
       imageStyle={styles.image}
-    > */
+    > 
       <StatusBar barStyle="light-content" />
 
       <View style={styles.overlay}>
@@ -88,12 +88,12 @@ export default function WelcomeScreen() {
 
           {/* ===== Hero Section ===== */}
           <View style={styles.hero}>
-            <Text style={styles.hello}>Hello, {userName}</Text>
+            {/* <Text style={styles.hello}>Hello, {userName}</Text> */}
 
-            <Text style={styles.title}>Take control{"\n"}of your money.</Text>
+            <Text style={styles.title}>Spend better.{"\n"}Save more.</Text>
 
             <Text style={styles.subtitle}>
-              Track expenses, set goals and build better financial habits.
+              Keep tabs on your finances with pocketed.
             </Text>
 
             {/* Feature Pills */}

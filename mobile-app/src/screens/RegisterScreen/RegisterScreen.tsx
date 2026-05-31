@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../models/User";
 import { registerUser } from "../../services/authService";
 import {
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -19,6 +20,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Rect, Circle, Line } from "react-native-svg";
 import { styles, registerPalette } from "./RegisterScreen.style";
+
+
+const AppLogo = require("@/assets/images/pocketed-icon-color.png"); 
+const BrandText = require("@/assets/images/pocketed-logo-green.png");
 
 type IconProps = { size?: number; color?: string };
 
@@ -113,7 +118,7 @@ export default function RegisterScreen() {
 
       {/* ===== Image Hero ===== */}
       <ImageBackground
-        source={require("@/src/resources/welcome-banner.jpeg")}
+        source={require("@/src/resources/welcome-banner.png")}
         style={styles.heroBanner}
         imageStyle={styles.heroBannerImage}
       >
@@ -127,15 +132,20 @@ export default function RegisterScreen() {
                   accessibilityRole="button"
                   accessibilityLabel="Back to welcome screen"
                 >
-                  <Text style={styles.logoText}>P.</Text>
+                  <Image 
+                source={AppLogo} 
+                style={styles.logoImage} 
+                resizeMode="contain" 
+              />
                 </Pressable>
-                <Text style={styles.brandText}>pocketED</Text>
+                <Image 
+              source={BrandText} 
+              style={styles.brandImage} 
+              resizeMode="contain" 
+            />
               </View>
 
-              <Text style={styles.greeting}>Join the crew</Text>
-              <Text style={styles.subtitle}>
-                Create your account and start managing your money like a pro.
-              </Text>
+              <Text style={styles.greeting}>Join the crew!</Text>
             </View>
 
             <View style={styles.pillRow}>

@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../models/User";
 import { loginUser } from "../../services/authService";
 import {
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -19,6 +20,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path, Rect } from "react-native-svg";
 import { styles, loginPalette } from "./LoginScreen.style";
+
+const AppLogo = require("@/assets/images/pocketed-icon-color.png"); 
+const BrandText = require("@/assets/images/pocketed-logo-green.png");
 
 type IconProps = { size?: number; color?: string };
 
@@ -76,7 +80,7 @@ export default function LoginScreen() {
 
       {/* ===== Image Hero ===== */}
       <ImageBackground
-        source={require("@/src/resources/welcome-banner.jpeg")}
+        source={require("@/src/resources/welcome-banner.png")}
         style={styles.heroBanner}
         imageStyle={styles.heroBannerImage}
       >
@@ -90,15 +94,23 @@ export default function LoginScreen() {
                   accessibilityRole="button"
                   accessibilityLabel="Back to welcome screen"
                 >
-                  <Text style={styles.logoText}>P.</Text>
+                  <Image 
+                source={AppLogo} 
+                style={styles.logoImage} 
+                resizeMode="contain" 
+              />
                 </Pressable>
-                <Text style={styles.brandText}>pocketED</Text>
+                <Image 
+              source={BrandText} 
+              style={styles.brandImage} 
+              resizeMode="contain" 
+            />
               </View>
 
-              <Text style={styles.greeting}>Welcome back</Text>
-              <Text style={styles.subtitle}>
-                Log in and keep your finances on track.
-              </Text>
+              
+
+              <Text style={styles.greeting}>Welcome back.</Text>
+              
             </View>
           </SafeAreaView>
         </View>

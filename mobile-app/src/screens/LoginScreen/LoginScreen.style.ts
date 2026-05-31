@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: space.sm,
+    marginBottom: space.xl,
   },
   logoBox: {
     width: 36,
@@ -65,6 +65,16 @@ export const styles = StyleSheet.create({
     color: palette.textPrimary,
     letterSpacing: -0.2,
   },
+
+  logoImage: {
+  width: 40,      // Adjust to fit your design
+  height: 40,     // Adjust to fit your design
+},
+  brandImage: {
+  width: 120,     // Adjust based on your text image's aspect ratio
+  height: 30,     // Adjust based on your text image's aspect ratio
+  marginLeft: 10, // Gives a clean spacing between the icon box and the brand text
+},
 
   /* ===== Hero Text ===== */
   greeting: {

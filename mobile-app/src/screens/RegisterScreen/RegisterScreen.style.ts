@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
 
   /* ===== Hero Banner ===== */
-  heroBanner: { height: 310 },
+  heroBanner: { height: 200 },
   heroBannerImage: { resizeMode: "cover" },
   heroOverlay: {
     flex: 1,
@@ -37,6 +37,16 @@ export const styles = StyleSheet.create({
     paddingTop: space.xl,
   },
   heroTopGroup: { flex: 0 },
+
+  logoImage: {
+  width: 40,      // Adjust to fit your design
+  height: 40,     // Adjust to fit your design
+},
+brandImage: {
+  width: 120,     // Adjust based on your text image's aspect ratio
+  height: 30,     // Adjust based on your text image's aspect ratio
+  marginLeft: 10, // Gives a clean spacing between the icon box and the brand text
+},
 
   /* ===== Header ===== */
   header: {
